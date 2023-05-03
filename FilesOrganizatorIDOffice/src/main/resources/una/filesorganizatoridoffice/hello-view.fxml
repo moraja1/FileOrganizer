@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="BOTTOM_CENTER" prefHeight="539.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="una.filesorganizatoridoffice.viewmodel.WindowController">
+<VBox alignment="BOTTOM_CENTER" prefHeight="539.0" prefWidth="900.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="una.filesorganizatoridoffice.viewmodel.WindowController">
    <children>
       <Label text="Organizador de Archivos" textAlignment="CENTER">
          <font>
@@ -47,12 +47,12 @@
                                           </Label>
                                           <HBox fillHeight="false">
                                              <children>
-                                                <TextField fx:id="pdfTextBox" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
+                                                <TextField fx:id="pdfTextBox" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación de la carpeta" styleClass="textFieldRounded" HBox.hgrow="ALWAYS">
                                                    <font>
-                                                      <Font size="14.0" />
+                                                      <Font size="13.0" />
                                                    </font>
                                                 </TextField>
-                                                <Button fx:id="pdfSearchBtn" minHeight="35.0" minWidth="45.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="35.0" prefWidth="45.0" HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="pdfSearchBtn" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="50.0" prefWidth="50.0" styleClass="buttonWithImage" HBox.hgrow="ALWAYS" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -69,12 +69,12 @@
                                           </Label>
                                           <HBox fillHeight="false">
                                              <children>
-                                                <TextField fx:id="outTextBox" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
+                                                <TextField fx:id="outTextBox" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
                                                    <font>
-                                                      <Font size="14.0" />
+                                                      <Font size="13.0" />
                                                    </font>
                                                 </TextField>
-                                                <Button fx:id="outSearchBtn" minHeight="35.0" minWidth="45.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="35.0" prefWidth="45.0" HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="outSearchBtn" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="50.0" prefWidth="50.0" styleClass="buttonWithImage" HBox.hgrow="ALWAYS" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -85,10 +85,13 @@
                                     <VBox alignment="CENTER">
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" text="Fila de Inicio" />
-                                          <TextField fx:id="firstRowTextBox" alignment="CENTER" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese número de fila de excel">
+                                          <TextField fx:id="firstRowTextBox" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
                                           </TextField>
                                        </children>
                                        <VBox.margin>
@@ -111,12 +114,12 @@
                                           </Label>
                                           <HBox fillHeight="false">
                                              <children>
-                                                <TextField fx:id="photoTextBox" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
+                                                <TextField fx:id="photoTextBox" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
                                                    <font>
-                                                      <Font size="14.0" />
+                                                      <Font size="13.0" />
                                                    </font>
                                                 </TextField>
-                                                <Button fx:id="photoSearchBtn" minHeight="35.0" minWidth="45.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="35.0" prefWidth="45.0" />
+                                                <Button fx:id="photoSearchBtn" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="50.0" prefWidth="50.0" styleClass="buttonWithImage" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -133,12 +136,12 @@
                                           </Label>
                                           <HBox fillHeight="false">
                                              <children>
-                                                <TextField fx:id="excelTextBox" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese o busque la ubicación del excel" HBox.hgrow="ALWAYS">
+                                                <TextField fx:id="excelTextBox" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación del excel" HBox.hgrow="ALWAYS">
                                                    <font>
-                                                      <Font size="14.0" />
+                                                      <Font size="13.0" />
                                                    </font>
                                                 </TextField>
-                                                <Button fx:id="excelSearchBtn" minHeight="35.0" minWidth="45.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="35.0" prefWidth="45.0" />
+                                                <Button fx:id="excelSearchBtn" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="50.0" prefWidth="50.0" styleClass="buttonWithImage" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -149,10 +152,13 @@
                                     <VBox alignment="CENTER">
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" text="Fila de Conclusión" />
-                                          <TextField fx:id="lastRowTextBox" alignment="CENTER" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese número de fila de excel">
+                                          <TextField fx:id="lastRowTextBox" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
                                           </TextField>
                                        </children>
                                        <VBox.margin>
@@ -166,12 +172,12 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <Button fx:id="startBtn" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" maxHeight="75.0" maxWidth="75.0" minHeight="50.0" minWidth="75.0" mnemonicParsing="false" onAction="#startBtn_Clicked" text="Iniciar">
+                        <Button fx:id="startBtn" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" maxHeight="75.0" maxWidth="75.0" minHeight="75.0" minWidth="100.0" mnemonicParsing="false" onAction="#startBtn_Clicked" text="Iniciar">
                            <font>
                               <Font size="18.0" />
                            </font>
                            <VBox.margin>
-                              <Insets top="50.0" />
+                              <Insets top="10.0" />
                            </VBox.margin>
                         </Button>
                      </children>
@@ -195,12 +201,12 @@
                                           </Label>
                                           <HBox fillHeight="false">
                                              <children>
-                                                <TextField fx:id="pdfTextBox_Emp" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
+                                                <TextField fx:id="pdfTextBox_Emp" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
                                                    <font>
-                                                      <Font size="14.0" />
+                                                      <Font size="13.0" />
                                                    </font>
                                                 </TextField>
-                                                <Button fx:id="pdfSearchBtn_Emp" minHeight="35.0" minWidth="45.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="35.0" prefWidth="45.0" HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="pdfSearchBtn_Emp" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="50.0" prefWidth="50.0" styleClass="buttonWithImage" HBox.hgrow="ALWAYS" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -224,12 +230,12 @@
                                           </Label>
                                           <HBox fillHeight="false">
                                              <children>
-                                                <TextField fx:id="excelTextBox_Emp" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese o busque la ubicación del excel" HBox.hgrow="ALWAYS">
+                                                <TextField fx:id="excelTextBox_Emp" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación del excel" HBox.hgrow="ALWAYS">
                                                    <font>
-                                                      <Font size="14.0" />
+                                                      <Font size="13.0" />
                                                    </font>
                                                 </TextField>
-                                                <Button fx:id="excelSearchBtn_Emp" minHeight="35.0" minWidth="45.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="35.0" prefWidth="45.0" />
+                                                <Button fx:id="excelSearchBtn_Emp" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="50.0" prefWidth="50.0" styleClass="buttonWithImage" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -253,12 +259,12 @@
                               </Label>
                               <HBox fillHeight="false">
                                  <children>
-                                    <TextField fx:id="outTextBox_Emp" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
+                                    <TextField fx:id="outTextBox_Emp" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
                                        <font>
-                                          <Font size="14.0" />
+                                          <Font size="13.0" />
                                        </font>
                                     </TextField>
-                                    <Button fx:id="outSearchBtn_Emp" minHeight="35.0" minWidth="45.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="35.0" prefWidth="45.0" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="outSearchBtn_Emp" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="50.0" prefWidth="50.0" styleClass="buttonWithImage" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                            </children>
@@ -271,20 +277,26 @@
                               <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Fila de Inicio" />
-                                    <TextField fx:id="firstRowTextBox_Emp" alignment="CENTER" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese número de fila de excel">
+                                    <TextField fx:id="firstRowTextBox_Emp" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
                                     </TextField>
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Fila de Conclusión" />
-                                    <TextField fx:id="lastRowTextBox_Emp" alignment="CENTER" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" prefHeight="35.0" promptText="Ingrese número de fila de excel">
+                                    <TextField fx:id="lastRowTextBox_Emp" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel">
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
                                     </TextField>
                                  </children>
                               </VBox>
@@ -293,12 +305,12 @@
                               <Insets top="50.0" />
                            </VBox.margin>
                         </HBox>
-                        <Button fx:id="startBtn_Emp" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" maxHeight="75.0" maxWidth="75.0" minHeight="50.0" minWidth="75.0" mnemonicParsing="false" onAction="#startBtn_Clicked" text="Iniciar">
+                        <Button fx:id="startBtn_Emp" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" maxHeight="75.0" maxWidth="75.0" minHeight="75.0" minWidth="100.0" mnemonicParsing="false" onAction="#startBtn_Clicked" text="Iniciar">
                            <font>
                               <Font size="18.0" />
                            </font>
                            <VBox.margin>
-                              <Insets top="50.0" />
+                              <Insets top="10.0" />
                            </VBox.margin>
                         </Button>
                      </children>
