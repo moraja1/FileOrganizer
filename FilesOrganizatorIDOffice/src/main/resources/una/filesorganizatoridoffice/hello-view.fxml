@@ -85,7 +85,7 @@
                                     <VBox alignment="CENTER">
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" text="Fila de Inicio" />
-                                          <TextField fx:id="firstRowTextBox" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel">
+                                          <TextField fx:id="firstRowTextBox" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel" >
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
