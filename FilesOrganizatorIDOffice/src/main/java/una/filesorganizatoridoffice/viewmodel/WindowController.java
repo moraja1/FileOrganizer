@@ -189,11 +189,6 @@ public class WindowController implements Initializable {
         return correctURL(url);
     }
 
-    @FXML
-    void startBtn_Clicked(ActionEvent event) {
-        System.out.println(info.getPdfFileURL());
-    }
-
     private boolean processInput(String urlInserted) {
         File f = new File(urlInserted);
         if(f.exists()){
@@ -216,5 +211,12 @@ public class WindowController implements Initializable {
         outTextBox.clear();
         firstRowTextBox.clear();
         lastRowTextBox.clear();
+    }
+
+    @FXML
+    void startBtn_Clicked(ActionEvent event) {
+        if(!(info.getFinalRow() < info.getInitialRow())){
+
+        }
     }
 }
