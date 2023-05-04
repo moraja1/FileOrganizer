@@ -32,20 +32,20 @@
         <tabs>
           <Tab fx:id="tabStudent" text="Estudiante">
                <content>
-                  <VBox alignment="TOP_CENTER">
+                  <VBox fx:id="mainVBox" alignment="TOP_CENTER">
                      <children>
                         <HBox fillHeight="false">
                            <children>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <VBox>
+                                    <VBox fx:id="pdfVBox">
                                        <children>
                                           <Label alignment="TOP_LEFT" text="Carpeta de PDF">
                                              <padding>
                                                 <Insets left="10.0" />
                                              </padding>
                                           </Label>
-                                          <HBox fillHeight="false">
+                                          <HBox fx:id="pdfHBox" fillHeight="false">
                                              <children>
                                                 <TextField fx:id="pdfTextBox" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación de la carpeta" styleClass="textFieldRounded" HBox.hgrow="ALWAYS">
                                                    <font>
@@ -60,14 +60,14 @@
                                           <Insets left="15.0" right="15.0" top="25.0" />
                                        </VBox.margin>
                                     </VBox>
-                                    <VBox>
+                                    <VBox fx:id="outVBox">
                                        <children>
                                           <Label alignment="TOP_LEFT" text="Ubicación de Salida">
                                              <padding>
                                                 <Insets left="10.0" />
                                              </padding>
                                           </Label>
-                                          <HBox fillHeight="false">
+                                          <HBox fx:id="outHBox" fillHeight="false">
                                              <children>
                                                 <TextField fx:id="outTextBox" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
                                                    <font>
@@ -82,10 +82,10 @@
                                           <Insets left="15.0" right="15.0" top="50.0" />
                                        </VBox.margin>
                                     </VBox>
-                                    <VBox alignment="CENTER">
+                                    <VBox fx:id="firstRowVBox" alignment="CENTER">
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" text="Fila de Inicio" />
-                                          <TextField fx:id="firstRowTextBox" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel" >
+                                          <TextField fx:id="firstRowTextBox" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
@@ -127,14 +127,14 @@
                                           <Insets left="15.0" right="15.0" top="25.0" />
                                        </VBox.margin>
                                     </VBox>
-                                    <VBox>
+                                    <VBox fx:id="excelVBox">
                                        <children>
                                           <Label text="Ubicación de Excel">
                                              <VBox.margin>
                                                 <Insets left="10.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <HBox fillHeight="false">
+                                          <HBox fx:id="excelHBox" fillHeight="false">
                                              <children>
                                                 <TextField fx:id="excelTextBox" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación del excel" HBox.hgrow="ALWAYS">
                                                    <font>
@@ -149,7 +149,7 @@
                                           <Insets left="15.0" right="15.0" top="50.0" />
                                        </VBox.margin>
                                     </VBox>
-                                    <VBox alignment="CENTER">
+                                    <VBox fx:id="lastRowVBox" alignment="CENTER">
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" text="Fila de Conclusión" />
                                           <TextField fx:id="lastRowTextBox" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel">
@@ -186,29 +186,19 @@
             </Tab>
           <Tab fx:id="tabEmployee" text="Empleado">
                <content>
-                  <VBox alignment="TOP_CENTER">
+                  <VBox fx:id="mainVBox_Emp" alignment="TOP_CENTER">
                      <children>
                         <HBox fillHeight="false">
                            <children>
                               <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <VBox>
+                                    <VBox fx:id="pdfVBox_Emp">
                                        <children>
                                           <Label alignment="TOP_LEFT" text="Carpeta de PDF">
                                              <padding>
                                                 <Insets left="10.0" />
                                              </padding>
                                           </Label>
-                                          <HBox fillHeight="false">
-                                             <children>
-                                                <TextField fx:id="pdfTextBox_Emp" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
-                                                   <font>
-                                                      <Font size="13.0" />
-                                                   </font>
-                                                </TextField>
-                                                <Button fx:id="pdfSearchBtn_Emp" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="50.0" prefWidth="50.0" styleClass="buttonWithImage" HBox.hgrow="ALWAYS" />
-                                             </children>
-                                          </HBox>
                                        </children>
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" top="25.0" />
@@ -221,23 +211,13 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <VBox>
+                                    <VBox fx:id="excelVBox_Emp">
                                        <children>
                                           <Label text="Ubicación de Excel">
                                              <VBox.margin>
                                                 <Insets left="10.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <HBox fillHeight="false">
-                                             <children>
-                                                <TextField fx:id="excelTextBox_Emp" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación del excel" HBox.hgrow="ALWAYS">
-                                                   <font>
-                                                      <Font size="13.0" />
-                                                   </font>
-                                                </TextField>
-                                                <Button fx:id="excelSearchBtn_Emp" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="50.0" prefWidth="50.0" styleClass="buttonWithImage" />
-                                             </children>
-                                          </HBox>
                                        </children>
                                        <VBox.margin>
                                           <Insets left="15.0" right="15.0" top="25.0" />
@@ -250,23 +230,13 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <VBox>
+                        <VBox fx:id="outVBox_Emp">
                            <children>
                               <Label alignment="TOP_LEFT" text="Ubicación de Salida">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </Label>
-                              <HBox fillHeight="false">
-                                 <children>
-                                    <TextField fx:id="outTextBox_Emp" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese o busque la ubicación de la carpeta" HBox.hgrow="ALWAYS">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                    </TextField>
-                                    <Button fx:id="outSearchBtn_Emp" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="50.0" prefWidth="50.0" styleClass="buttonWithImage" HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
                            </children>
                            <VBox.margin>
                               <Insets left="200.0" right="200.0" top="50.0" />
@@ -274,30 +244,14 @@
                         </VBox>
                         <HBox alignment="CENTER">
                            <children>
-                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                              <VBox fx:id="firstRowVBox_Emp" alignment="CENTER" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Fila de Inicio" />
-                                    <TextField fx:id="firstRowTextBox_Emp" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                    </TextField>
                                  </children>
                               </VBox>
-                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                              <VBox fx:id="lastRowVBox_Emp" alignment="CENTER" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Fila de Conclusión" />
-                                    <TextField fx:id="lastRowTextBox_Emp" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" prefHeight="50.0" promptText="Ingrese número de fila de excel">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                    </TextField>
                                  </children>
                               </VBox>
                            </children>
@@ -305,14 +259,6 @@
                               <Insets top="50.0" />
                            </VBox.margin>
                         </HBox>
-                        <Button fx:id="startBtn_Emp" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" maxHeight="75.0" maxWidth="75.0" minHeight="75.0" minWidth="100.0" mnemonicParsing="false" onAction="#startBtn_Clicked" text="Iniciar">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Button>
                      </children>
                   </VBox>
                </content>

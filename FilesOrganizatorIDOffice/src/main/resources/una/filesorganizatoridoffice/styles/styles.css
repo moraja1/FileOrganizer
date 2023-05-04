@@ -7,7 +7,7 @@
     -fx-background-radius: 30;
 }
 
-#startBtn{
+#startBtn, #startBtn_Emp{
     -fx-background-radius: 100;
 }
 
