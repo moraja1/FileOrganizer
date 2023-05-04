@@ -19,6 +19,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import una.filesorganizatoridoffice.business.Protocol;
+import una.filesorganizatoridoffice.business.Security;
 
 import java.io.File;
 import java.net.URL;
@@ -216,7 +218,6 @@ public class WindowController implements Initializable {
     @FXML
     void startBtn_Clicked(ActionEvent event) {
         if(!(info.getFinalRow() < info.getInitialRow())){
-
         }
     }
 }
