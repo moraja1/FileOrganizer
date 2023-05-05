@@ -1,10 +1,27 @@
+.root {
+    -fx-background-color: #034991;
+}
+
+.label {
+    -fx-text-fill: #A7A7A9;
+}
+
+.tab-pane {
+    -fx-tab-min-height: 40px;
+    -fx-tab-min-width: 100px;
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
 .buttonWithImage {
     -fx-border-radius: 30px;
+    -fx-border-color: #A7A7A9;
     -fx-background-image: url('../icons/search.png');
     -fx-background-size: 35px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 45%;
     -fx-background-radius: 30;
+    -fx-background-color: transparent;
 }
 
 #startBtn, #startBtn_Emp{
@@ -13,4 +30,9 @@
 
 .text-field {
     -fx-background-radius: 30;
+    -fx-background-color: transparent;
+    -fx-border-color: #A7A7A9;
+    -fx-border-radius: 30;
 }
+
+

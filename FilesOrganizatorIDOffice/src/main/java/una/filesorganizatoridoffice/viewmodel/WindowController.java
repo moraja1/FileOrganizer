@@ -24,6 +24,9 @@ import una.filesorganizatoridoffice.business.Security;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class WindowController implements Initializable {
@@ -165,7 +168,10 @@ public class WindowController implements Initializable {
     public String verifyBtnInput(ActionEvent e, String urlInserted, DirectoryChooser dc){
         File fileChosen;
         String url;
-        dc.setInitialDirectory(new File("G:\\Mi unidad"));
+        File initialDir = new File("G:\\Mi unidad");
+        if(initialDir.exists()){
+            dc.setInitialDirectory(initialDir);
+        }
         if(!processInput(urlInserted)){
             do {
                 fileChosen = dc.showDialog(new Stage());
@@ -179,7 +185,10 @@ public class WindowController implements Initializable {
     public String verifyBtnInput(ActionEvent e, String urlInserted, FileChooser dc){
         File fileChosen;
         String url;
-        dc.setInitialDirectory(new File("C:\\Users\\N00148095\\Downloads"));
+        Path downloadsDir = Paths.get(System.getProperty("user.home"), "Downloads");
+        if (Files.exists(downloadsDir)) {
+            dc.setInitialDirectory(downloadsDir.toFile());
+        }
         if(!processInput(urlInserted)){
             do {
                 fileChosen = dc.showOpenDialog(new Stage());

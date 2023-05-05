@@ -17,7 +17,7 @@
             <Font size="24.0" />
          </font>
          <VBox.margin>
-            <Insets top="25.0" />
+            <Insets top="10.0" />
          </VBox.margin>
       </Label>
       <Label text="Oficina de Carné Estudiantil" textAlignment="CENTER">
