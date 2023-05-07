@@ -1,0 +1,18 @@
+@font-face
+{
+    font-family: "Goudy Old Style";
+    src: url("../fonts/Goudy Old Style.ttf");
+}
+
+
+@font-face
+{
+    font-family: "Goudy Old Style Bold";
+    src: url("../fonts/Goudy Old Style Bold.ttf");
+}
+
+@font-face
+{
+    font-family: "Goudy Old Style Italic";
+    src: url("../fonts/Goudy Old Style Italic.ttf");
+}

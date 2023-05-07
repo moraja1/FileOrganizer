@@ -1,11 +1,8 @@
 package una.filesorganizatoridoffice.viewmodel;
 
-import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,9 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
-import una.filesorganizatoridoffice.business.Protocol;
-import una.filesorganizatoridoffice.business.Security;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.File;
 import java.net.URL;
@@ -30,6 +25,10 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class WindowController implements Initializable {
+    @FXML
+    private AnchorPane anchor;
+    @FXML
+    private Button closeBtn;
     @FXML
     private HBox excelHBox;
     @FXML
@@ -56,6 +55,8 @@ public class WindowController implements Initializable {
     private VBox mainVBox;
     @FXML
     private VBox mainVBox_Emp;
+    @FXML
+    private Button minimizeBtn;
     @FXML
     private HBox outHBox;
     @FXML
@@ -86,14 +87,33 @@ public class WindowController implements Initializable {
     private Tab tabEmployee;
     @FXML
     private Tab tabStudent;
-
     private IntegerProperty initialRow = new SimpleIntegerProperty();
     private IntegerProperty finalRow = new SimpleIntegerProperty();
     private final WindowInfo info = new WindowInfo();
 
+    /***
+     * Performs activities at the beginning at the system such as configuration of TabSelectionChanged events. Formatters'
+     * configuration for inputs and binding configuration for the ViewModel.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        //Change tab event
+        //Set Events to drag window
+        anchor.setOnMousePressed(mouseEvent -> {
+            Stage stage = (Stage)anchor.getScene().getWindow();
+            WindowOffsetInfo.xOffset = stage.getX() - mouseEvent.getScreenX();
+            WindowOffsetInfo.yOffset = stage.getY() - mouseEvent.getScreenY();
+        });
+
+        anchor.setOnMouseDragged(mouseEvent -> {
+            Stage stage = (Stage)anchor.getScene().getWindow();
+            stage.setX(mouseEvent.getScreenX() + WindowOffsetInfo.xOffset);
+            stage.setY(mouseEvent.getScreenY() + WindowOffsetInfo.yOffset);
+        });
+
+
+        //Change components at tab event
         tabStudent.setOnSelectionChanged(event -> {
             if(tabStudent.isSelected()){
                 pdfVBox.getChildren().add(1, pdfHBox);
@@ -118,6 +138,10 @@ public class WindowController implements Initializable {
         firstRowTextBox.setTextFormatter(getFormatter());
         lastRowTextBox.setTextFormatter(getFormatter());
 
+        bindInfoModelProperties();
+    }
+
+    private void bindInfoModelProperties() {
         //Binding Properties
         Bindings.bindBidirectional(firstRowTextBox.textProperty(), initialRow, info.getConverter());
         Bindings.bindBidirectional(lastRowTextBox.textProperty(), finalRow, info.getConverter());
@@ -130,6 +154,11 @@ public class WindowController implements Initializable {
         info.excelFileURLProperty().bindBidirectional(excelTextBox.textProperty());
     }
 
+    /***
+     * Creates a formatter to be placed in any TextField. This formatter allow the TextField to receive only numbers
+     * Keyboard.
+     * @return TexTFormatter
+     */
     private TextFormatter<?> getFormatter() {
         TextFormatter<String> formatter = new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
@@ -143,6 +172,10 @@ public class WindowController implements Initializable {
         return formatter;
     }
 
+    /***
+     * Event at any search button in the window. Verifies the source of the event and calls verifyBtnInput method.
+     * @param e
+     */
     @FXML
     void searchBtn_Clicked(ActionEvent e) {
         DirectoryChooser dc = new DirectoryChooser();
@@ -165,6 +198,15 @@ public class WindowController implements Initializable {
         }
     }
 
+    /***
+     * Makes sure the TextField related to that Button is empty or not. If not, calls processInput method to check
+     * if the information in the TextField is an existing File or not. If not, opens a DirectoryChooser or a FileChooser
+     * depending on what is supposed to be selected by the user.
+     * @param e
+     * @param urlInserted
+     * @param dc
+     * @return String
+     */
     public String verifyBtnInput(ActionEvent e, String urlInserted, DirectoryChooser dc){
         File fileChosen;
         String url;
@@ -178,10 +220,20 @@ public class WindowController implements Initializable {
             }while (fileChosen == null);
             url = fileChosen.getAbsolutePath();
         }else{
-            url = excelTextBox.getText();
+            url = urlInserted;
         }
         return correctURL(url);
     }
+
+    /***
+     * Makes sure the TextField related to that Button is empty or not. If not, calls processInput method to check
+     * if the information in the TextField is an existing File or not. If not, opens a DirectoryChooser or a FileChooser
+     * depending on what is supposed to be selected by the user.
+     * @param e
+     * @param urlInserted
+     * @param dc
+     * @return String
+     */
     public String verifyBtnInput(ActionEvent e, String urlInserted, FileChooser dc){
         File fileChosen;
         String url;
@@ -195,11 +247,16 @@ public class WindowController implements Initializable {
             }while(fileChosen == null);
             url = fileChosen.getAbsolutePath();
         }else{
-            url = excelTextBox.getText();
+            url = urlInserted;
         }
         return correctURL(url);
     }
 
+    /***
+     * Verifies if the url passed by parameter corresponds to an existing file or not.
+     * @param urlInserted
+     * @return boolean
+     */
     private boolean processInput(String urlInserted) {
         File f = new File(urlInserted);
         if(f.exists()){
@@ -208,6 +265,11 @@ public class WindowController implements Initializable {
         return false;
     }
 
+    /***
+     * Verifies if the URL has wildcard at the beginning and delete it if it does.
+     * @param url
+     * @return String
+     */
     private String correctURL(String url) {
         if(url.startsWith("\\\\?\\")){
             url = url.substring(4);
@@ -215,6 +277,9 @@ public class WindowController implements Initializable {
         return url;
     }
 
+    /***
+     * Clears all TextFields in the Window.
+     */
     private void clearWindow(){
         excelTextBox.clear();
         pdfTextBox.clear();
@@ -224,9 +289,68 @@ public class WindowController implements Initializable {
         lastRowTextBox.clear();
     }
 
+    /***
+     * Verifies if the row numbers are correctly introduced. If it is, calls service classes to process the organization
+     * of the files.
+     * @param event
+     */
     @FXML
     void startBtn_Clicked(ActionEvent event) {
-        if(!(info.getFinalRow() < info.getInitialRow())){
+        Thread startThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(tabStudent.isSelected()){
+                    if(isStudentInfoComplete()){
+
+                    }else{
+
+                    }
+                }else{
+                    if (isWorkerInfoComplete()) {
+
+                    }else{
+
+                    }
+                }
+            }
+        });
+        startThread.start();
+    }
+
+    private boolean isWorkerInfoComplete() {
+        return !(info.getPdfFileURL().isEmpty() && info.getOutputFileURL().isEmpty()
+                && info.getExcelFileURL().isEmpty()) && (info.getInitialRow() <= info.getFinalRow());
+    }
+
+    private boolean isStudentInfoComplete() {
+        return !(info.getPdfFileURL().isEmpty() && info.getPhotoFileURL().isEmpty() && info.getOutputFileURL().isEmpty()
+                && info.getExcelFileURL().isEmpty()) && (info.getInitialRow() <= info.getFinalRow());
+    }
+
+    private void unbindInfoModelProperties() {
+        //Binding Properties
+        Bindings.unbindBidirectional(firstRowTextBox.textProperty(), initialRow);
+        Bindings.unbindBidirectional(lastRowTextBox.textProperty(), finalRow);
+
+        info.initialRowProperty().unbindBidirectional(initialRow);
+        info.finalRowProperty().unbindBidirectional(finalRow);
+        info.pdfFileURLProperty().unbindBidirectional(pdfTextBox.textProperty());
+        info.outputFileURLProperty().unbindBidirectional(outTextBox.textProperty());
+        info.photoFileURLProperty().unbindBidirectional(photoTextBox.textProperty());
+        info.excelFileURLProperty().unbindBidirectional(excelTextBox.textProperty());
+    }
+
+    public void menuBarBtn_Clicked(ActionEvent e) {
+        if(e.getSource() == closeBtn){
+            System.exit(0);
         }
+        if(e.getSource() == minimizeBtn){
+            ((Stage) anchor.getScene().getWindow()).setIconified(true);
+        }
+    }
+
+    private static class WindowOffsetInfo {
+        public static Double xOffset;
+        public static Double yOffset;
     }
 }
