@@ -62,6 +62,8 @@
 .tab-pane *.tab-header-background
 {
     -fx-background-color: UNA-grey;
+    -fx-border-color: transparent transparent black transparent;
+    -fx-border-width: 0 0 2 0;
 }
 
 .tab-pane:bottom *.tab-header-area
@@ -74,7 +76,7 @@
     -fx-background-color: transparent;
     -fx-background-insets: 0.0;
     -fx-background-radius: 0.0;
-    -fx-padding: 0 5 0 5;
+    -fx-padding: 0 0 0 0;
     -fx-alignment: CENTER_LEFT;
 }
 
@@ -98,6 +100,18 @@
     -fx-image: url('../icons/empleado.png');
 }
 
+.tab:hover
+{
+    -fx-background-color: UNA-grey-light;
+    -fx-background-insets: 0.0;
+    -fx-background-radius: 0.0;
+    -fx-border-width: 3 0 0 0;
+    -fx-border-color: black;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-padding: 0 0 0 0;
+}
+
 .tab:selected
 {
     -fx-background-color: white;
@@ -115,26 +129,86 @@
     -fx-faint-focus-color: transparent;
 }
 
+#startBtn
+{
+    -fx-background-radius: 100;
+    -fx-background-color: UNA-grey;
+    -fx-effect: dropshadow(gaussian, black, 8, 0, 0, 2);
+}
+
+#startBtn:hover
+{
+    -fx-background-radius: 100;
+    -fx-background-color: UNA-grey-light;
+}
+
+#startBtn:pressed
+{
+    -fx-background-radius: 100;
+    -fx-background-color: UNA-grey;
+    -fx-effect: innershadow(gaussian, black, 8, 0, 0, 1);
+}
+
+.text-field {
+    -fx-background-radius: 30;
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-radius: 30;
+    -fx-effect: dropshadow(gaussian, #333333, 5, 0, 0, 2);
+}
+
+.text-field:hover
+{
+    -fx-background-radius: 30;
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-radius: 30;
+    -fx-effect: dropshadow(gaussian, #333333, 5, 0, 0, 1);
+}
+
+.text-field:focused
+{
+    -fx-background-radius: 30;
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-radius: 30;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 1);
+}
+
 .buttonWithImage {
     -fx-border-radius: 30px;
-    -fx-border-color: #A7A7A9;
+    -fx-border-color: transparent;
     -fx-background-image: url('../icons/search.png');
     -fx-background-size: 32px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 45%;
     -fx-background-radius: 30;
-    -fx-background-color: transparent;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, #333333, 5, 0, 0, 2);
 }
 
-#startBtn, #startBtn_Emp{
-    -fx-background-radius: 100;
-}
-
-.text-field {
+.buttonWithImage:hover
+{
+    -fx-border-radius: 30px;
+    -fx-border-color: transparent;
+    -fx-background-image: url('../icons/search.png');
+    -fx-background-size: 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 45%;
     -fx-background-radius: 30;
-    -fx-background-color: transparent;
-    -fx-border-color: #A7A7A9;
-    -fx-border-radius: 30;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, #333333, 5, 0, 0, 1);
 }
 
-
+.buttonWithImage:pressed
+{
+    -fx-border-radius: 30px;
+    -fx-border-color: transparent;
+    -fx-background-image: url('../icons/search.png');
+    -fx-background-size: 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 45%;
+    -fx-background-radius: 30;
+    -fx-background-color: white;
+    -fx-effect: innershadow(gaussian, black, 5, 0, 0, 1);
+}
