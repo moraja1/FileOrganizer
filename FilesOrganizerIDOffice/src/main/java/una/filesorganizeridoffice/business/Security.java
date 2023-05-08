@@ -24,7 +24,7 @@ public class Security {
 
         //Verifies if there are files on it
         if(filenames.length > 0){
-            //verifies if the files are pdf
+            //verifies if the files are only in required extensions
             Boolean areUnique = true;
             for (String filename : filenames) {
                 boolean hasExtension = false;
