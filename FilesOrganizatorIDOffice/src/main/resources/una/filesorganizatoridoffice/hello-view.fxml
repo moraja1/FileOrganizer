@@ -258,7 +258,7 @@
                                                 </Label>
                                              </children>
                                              <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="25.0" />
+                                                <Insets left="15.0" right="15.0" top="5.0" />
                                              </VBox.margin>
                                           </VBox>
                                        </children>
@@ -277,7 +277,7 @@
                                                 </Label>
                                              </children>
                                              <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="25.0" />
+                                                <Insets left="15.0" right="15.0" top="5.0" />
                                              </VBox.margin>
                                           </VBox>
                                        </children>
@@ -296,17 +296,17 @@
                                     </Label>
                                  </children>
                                  <VBox.margin>
-                                    <Insets left="200.0" right="200.0" top="50.0" />
+                                    <Insets left="200.0" right="200.0" top="25.0" />
                                  </VBox.margin>
                               </VBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <VBox fx:id="firstRowVBox_Emp" alignment="CENTER" HBox.hgrow="ALWAYS">
+                                    <VBox fx:id="firstRowVBox_Emp" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" styleClass="tag-label" text="Fila de Inicio" />
                                        </children>
                                     </VBox>
-                                    <VBox fx:id="lastRowVBox_Emp" alignment="CENTER" HBox.hgrow="ALWAYS">
+                                    <VBox fx:id="lastRowVBox_Emp" alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label alignment="CENTER" contentDisplay="CENTER" styleClass="tag-label" text="Fila de Conclusión" />
                                        </children>
