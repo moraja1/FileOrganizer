@@ -1,14 +1,12 @@
-package una.filesorganizatoridoffice;
+package una.filesorganizeridoffice;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import una.filesorganizatoridoffice.viewmodel.WindowController;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class FlowController {
     private Stage mainStage;

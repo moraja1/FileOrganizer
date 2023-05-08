@@ -1,4 +1,4 @@
-package una.filesorganizatoridoffice.model;
+package una.filesorganizeridoffice.model;
 
 public enum Gender {
     Masculine, Feminine

@@ -1,4 +1,4 @@
-package una.filesorganizatoridoffice.model;
+package una.filesorganizeridoffice.model;
 
 public class AdultStudent extends UniversityPerson{
     String countryResidence;

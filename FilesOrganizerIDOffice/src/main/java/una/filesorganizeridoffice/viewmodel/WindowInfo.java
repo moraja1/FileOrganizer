@@ -1,4 +1,4 @@
-package una.filesorganizatoridoffice.viewmodel;
+package una.filesorganizeridoffice.viewmodel;
 
 import javafx.beans.property.*;
 import javafx.util.StringConverter;

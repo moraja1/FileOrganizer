@@ -5,13 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>una</groupId>
-    <artifactId>FilesOrganizatorIDOffice</artifactId>
+    <artifactId>FilesOrganizerIDOffice</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>FilesOrganizatorIDOffice</name>
+    <name>FilesOrganizerIDOffice</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.9.1</junit.version>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
     </properties>
 
     <dependencies>
@@ -66,7 +68,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>una.filesorganizatoridoffice/una.filesorganizatoridoffice.HelloApplication
+                            <mainClass>una.filesorganizatoridoffice/una.filesorganizeridoffice.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

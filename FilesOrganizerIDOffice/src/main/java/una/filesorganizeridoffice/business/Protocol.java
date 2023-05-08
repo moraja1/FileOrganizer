@@ -1,10 +1,12 @@
-package una.filesorganizatoridoffice.business;
+package una.filesorganizeridoffice.business;
 
 public enum Protocol {
-    Accepted,
+    accepted,
+    refused,
     pdfURLWrong,
     photoURLWrong,
     excelURLWrong,
+    multipleURLWrong,
     pdfNotFound,
     photoNotFound,
     createDirError

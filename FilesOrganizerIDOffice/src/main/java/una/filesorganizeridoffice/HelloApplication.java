@@ -1,10 +1,7 @@
-package una.filesorganizatoridoffice;
+package una.filesorganizeridoffice;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import una.filesorganizatoridoffice.model.IdentificationType;
 
 import java.io.IOException;
 

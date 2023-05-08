@@ -1,21 +1,21 @@
-package una.filesorganizatoridoffice.viewmodel;
+package una.filesorganizeridoffice.viewmodel;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.layout.AnchorPane;
+import una.filesorganizeridoffice.business.Business;
+import una.filesorganizeridoffice.business.exceptions.ExceptionBusiness;
 
 import java.io.File;
 import java.net.URL;
@@ -84,8 +84,6 @@ public class WindowController implements Initializable {
     @FXML
     private Button startBtn;
     @FXML
-    private Tab tabEmployee;
-    @FXML
     private Tab tabStudent;
     private IntegerProperty initialRow = new SimpleIntegerProperty();
     private IntegerProperty finalRow = new SimpleIntegerProperty();
@@ -141,19 +139,6 @@ public class WindowController implements Initializable {
         bindInfoModelProperties();
     }
 
-    private void bindInfoModelProperties() {
-        //Binding Properties
-        Bindings.bindBidirectional(firstRowTextBox.textProperty(), initialRow, info.getConverter());
-        Bindings.bindBidirectional(lastRowTextBox.textProperty(), finalRow, info.getConverter());
-
-        info.initialRowProperty().bind(initialRow);
-        info.finalRowProperty().bind(finalRow);
-        info.pdfFileURLProperty().bindBidirectional(pdfTextBox.textProperty());
-        info.outputFileURLProperty().bindBidirectional(outTextBox.textProperty());
-        info.photoFileURLProperty().bindBidirectional(photoTextBox.textProperty());
-        info.excelFileURLProperty().bindBidirectional(excelTextBox.textProperty());
-    }
-
     /***
      * Creates a formatter to be placed in any TextField. This formatter allow the TextField to receive only numbers
      * Keyboard.
@@ -182,19 +167,19 @@ public class WindowController implements Initializable {
         FileChooser fc = new FileChooser();
         if(e.getSource() == pdfSearchBtn){
             dc.setTitle("Seleccione la carpeta de los PDF");
-            info.setPdfFileURL(verifyBtnInput(e, info.getPdfFileURL(), dc));
+            info.setPdfFileURL(verifyBtnInput(dc));
         }
         if(e.getSource() == excelSearchBtn){
             fc.setTitle("Seleccione el excel de solicitudes");
-            info.setExcelFileURL(verifyBtnInput(e, info.getExcelFileURL(), fc));
+            info.setExcelFileURL(verifyBtnInput(fc));
         }
         if(e.getSource() == outSearchBtn){
             dc.setTitle("Seleccione la carpeta de salida");
-            info.setOutputFileURL(verifyBtnInput(e, info.getOutputFileURL(), dc));
+            info.setOutputFileURL(verifyBtnInput(dc));
         }
         if(e.getSource() == photoSearchBtn){
             dc.setTitle("Seleccione la carpeta de las fotos");
-            info.setPhotoFileURL(verifyBtnInput(e, info.getPhotoFileURL(), dc));
+            info.setPhotoFileURL(verifyBtnInput(dc));
         }
     }
 
@@ -202,26 +187,20 @@ public class WindowController implements Initializable {
      * Makes sure the TextField related to that Button is empty or not. If not, calls processInput method to check
      * if the information in the TextField is an existing File or not. If not, opens a DirectoryChooser or a FileChooser
      * depending on what is supposed to be selected by the user.
-     * @param e
-     * @param urlInserted
      * @param dc
      * @return String
      */
-    public String verifyBtnInput(ActionEvent e, String urlInserted, DirectoryChooser dc){
+    public String verifyBtnInput(DirectoryChooser dc){
         File fileChosen;
         String url;
         File initialDir = new File("G:\\Mi unidad");
         if(initialDir.exists()){
             dc.setInitialDirectory(initialDir);
         }
-        if(!processInput(urlInserted)){
-            do {
-                fileChosen = dc.showDialog(new Stage());
-            }while (fileChosen == null);
-            url = fileChosen.getAbsolutePath();
-        }else{
-            url = urlInserted;
-        }
+        do {
+            fileChosen = dc.showDialog(new Stage());
+        }while (fileChosen == null);
+        url = fileChosen.getAbsolutePath();
         return correctURL(url);
     }
 
@@ -229,26 +208,21 @@ public class WindowController implements Initializable {
      * Makes sure the TextField related to that Button is empty or not. If not, calls processInput method to check
      * if the information in the TextField is an existing File or not. If not, opens a DirectoryChooser or a FileChooser
      * depending on what is supposed to be selected by the user.
-     * @param e
-     * @param urlInserted
      * @param dc
      * @return String
      */
-    public String verifyBtnInput(ActionEvent e, String urlInserted, FileChooser dc){
+    public String verifyBtnInput(FileChooser dc){
         File fileChosen;
         String url;
         Path downloadsDir = Paths.get(System.getProperty("user.home"), "Downloads");
         if (Files.exists(downloadsDir)) {
             dc.setInitialDirectory(downloadsDir.toFile());
         }
-        if(!processInput(urlInserted)){
-            do {
-                fileChosen = dc.showOpenDialog(new Stage());
-            }while(fileChosen == null);
-            url = fileChosen.getAbsolutePath();
-        }else{
-            url = urlInserted;
-        }
+        do {
+            fileChosen = dc.showOpenDialog(new Stage());
+        }while(fileChosen == null);
+        url = fileChosen.getAbsolutePath();
+
         return correctURL(url);
     }
 
@@ -257,7 +231,7 @@ public class WindowController implements Initializable {
      * @param urlInserted
      * @return boolean
      */
-    private boolean processInput(String urlInserted) {
+    private boolean verifyURLExistence(String urlInserted) {
         File f = new File(urlInserted);
         if(f.exists()){
            return true;
@@ -290,43 +264,65 @@ public class WindowController implements Initializable {
     }
 
     /***
-     * Verifies if the row numbers are correctly introduced. If it is, calls service classes to process the organization
-     * of the files.
-     * @param event
+     * Enable or Disable controls to stop user of changing any information during the organization of the files. This
+     * is an additional security method.
+     * @param isEnable
      */
-    @FXML
-    void startBtn_Clicked(ActionEvent event) {
-        Thread startThread = new Thread(new Runnable() {
+    private void enableControls(boolean isEnable) {
+        Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if(tabStudent.isSelected()){
-                    if(isStudentInfoComplete()){
-
-                    }else{
-
-                    }
-                }else{
-                    if (isWorkerInfoComplete()) {
-
-                    }else{
-
-                    }
-                }
+                pdfTextBox.setDisable(!isEnable);
+                firstRowTextBox.setDisable(!isEnable);
+                lastRowTextBox.setDisable(!isEnable);
+                photoTextBox.setDisable(!isEnable);
+                excelTextBox.setDisable(!isEnable);
+                outTextBox.setDisable(!isEnable);
+                pdfSearchBtn.setDisable(!isEnable);
+                excelSearchBtn.setDisable(!isEnable);
+                photoSearchBtn.setDisable(!isEnable);
+                outSearchBtn.setDisable(!isEnable);
+                startBtn.setDisable(!isEnable);
             }
         });
-        startThread.start();
     }
 
-    private boolean isWorkerInfoComplete() {
-        return !(info.getPdfFileURL().isEmpty() && info.getOutputFileURL().isEmpty()
-                && info.getExcelFileURL().isEmpty()) && (info.getInitialRow() <= info.getFinalRow());
+    /***
+     * Verifies that the initial row number is not a higher number than the final, and the files are existing files.
+     * This method does not check if the files contains the proper fileTypes, this operation will be performed by the
+     * Security layer.
+     * @return
+     */
+    private boolean isInfoCorrect() {
+        if(tabStudent.isSelected()){
+            return (info.getInitialRow() <= info.getFinalRow()) && (verifyURLExistence(info.getPhotoFileURL()) &&
+                    verifyURLExistence(info.getOutputFileURL()) && verifyURLExistence(info.getExcelFileURL()) &&
+                    verifyURLExistence(info.getPdfFileURL()));
+        }else{
+            return (info.getInitialRow() <= info.getFinalRow()) && (verifyURLExistence(info.getOutputFileURL()) &&
+                    verifyURLExistence(info.getExcelFileURL()) && verifyURLExistence(info.getPdfFileURL()));
+        }
     }
 
-    private boolean isStudentInfoComplete() {
-        return !(info.getPdfFileURL().isEmpty() && info.getPhotoFileURL().isEmpty() && info.getOutputFileURL().isEmpty()
-                && info.getExcelFileURL().isEmpty()) && (info.getInitialRow() <= info.getFinalRow());
+    /***
+     * Bind the WindowInfo to the Window controls to be change in realtime.
+     */
+    private void bindInfoModelProperties() {
+        //Binding Properties
+        Bindings.bindBidirectional(firstRowTextBox.textProperty(), initialRow, info.getConverter());
+        Bindings.bindBidirectional(lastRowTextBox.textProperty(), finalRow, info.getConverter());
+
+        info.initialRowProperty().bind(initialRow);
+        info.finalRowProperty().bind(finalRow);
+        info.pdfFileURLProperty().bindBidirectional(pdfTextBox.textProperty());
+        info.outputFileURLProperty().bindBidirectional(outTextBox.textProperty());
+        info.photoFileURLProperty().bindBidirectional(photoTextBox.textProperty());
+        info.excelFileURLProperty().bindBidirectional(excelTextBox.textProperty());
     }
 
+    /***
+     * Unbind the WindowInfo object from the window to secure the information from changes.
+     */
     private void unbindInfoModelProperties() {
         //Binding Properties
         Bindings.unbindBidirectional(firstRowTextBox.textProperty(), initialRow);
@@ -340,6 +336,10 @@ public class WindowController implements Initializable {
         info.excelFileURLProperty().unbindBidirectional(excelTextBox.textProperty());
     }
 
+    /***
+     * Performs close and minimize operations.
+     * @param e
+     */
     public void menuBarBtn_Clicked(ActionEvent e) {
         if(e.getSource() == closeBtn){
             System.exit(0);
@@ -349,6 +349,59 @@ public class WindowController implements Initializable {
         }
     }
 
+    /***
+     * Shows an error message when necessary.
+     * @param title
+     * @param message
+     */
+    private void showDialog(String title, String message, Alert.AlertType type) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alert alert = new Alert(type);
+                alert.setTitle(title);
+                alert.setHeaderText(null);
+                alert.setContentText(message);
+                alert.setOnCloseRequest(e -> {
+                    enableControls(true);
+                });
+                alert.showAndWait();
+            }
+        });
+    }
+
+    /***
+     * Verifies the consistence of the information sent. If it is consistent, calls service classes to process the files'
+     * organization.
+     * @param event
+     */
+    @FXML
+    void startBtn_Clicked(ActionEvent event) {
+        enableControls(false);
+        Thread startThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(isInfoCorrect()){
+                    Boolean isStudent = tabStudent.isSelected();
+                    unbindInfoModelProperties();
+                    try{
+                        Business.startOrganization(info, isStudent);
+                    }catch(ExceptionBusiness e) {
+                        showDialog("Error en la información", e.getMessage(), Alert.AlertType.ERROR);
+                    }
+                }else{
+                    showDialog("Error en la Información",
+                            "Existe algún error en la información ingresada, favor verificar.", Alert.AlertType.ERROR);
+                }
+            }
+        });
+        startThread.start();
+        System.out.println();
+    }
+
+    /***
+     * Contains variables to drag window.
+     */
     private static class WindowOffsetInfo {
         public static Double xOffset;
         public static Double yOffset;
