@@ -3,6 +3,7 @@ package una.filesorganizeridoffice.business;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +13,14 @@ public class Security {
         verifyDirectoryContent(info.getPdfFileURL(), "cédulas", new String[]{"pdf"});
         verifyDirectoryContent(info.getPhotoFileURL(), "fotos", new String[]{"jpg", "png", "jpeg"});
 
-
-
+        //Verifies output directory emptiness
+        File outDir = new File(info.getOutputFileURL());
+        if(outDir.list().length > 0){
+            String outDirPath = info.getOutputFileURL();
+            System.out.println(outDirPath);
+            /*LocalDateTime dt = LocalDateTime.now();
+            outDirPath.concat("/").concat(dt.toString());*/
+        }
         return Protocol.excelURLWrong;
     }
 
