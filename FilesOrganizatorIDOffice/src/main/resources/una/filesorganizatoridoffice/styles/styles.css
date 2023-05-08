@@ -21,6 +21,7 @@
 
 .root {
     -fx-background-color: white;
+    -fx-border-color: black transparent transparent transparent;
 }
 
 .label {

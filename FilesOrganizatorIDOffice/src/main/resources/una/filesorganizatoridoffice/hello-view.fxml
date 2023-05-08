@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -24,22 +25,35 @@
       </HBox>
       <VBox alignment="BOTTOM_CENTER" prefHeight="600.0" prefWidth="900.0" styleClass="root" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
          <children>
-            <Label styleClass="title-label" text="Organizador de Archivos" textAlignment="CENTER">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </Label>
-            <Label styleClass="subtitle-label" text="Oficina de Carné Estudiantil" textAlignment="CENTER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Label>
+            <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="50.0">
+               <children>
+                  <ImageView fx:id="imageLogoUNA" fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="20.0" top="5.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@icons/registro.png" />
+                     </image>
+                  </ImageView>
+                  <VBox alignment="CENTER" fillWidth="false" nodeOrientation="LEFT_TO_RIGHT">
+                     <children>
+                        <Label styleClass="title-label" text="Organizador de Archivos" textAlignment="CENTER">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Label styleClass="subtitle-label" text="Oficina de Carné Estudiantil" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
             <TabPane prefHeight="600.0" prefWidth="900.0" side="BOTTOM" tabMaxHeight="100.0" tabMaxWidth="60.0" tabMinHeight="100.0" tabMinWidth="60.0">
               <tabs>
                 <Tab fx:id="tabStudent" closable="false" text="Estudiante">
@@ -75,7 +89,7 @@
                                                 </HBox>
                                              </children>
                                              <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="25.0" />
+                                                <Insets left="15.0" right="15.0" top="5.0" />
                                              </VBox.margin>
                                           </VBox>
                                           <VBox fx:id="outVBox">
@@ -103,7 +117,7 @@
                                                 </HBox>
                                              </children>
                                              <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="50.0" />
+                                                <Insets left="15.0" right="15.0" top="25.0" />
                                              </VBox.margin>
                                           </VBox>
                                           <VBox fx:id="firstRowVBox" alignment="CENTER" spacing="5.0">
@@ -154,7 +168,7 @@
                                                 </HBox>
                                              </children>
                                              <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="25.0" />
+                                                <Insets left="15.0" right="15.0" top="5.0" />
                                              </VBox.margin>
                                           </VBox>
                                           <VBox fx:id="excelVBox">
@@ -182,7 +196,7 @@
                                                 </HBox>
                                              </children>
                                              <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="50.0" />
+                                                <Insets left="15.0" right="15.0" top="25.0" />
                                              </VBox.margin>
                                           </VBox>
                                           <VBox fx:id="lastRowVBox" alignment="CENTER" spacing="5.0">
