@@ -27,15 +27,18 @@ public class Security {
             //verifies if the files are pdf
             Boolean areUnique = true;
             for (String filename : filenames) {
-                boolean any = false;
+                boolean hasExtension = false;
                 for (String extension : fileExtensions){
                     if (filename.toLowerCase().endsWith(extension)){
-                        any = true;
+                        hasExtension = true;
                     }
                 }
-                areUnique = any;
+                if (!hasExtension){
+                    areUnique = false;
+                    break;
+                }
             }
-            if(!areUnique){
+            if (!areUnique){
                 errorList.add("El directorio de " + dirFileType + " tiene otro tipo de archivos.");
             }
         }else{
