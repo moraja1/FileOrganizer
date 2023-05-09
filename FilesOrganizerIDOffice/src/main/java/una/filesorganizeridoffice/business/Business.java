@@ -9,7 +9,6 @@ public class Business {
     private static HashMap<String, Protocol> errorList;
     public static void startOrganization(WindowInfo info, Boolean isStudent) throws ExceptionBusiness {
         securityProcess(info, isStudent);
-
     }
 
     private static void securityProcess(WindowInfo info, Boolean isStudent) throws ExceptionBusiness {

@@ -1,6 +1,8 @@
 package una.filesorganizeridoffice.model;
 
-public class PersonalData {
+import java.io.Serializable;
+
+public class PersonalData implements Serializable {
     private IdentificationType idType;
     private Integer id;
     private String name;
@@ -33,32 +35,59 @@ public class PersonalData {
         p = null;
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected String getMiddleName() {
+    public String getMiddleName() {
         return middleName;
     }
 
-    protected String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    protected IdentificationType getIdType() {
+    public IdentificationType getIdType() {
         return idType;
     }
 
-    protected Integer getId() {
+    public Integer getId() {
         return id;
     }
 
-    protected Gender getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    protected Integer getPhoneNumber() {
+    public Integer getPhoneNumber() {
         return phoneNumber;
     }
 
+    public void setIdType(IdentificationType idType) {
+        this.idType = idType;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public void setPhoneNumber(Integer phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }

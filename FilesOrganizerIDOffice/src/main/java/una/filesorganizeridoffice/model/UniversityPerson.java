@@ -1,8 +1,9 @@
 package una.filesorganizeridoffice.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UniversityPerson extends PersonalData {
+public class UniversityPerson extends PersonalData implements Serializable {
     private String UNA_ID;
     private String email;
     private Integer office;
@@ -10,6 +11,9 @@ public class UniversityPerson extends PersonalData {
     private Integer netSalary;
     private Date hireDate;
     private Integer licence;
+
+    public UniversityPerson() {
+    }
 
     public UniversityPerson(String UNA_ID, String email, Integer office, Integer grossSalary, Integer netSalary, Date hireDate, Integer licence) {
         this.UNA_ID = UNA_ID;
@@ -32,7 +36,7 @@ public class UniversityPerson extends PersonalData {
         this.licence = licence;
     }
 
-    protected UniversityPerson(PersonalData p, UniversityPerson uP) {
+    public UniversityPerson(PersonalData p, UniversityPerson uP) {
         super(p);
         this.UNA_ID = uP.getUNA_ID();
         this.email = uP.getEmail();
@@ -43,31 +47,59 @@ public class UniversityPerson extends PersonalData {
         this.licence = uP.getLicence();
     }
 
-    protected String getUNA_ID() {
+    public String getUNA_ID() {
         return UNA_ID;
     }
 
-    protected String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    protected Integer getOffice() {
+    public Integer getOffice() {
         return office;
     }
 
-    protected Integer getGrossSalary() {
+    public Integer getGrossSalary() {
         return grossSalary;
     }
 
-    protected Integer getNetSalary() {
+    public Integer getNetSalary() {
         return netSalary;
     }
 
-    protected Date getHireDate() {
+    public Date getHireDate() {
         return hireDate;
     }
 
-    protected Integer getLicence() {
+    public Integer getLicence() {
         return licence;
+    }
+
+    public void setUNA_ID(String UNA_ID) {
+        this.UNA_ID = UNA_ID;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setOffice(Integer office) {
+        this.office = office;
+    }
+
+    public void setGrossSalary(Integer grossSalary) {
+        this.grossSalary = grossSalary;
+    }
+
+    public void setNetSalary(Integer netSalary) {
+        this.netSalary = netSalary;
+    }
+
+    public void setHireDate(Date hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public void setLicence(Integer licence) {
+        this.licence = licence;
     }
 }

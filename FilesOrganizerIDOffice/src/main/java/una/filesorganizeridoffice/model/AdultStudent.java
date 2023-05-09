@@ -1,9 +1,13 @@
 package una.filesorganizeridoffice.model;
 
-public class AdultStudent extends UniversityPerson{
-    String countryResidence;
-    String occupancy;
-    String address;
+import java.io.Serializable;
+
+public class AdultStudent extends UniversityPerson implements Serializable {
+    private String countryResidence;
+    private String occupancy;
+    private String address;
+
+
 
     public AdultStudent(PersonalData p, UniversityPerson uP, String countryResidence, String occupancy, String address) {
         super(p, uP);

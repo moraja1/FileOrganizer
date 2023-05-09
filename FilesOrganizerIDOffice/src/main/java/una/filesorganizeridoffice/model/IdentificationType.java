@@ -1,5 +1,7 @@
 package una.filesorganizeridoffice.model;
 
-public enum IdentificationType {
+import java.io.Serializable;
+
+public enum IdentificationType implements Serializable {
     Cedula, DIMEX, Passport, DIDI
 }
