@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class PersonalData implements Serializable {
     private IdentificationType idType;
-    private Integer id;
+    private int id;
     private String name;
     private String middleName;
     private String lastName;
     private Gender gender;
-    private Integer phoneNumber;
+    private int phoneNumber;
 
     public PersonalData() {
     }

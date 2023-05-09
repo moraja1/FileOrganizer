@@ -4,10 +4,10 @@ import javafx.beans.property.*;
 import javafx.util.StringConverter;
 
 public class WindowInfo {
-    private StringProperty pdfFileURL = new SimpleStringProperty("");
-    private StringProperty photoFileURL = new SimpleStringProperty("");
-    private StringProperty excelFileURL = new SimpleStringProperty("");
-    private StringProperty outputFileURL = new SimpleStringProperty("");
+    private StringProperty pdfFileUrl = new SimpleStringProperty("");
+    private StringProperty photoFileUrl = new SimpleStringProperty("");
+    private StringProperty excelFileUrl = new SimpleStringProperty("");
+    private StringProperty outputFileUrl = new SimpleStringProperty("");
     private IntegerProperty initialRow = new SimpleIntegerProperty(0);
     private IntegerProperty finalRow = new SimpleIntegerProperty(0);
     private StringConverter<Number> converter;
@@ -31,20 +31,20 @@ public class WindowInfo {
         };
     }
 
-    public void setPdfFileURL(String pdfFileURL) {
-        this.pdfFileURL.set(pdfFileURL);
+    public void setPdfFileUrl(String pdfFileUrl) {
+        this.pdfFileUrl.set(pdfFileUrl);
     }
 
-    public void setPhotoFileURL(String photoFileURL) {
-        this.photoFileURL.set(photoFileURL);
+    public void setPhotoFileUrl(String photoFileUrl) {
+        this.photoFileUrl.set(photoFileUrl);
     }
 
-    public void setExcelFileURL(String excelFileURL) {
-        this.excelFileURL.set(excelFileURL);
+    public void setExcelFileUrl(String excelFileUrl) {
+        this.excelFileUrl.set(excelFileUrl);
     }
 
-    public void setOutputFileURL(String outputFileURL) {
-        this.outputFileURL.set(outputFileURL);
+    public void setOutputFileUrl(String outputFileUrl) {
+        this.outputFileUrl.set(outputFileUrl);
     }
 
     public void setInitialRow(int initialRow) {
@@ -55,36 +55,36 @@ public class WindowInfo {
         this.finalRow.set(finalRow);
     }
 
-    public String getPdfFileURL() {
-        return pdfFileURL.get();
+    public String getPdfFileUrl() {
+        return pdfFileUrl.get();
     }
 
-    public StringProperty pdfFileURLProperty() {
-        return pdfFileURL;
+    public StringProperty pdfFileUrlProperty() {
+        return pdfFileUrl;
     }
 
-    public String getPhotoFileURL() {
-        return photoFileURL.get();
+    public String getPhotoFileUrl() {
+        return photoFileUrl.get();
     }
 
-    public StringProperty photoFileURLProperty() {
-        return photoFileURL;
+    public StringProperty photoFileUrlProperty() {
+        return photoFileUrl;
     }
 
-    public String getExcelFileURL() {
-        return excelFileURL.get();
+    public String getExcelFileUrl() {
+        return excelFileUrl.get();
     }
 
-    public StringProperty excelFileURLProperty() {
-        return excelFileURL;
+    public StringProperty excelFileUrlProperty() {
+        return excelFileUrl;
     }
 
-    public String getOutputFileURL() {
-        return outputFileURL.get();
+    public String getOutputFileUrl() {
+        return outputFileUrl.get();
     }
 
-    public StringProperty outputFileURLProperty() {
-        return outputFileURL;
+    public StringProperty outputFileUrlProperty() {
+        return outputFileUrl;
     }
 
     public int getInitialRow() {

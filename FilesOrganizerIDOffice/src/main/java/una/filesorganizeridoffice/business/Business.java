@@ -1,6 +1,7 @@
 package una.filesorganizeridoffice.business;
 
 import una.filesorganizeridoffice.business.exceptions.ExceptionBusiness;
+import una.filesorganizeridoffice.business.services.Security;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
 import java.util.HashMap;
@@ -28,24 +29,8 @@ public class Business {
     private static void createException() throws ExceptionBusiness {
         String errorMessage = "Los siguientes errores impiden continuar: \n";
         for (String key : errorList.keySet()){
-            errorMessage = errorMessage.concat(key).concat(": ");
             Protocol p = errorList.get(key);
-            switch (p){
-                case UrlError:
-                    errorMessage = errorMessage.concat("Existe un error en la dirección url.\n");
-                    break;
-                case CreateDirError:
-                    errorMessage = errorMessage.concat("No se pudo crear el directorio.\n");
-                    break;
-                case OtherFilesError:
-                    errorMessage = errorMessage.concat("Existen archivos con otras extensiones.\n");
-                    break;
-                case FileEmpty:
-                    errorMessage = errorMessage.concat("El directorio está vacío.\n");
-                    break;
-                default:
-                    break;
-            }
+            errorMessage = errorMessage.concat(key).concat(": ").concat(p.getMessage());
         }
         throw new ExceptionBusiness(errorMessage);
     }

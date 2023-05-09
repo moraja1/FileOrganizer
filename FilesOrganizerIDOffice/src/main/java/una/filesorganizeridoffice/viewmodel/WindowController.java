@@ -167,19 +167,19 @@ public class WindowController implements Initializable {
         FileChooser fc = new FileChooser();
         if(e.getSource() == pdfSearchBtn){
             dc.setTitle("Seleccione la carpeta de los PDF");
-            info.setPdfFileURL(verifyBtnInput(dc));
+            info.setPdfFileUrl(verifyBtnInput(dc));
         }
         if(e.getSource() == excelSearchBtn){
             fc.setTitle("Seleccione el excel de solicitudes");
-            info.setExcelFileURL(verifyBtnInput(fc));
+            info.setExcelFileUrl(verifyBtnInput(fc));
         }
         if(e.getSource() == outSearchBtn){
             dc.setTitle("Seleccione la carpeta de salida");
-            info.setOutputFileURL(verifyBtnInput(dc));
+            info.setOutputFileUrl(verifyBtnInput(dc));
         }
         if(e.getSource() == photoSearchBtn){
             dc.setTitle("Seleccione la carpeta de las fotos");
-            info.setPhotoFileURL(verifyBtnInput(dc));
+            info.setPhotoFileUrl(verifyBtnInput(dc));
         }
     }
 
@@ -295,12 +295,12 @@ public class WindowController implements Initializable {
      */
     private boolean isInfoCorrect() {
         if(tabStudent.isSelected()){
-            return (info.getInitialRow() <= info.getFinalRow()) && (verifyURLExistence(info.getPhotoFileURL()) &&
-                    verifyURLExistence(info.getOutputFileURL()) && verifyURLExistence(info.getExcelFileURL()) &&
-                    verifyURLExistence(info.getPdfFileURL()));
+            return (info.getInitialRow() <= info.getFinalRow()) && (verifyURLExistence(info.getPhotoFileUrl()) &&
+                    verifyURLExistence(info.getOutputFileUrl()) && verifyURLExistence(info.getExcelFileUrl()) &&
+                    verifyURLExistence(info.getPdfFileUrl()));
         }else{
-            return (info.getInitialRow() <= info.getFinalRow()) && (verifyURLExistence(info.getOutputFileURL()) &&
-                    verifyURLExistence(info.getExcelFileURL()) && verifyURLExistence(info.getPdfFileURL()));
+            return (info.getInitialRow() <= info.getFinalRow()) && (verifyURLExistence(info.getOutputFileUrl()) &&
+                    verifyURLExistence(info.getExcelFileUrl()) && verifyURLExistence(info.getPdfFileUrl()));
         }
     }
 
@@ -314,10 +314,10 @@ public class WindowController implements Initializable {
 
         info.initialRowProperty().bind(initialRow);
         info.finalRowProperty().bind(finalRow);
-        info.pdfFileURLProperty().bindBidirectional(pdfTextBox.textProperty());
-        info.outputFileURLProperty().bindBidirectional(outTextBox.textProperty());
-        info.photoFileURLProperty().bindBidirectional(photoTextBox.textProperty());
-        info.excelFileURLProperty().bindBidirectional(excelTextBox.textProperty());
+        info.pdfFileUrlProperty().bindBidirectional(pdfTextBox.textProperty());
+        info.outputFileUrlProperty().bindBidirectional(outTextBox.textProperty());
+        info.photoFileUrlProperty().bindBidirectional(photoTextBox.textProperty());
+        info.excelFileUrlProperty().bindBidirectional(excelTextBox.textProperty());
     }
 
     /***
@@ -330,10 +330,10 @@ public class WindowController implements Initializable {
 
         info.initialRowProperty().unbindBidirectional(initialRow);
         info.finalRowProperty().unbindBidirectional(finalRow);
-        info.pdfFileURLProperty().unbindBidirectional(pdfTextBox.textProperty());
-        info.outputFileURLProperty().unbindBidirectional(outTextBox.textProperty());
-        info.photoFileURLProperty().unbindBidirectional(photoTextBox.textProperty());
-        info.excelFileURLProperty().unbindBidirectional(excelTextBox.textProperty());
+        info.pdfFileUrlProperty().unbindBidirectional(pdfTextBox.textProperty());
+        info.outputFileUrlProperty().unbindBidirectional(outTextBox.textProperty());
+        info.photoFileUrlProperty().unbindBidirectional(photoTextBox.textProperty());
+        info.excelFileUrlProperty().unbindBidirectional(excelTextBox.textProperty());
     }
 
     /***

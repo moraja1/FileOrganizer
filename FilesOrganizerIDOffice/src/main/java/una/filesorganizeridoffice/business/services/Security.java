@@ -1,12 +1,12 @@
-package una.filesorganizeridoffice.business;
+package una.filesorganizeridoffice.business.services;
 
+import una.filesorganizeridoffice.business.Protocol;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Security {
     private static final HashMap<String, Protocol> errorList = new HashMap<>();
@@ -22,15 +22,15 @@ public class Security {
      */
     public static Protocol verifyInformation(WindowInfo info, Boolean isStudent) {
         //Verifies pdf files
-        verifyDirectoryFiles(info.getPdfFileURL(), "Cédulas", idExtensions);
+        verifyDirectoryFiles(info.getPdfFileUrl(), "Cédulas", idExtensions);
 
         //Verifies photo files
-        verifyDirectoryFiles(info.getPhotoFileURL(), "Fotos", photoExtensions);
+        verifyDirectoryFiles(info.getPhotoFileUrl(), "Fotos", photoExtensions);
 
         //Verifies output directory
-        File outDir = new File(info.getOutputFileURL());
+        File outDir = new File(info.getOutputFileUrl());
         if(outDir.list().length > 0){
-            String outDirPath = info.getOutputFileURL();
+            String outDirPath = info.getOutputFileUrl();
             LocalDateTime dt = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss");
             String dateTime = dt.format(formatter);
@@ -42,7 +42,7 @@ public class Security {
         }
 
         //Verifies excel name
-        File excel = new File(info.getExcelFileURL());
+        File excel = new File(info.getExcelFileUrl());
         if(isStudent){
             if(!excel.getName().contains(excelNames[0])){
                 errorList.put("Excel", Protocol.UrlError);
