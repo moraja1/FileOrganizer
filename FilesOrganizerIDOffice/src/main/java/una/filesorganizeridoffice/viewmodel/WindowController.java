@@ -385,7 +385,8 @@ public class WindowController implements Initializable {
                     Boolean isStudent = tabStudent.isSelected();
                     unbindInfoModelProperties();
                     try{
-                        Business.startOrganization(info, isStudent);
+                        Business b = new Business();
+                        b.startOrganization(info, isStudent);
                     }catch(ExceptionBusiness e) {
                         showDialog("Error en la información", e.getMessage(), Alert.AlertType.ERROR);
                     }

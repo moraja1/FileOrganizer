@@ -8,6 +8,7 @@ class SecurityTest {
 
     @Test
     void verifyInformation() {
+        Security security = new Security();
         WindowInfo w = new WindowInfo();
         w.setPdfFileUrl("G:\\Mi unidad\\FORMULARIO SOLICITUD CARNE TARJETA UNA BNCR\\Formulario de Carné-Tarjeta UNA-BNCR (File responses)\\Documento de identificación vigente (en formato .PDF) por ambos lados, SI ES MENOR DE EDAD DEBE VENIR ACOMPAÑADO DE CÉDULA D~E (SI EL ENCARGADO LEGAL NO ES EL PADRE O MADRE, DEBE VENIR UNA DECLARACIÓN JURADA). Tamaño máximo de 10Mb. (File responses)");
         w.setExcelFileUrl("C:\\Users\\N00148095\\Downloads\\Solicitud de Carné-Tarjeta UNA-BNCR Estudiante (respuestas)");
@@ -15,8 +16,8 @@ class SecurityTest {
         w.setPhotoFileUrl("G:\\Mi unidad\\FORMULARIO SOLICITUD CARNE TARJETA UNA BNCR\\Formulario de Carné-Tarjeta UNA-BNCR (File responses)\\FOTOS");
         w.setInitialRow(0);
         w.setFinalRow(2);
-        Security.verifyInformation(w, false);
-        System.out.println(Security.getErrorList().toString());
+        security.verifyInformation(w, false);
+        System.out.println(security.getErrorList().toString());
     }
 
     @Test
