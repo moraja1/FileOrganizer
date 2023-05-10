@@ -22,6 +22,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class WindowController implements Initializable {
@@ -187,42 +188,32 @@ public class WindowController implements Initializable {
      * Makes sure the TextField related to that Button is empty or not. If not, calls processInput method to check
      * if the information in the TextField is an existing File or not. If not, opens a DirectoryChooser or a FileChooser
      * depending on what is supposed to be selected by the user.
-     * @param dc
+     * @param obj Object DirectoryChooser or FileChooser
      * @return String
      */
-    public String verifyBtnInput(DirectoryChooser dc){
-        File fileChosen;
+    public String verifyBtnInput(Object obj){
+        File fileChosen = null;
         String url;
-        File initialDir = new File("G:\\Mi unidad");
-        if(initialDir.exists()){
-            dc.setInitialDirectory(initialDir);
+        if(obj instanceof DirectoryChooser){
+            File initialDir = new File("G:\\Mi unidad");
+            if(initialDir.exists()){
+                ((DirectoryChooser)obj).setInitialDirectory(initialDir);
+                do {
+                    fileChosen = ((DirectoryChooser)obj).showDialog(new Stage());
+                }while (fileChosen == null);
+            }
+        } else if (obj instanceof FileChooser) {
+            Path downloadsDir = Paths.get(System.getProperty("user.home"), "Downloads");
+            if (Files.exists(downloadsDir)) {
+                ((FileChooser)obj).setInitialDirectory(downloadsDir.toFile());
+            }
+            do {
+                fileChosen = ((FileChooser)obj).showOpenDialog(new Stage());
+            }while(fileChosen == null);
+        }else{
+            fileChosen = null;
         }
-        do {
-            fileChosen = dc.showDialog(new Stage());
-        }while (fileChosen == null);
         url = fileChosen.getAbsolutePath();
-        return correctURL(url);
-    }
-
-    /***
-     * Makes sure the TextField related to that Button is empty or not. If not, calls processInput method to check
-     * if the information in the TextField is an existing File or not. If not, opens a DirectoryChooser or a FileChooser
-     * depending on what is supposed to be selected by the user.
-     * @param dc
-     * @return String
-     */
-    public String verifyBtnInput(FileChooser dc){
-        File fileChosen;
-        String url;
-        Path downloadsDir = Paths.get(System.getProperty("user.home"), "Downloads");
-        if (Files.exists(downloadsDir)) {
-            dc.setInitialDirectory(downloadsDir.toFile());
-        }
-        do {
-            fileChosen = dc.showOpenDialog(new Stage());
-        }while(fileChosen == null);
-        url = fileChosen.getAbsolutePath();
-
         return correctURL(url);
     }
 
