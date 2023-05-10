@@ -1,7 +1,8 @@
 package una.filesorganizeridoffice.business.services;
 
 import org.xml.sax.SAXException;
-import una.filesorganizeridoffice.business.services.xlService.XLWorkbook;
+import una.filesorganizeridoffice.business.services.xl.Service.ExcelReader;
+import una.filesorganizeridoffice.business.services.xl.XLWorkbook;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -11,8 +12,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.io.StringWriter;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ExcelReaderTest {
     public static void main(String[] args) {
