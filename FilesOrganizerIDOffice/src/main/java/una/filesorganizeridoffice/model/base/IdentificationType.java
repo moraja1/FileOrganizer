@@ -1,4 +1,4 @@
-package una.filesorganizeridoffice.model;
+package una.filesorganizeridoffice.model.base;
 
 import java.io.Serializable;
 

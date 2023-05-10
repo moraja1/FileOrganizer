@@ -40,7 +40,9 @@ public class Business {
     }
 
     private void readExcel(WindowInfo info, Boolean isStudent) {
+        if(isStudent){
 
+        }
     }
 
     /***

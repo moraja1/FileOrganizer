@@ -22,7 +22,7 @@ public class ExcelReader {
      * @param workbook XLWorkbook
      */
     public ExcelReader(XLWorkbook workbook) throws IOException, ParserConfigurationException, SAXException{
-        //Obtaining xml files
+        //Obtaining xml basic files
         ZipFile zipFile = new ZipFile(workbook.getXlFile());
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
         while(entries.hasMoreElements()){
@@ -33,10 +33,12 @@ public class ExcelReader {
                 workbook.setXlSharedStrings(createDocument(zipFile, entry));
             } else if (entry.getName().equals("xl/workbook.xml")) {
                 workbook.setXlWorkbook(createDocument(zipFile, entry));
-            } else if (workbook.getXlStyles() != null && workbook.getXlSharedStrings() != null) {
+            } else if (workbook.getXlStyles() != null && workbook.getXlSharedStrings() != null
+                    && workbook.getXlWorkbook() != null) {
                 break;
             }
         }
+        //Obtaining xml sheets
         Integer count = 1;
         String baseName = "xl/worksheets/sheet";
         ZipEntry entry = null;

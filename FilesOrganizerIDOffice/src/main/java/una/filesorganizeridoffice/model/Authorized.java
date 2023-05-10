@@ -1,5 +1,7 @@
 package una.filesorganizeridoffice.model;
 
+import una.filesorganizeridoffice.model.base.PersonalData;
+
 import java.io.Serializable;
 import java.util.Date;
 
