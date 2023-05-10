@@ -28,7 +28,7 @@ public class Business {
         try {
             securityProcess(info, isStudent);
             prepareFilesBeforeOrganizing(info, isStudent);
-            readExcel();
+            readExcel(info, isStudent);
         } catch (ExceptionBusiness e) {
             security = null;
             preparer = null;
@@ -39,7 +39,7 @@ public class Business {
 
     }
 
-    private void readExcel() {
+    private void readExcel(WindowInfo info, Boolean isStudent) {
 
     }
 
