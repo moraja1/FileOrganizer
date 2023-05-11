@@ -2,7 +2,7 @@ package una.filesorganizeridoffice.business;
 
 public enum Protocol {
     Accepted(""),
-    Refused(""),
+    Refused("Gestión rechazada en etapa de: "),
     UrlError("Error en la ubicación o nombre del archivo.\n"),
     FileNotFound("No se pudo encontrar el archivo.\n"),
     CreateDirError("Error al crear el directorio.\n"),

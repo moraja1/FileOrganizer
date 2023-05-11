@@ -1,18 +1,22 @@
 package una.filesorganizeridoffice.business;
 
 import una.filesorganizeridoffice.business.exceptions.ExceptionBusiness;
-import una.filesorganizeridoffice.business.services.xl.Service.ExcelReader;
+import una.filesorganizeridoffice.business.services.ExcelManager;
 import una.filesorganizeridoffice.business.services.FilePreparer;
 import una.filesorganizeridoffice.business.services.Security;
+import una.filesorganizeridoffice.model.UniversityPerson;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Business {
     private HashMap<String, Protocol> errorList;
     private Security security;
     private FilePreparer preparer;
-    private ExcelReader excelReader;
+    private ExcelManager xlManager;
+    private List<UniversityPerson> solicitudes = new ArrayList<>();
 
     public Business() {
     }
@@ -39,12 +43,6 @@ public class Business {
 
     }
 
-    private void readExcel(WindowInfo info, Boolean isStudent) {
-        if(isStudent){
-
-        }
-    }
-
     /***
      * This method executes the Security process and evaluates whether Security accepted it or not.
      * @param info WindowInformation
@@ -55,7 +53,9 @@ public class Business {
         security = new Security();
         Protocol securityResponse = security.verifyInformation(info, isStudent);
         errorList = security.getErrorList();
-        switch (securityResponse){
+
+        switch (securityResponse)
+        {
             case Refused:
                 createException();
                 break;
@@ -76,6 +76,39 @@ public class Business {
         preparer = new FilePreparer();
         preparer.prepareFiles(info, isStudent);
         //Update progress Bar
+    }
+
+    private void readExcel(WindowInfo info, Boolean isStudent) throws ExceptionBusiness {
+        //Si es estudiante la idea sería recibir aqui la lista de estudiantes según los row
+        xlManager = new ExcelManager(info.getExcelFileUrl());
+        Protocol xlBuilding = xlManager.completeXl();
+        switch (xlBuilding)
+        {
+            case Accepted:
+                //update progress bar
+                Protocol xlSheetBuilding = xlManager.loadSheet(0);
+                switch (xlSheetBuilding)
+                {
+                    case Accepted:
+                        //update progress bar
+                        if(isStudent){
+
+                        }else{
+
+                        }
+                        break;
+                    case Refused:
+                        throw new ExceptionBusiness(xlBuilding.getMessage().concat("Lectura de Hoja de Excel de Solicitudes"));
+                    default:
+                        break;
+                }
+                break;
+            case Refused:
+                throw new ExceptionBusiness(xlBuilding.getMessage().concat("Lectura de Excel de Solicitudes"));
+            default:
+                break;
+        }
+
     }
 
     /***

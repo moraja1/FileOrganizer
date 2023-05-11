@@ -5,8 +5,7 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class XLWorkbook {
     private final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -14,14 +13,13 @@ public class XLWorkbook {
     private File xlFile;
     private Document xlWorkbook;
     private Document xlSharedStrings;
-    private final List<Document> sheets = new ArrayList<>();
     private Document xlStyles;
+    private final HashMap<String, String> sheetsIdName = new HashMap();
 
     public XLWorkbook(String xlUrl) {
         xlFile = new File(xlUrl);
         xlName = xlFile.getName();
     }
-
     public String getXlName() {
         return xlName;
     }
@@ -36,6 +34,33 @@ public class XLWorkbook {
 
     public void setXlFile(File xlFile) {
         this.xlFile = xlFile;
+    }
+
+    public void addSheet(String sheet_rId, String sheetName) {
+        sheetsIdName.put(sheetName, sheet_rId);
+    }
+
+    public String getSheet(String key) {
+        return sheetsIdName.get(key);
+    }
+
+    public HashMap<String, String> getSheets() {
+        return sheetsIdName;
+    }
+
+    public Document getXlWorkbook() {
+        return xlWorkbook;
+    }
+
+    public void setXlWorkbook(Document xlWorkbook) {
+        try {
+            this.xlWorkbook = dbf.newDocumentBuilder().newDocument();
+            this.xlWorkbook.appendChild(
+                    this.xlWorkbook.importNode(xlWorkbook.getDocumentElement(), true)
+            );
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace(System.out);
+        }
     }
 
     public Document getXlSharedStrings() {
@@ -58,6 +83,7 @@ public class XLWorkbook {
     }
 
     public void setXlStyles(Document xlStyles) {
+        this.xlStyles = xlStyles;
         try {
             this.xlStyles = dbf.newDocumentBuilder().newDocument();
             this.xlStyles.appendChild(
@@ -68,30 +94,23 @@ public class XLWorkbook {
         }
     }
 
-    public List<Document> getSheets() {
-        return sheets;
-    }
-
-    public void addSheet(Document sheet) {
-        sheets.add(sheet);
-    }
-
-    public Document getSheet(int index) {
-        return sheets.get(index);
-    }
-
-    public Document getXlWorkbook() {
-        return xlWorkbook;
-    }
-
-    public void setXlWorkbook(Document xlWorkbook) {
-        try {
-            this.xlWorkbook = dbf.newDocumentBuilder().newDocument();
-            this.xlWorkbook.appendChild(
-                    this.xlWorkbook.importNode(xlWorkbook.getDocumentElement(), true)
-            );
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace(System.out);
+    /***
+     * Looks for a sheet based on the r:id param, in the workbook passed by parameter.
+     * @param rId sheet's id
+     * @return Document
+     */
+    /*private Document lookForSheet(String rId) {
+        for (Document d : sheets){
+            Element pageSetup = (Element) d.getElementsByTagName("pageSetup").item(0);
+            String page_rId = pageSetup.getAttributeNode("r:id").getValue();
+            if(page_rId.equals(rId)){
+                return d;
+            }
         }
+        return null;
+    }*/
+
+    public DocumentBuilderFactory getDbf() {
+        return dbf;
     }
 }
