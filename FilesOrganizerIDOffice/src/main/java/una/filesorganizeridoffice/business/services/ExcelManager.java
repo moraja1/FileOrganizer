@@ -59,7 +59,7 @@ public class ExcelManager {
 
     public List<UniversityPerson> getRequests(int initialRow, int finalRow) {
         List<UniversityPerson> solicitudes = new ArrayList<>();
-        for (int i = initialRow; i < finalRow; i++) {
+        for (int i = initialRow; i <= finalRow; i++) {
             XLRow row = xlSheet.getRow(i);
         }
 

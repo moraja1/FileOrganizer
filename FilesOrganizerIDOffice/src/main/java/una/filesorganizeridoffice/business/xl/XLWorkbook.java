@@ -113,4 +113,13 @@ public class XLWorkbook {
     public DocumentBuilderFactory getDbf() {
         return dbf;
     }
+
+    public String getSharedStrValue(Integer sharedStrIdx) {
+        /*
+
+        EN DESARROLLO
+
+         */
+        return null;
+    }
 }

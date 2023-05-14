@@ -11,6 +11,8 @@ class BusinessTest {
         Business b = new Business();
         WindowInfo w = new WindowInfo();
         w.setExcelFileUrl("C:\\Users\\jeiso\\Downloads\\Solicitud de Carné-Tarjeta UNA-BNCR Estudiante (respuestas).xlsx");
+        w.setInitialRow(3);
+        w.setFinalRow(5);
         try {
             b.readExcel(w, true);
         } catch (ExceptionBusiness e) {
