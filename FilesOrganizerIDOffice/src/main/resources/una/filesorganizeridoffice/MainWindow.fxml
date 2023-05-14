@@ -14,16 +14,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" prefHeight="634.0" prefWidth="900.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="una.filesorganizeridoffice.viewmodel.WindowController">
+<AnchorPane fx:id="anchor" prefHeight="634.0" prefWidth="900.0" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="una.filesorganizeridoffice.viewmodel.WindowController">
    <children>
-      <Label layoutX="14.0" layoutY="9.0" styleClass="tag-label" text="Organizador de Archivos de Carné Estudiantil" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0" />
-      <HBox alignment="TOP_RIGHT" spacing="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <Label fx:id="window_title" layoutX="14.0" layoutY="9.0" text="Organizador de Archivos de Carné Estudiantil" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0" />
+      <HBox alignment="TOP_RIGHT" layoutY="4.0" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="minimizeBtn" maxHeight="24.0" maxWidth="24.0" mnemonicParsing="false" onAction="#menuBarBtn_Clicked" prefHeight="24.0" prefWidth="24.0" />
-            <Button fx:id="closeBtn" maxHeight="24.0" maxWidth="24.0" mnemonicParsing="false" onAction="#menuBarBtn_Clicked" prefHeight="24.0" prefWidth="24.0" />
+            <Button fx:id="minimizeBtn" contentDisplay="CENTER" graphicTextGap="0.0" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" onAction="#menuBarBtn_Clicked" prefHeight="35.0" prefWidth="35.0" />
+            <Button fx:id="closeBtn" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#menuBarBtn_Clicked" prefHeight="35.0" prefWidth="35.0" />
          </children>
       </HBox>
-      <VBox alignment="BOTTOM_CENTER" prefHeight="600.0" prefWidth="900.0" styleClass="root" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
+      <VBox alignment="BOTTOM_CENTER" prefHeight="600.0" prefWidth="900.0" styleClass="root" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
          <children>
             <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="50.0">
                <children>

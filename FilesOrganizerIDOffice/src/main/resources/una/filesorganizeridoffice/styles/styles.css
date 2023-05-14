@@ -1,7 +1,7 @@
 @import 'colorpallette.css';
 
 #anchor {
-    -fx-background-color: UNA-grey;
+    -fx-background-color: UNA-red;
 }
 
 #closeBtn, #minimizeBtn{
@@ -9,14 +9,27 @@
     -fx-background-size: 16px;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
 }
 
 #closeBtn{
     -fx-background-image: url('../icons/cerca.png');
 }
 
+#closeBtn:hover ,#minimizeBtn:hover{
+    -fx-background-color: UNA-red-light;
+}
+
 #minimizeBtn {
     -fx-background-image: url('../icons/minimizar.png');
+}
+
+#window_title
+{
+    -fx-text-fill: white;
+    -fx-font-family: 'Goudy Old Style';
+    -fx-font-size: 15px;
 }
 
 .root {

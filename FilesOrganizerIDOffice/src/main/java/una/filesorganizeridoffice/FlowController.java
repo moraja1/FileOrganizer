@@ -11,7 +11,7 @@ import java.io.IOException;
 public class FlowController {
     private Stage mainStage;
     public FlowController(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(FlowController.class.getResource("hello-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(FlowController.class.getResource("MainWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         mainStage = stage;
         mainStage.setTitle("Organizador de Archivos de Carné Estudiantil");
