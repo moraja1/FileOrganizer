@@ -28,9 +28,9 @@ public class ExcelFactory {
         while(entries.hasMoreElements()){
             ZipEntry entry = entries.nextElement();
             if (entry.getName().equals("xl/sharedStrings.xml")) {
-                workbook.setXlWorkbook(createDocument(zipFile, entry));
+                workbook.setXlSharedStrings(createDocument(zipFile, entry));
             }else if (entry.getName().equals("xl/styles.xml")) {
-                workbook.setXlWorkbook(createDocument(zipFile, entry));
+                workbook.setXlStyles(createDocument(zipFile, entry));
             }else if (entry.getName().equals("xl/workbook.xml")) {
                 workbook.setXlWorkbook(createDocument(zipFile, entry));
             } else if (workbook.getXlWorkbook() != null && workbook.getXlStyles() != null &&
@@ -69,7 +69,7 @@ public class ExcelFactory {
      * Print in console any Node. Test purposes.
      * @param node xml Node to be printed.
      */
-    private static void toStringNode(Element node){
+    public static void toStringNode(Element node){
         Document document = node.getOwnerDocument();
         DOMImplementationLS domImplLS = (DOMImplementationLS) document.getImplementation();
         LSSerializer serializer = domImplLS.createLSSerializer();
@@ -81,7 +81,6 @@ public class ExcelFactory {
         ZipFile zipFile = new ZipFile(w.getXlFile());
         String baseName = "xl/worksheets/sheet";
         ZipEntry entry = null;
-        i++;
         String entryName = baseName.concat(i.toString()).concat(".xml");
         entry = zipFile.getEntry(entryName);
         if(entry != null){

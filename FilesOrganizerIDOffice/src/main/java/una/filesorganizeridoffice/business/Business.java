@@ -78,7 +78,7 @@ public class Business {
         //Update progress Bar
     }
 
-    private void readExcel(WindowInfo info, Boolean isStudent) throws ExceptionBusiness {
+    public void readExcel(WindowInfo info, Boolean isStudent) throws ExceptionBusiness {
         //Si es estudiante la idea sería recibir aqui la lista de estudiantes según los row
         xlManager = new ExcelManager(info.getExcelFileUrl());
         Protocol xlBuilding = xlManager.completeXl();
@@ -92,7 +92,7 @@ public class Business {
                     case Accepted:
                         //update progress bar
                         if(isStudent){
-
+                            solicitudes = xlManager.getRequests(info.getInitialRow(), info.getFinalRow());
                         }else{
 
                         }

@@ -2,12 +2,16 @@ package una.filesorganizeridoffice.business.services;
 
 import org.xml.sax.SAXException;
 import una.filesorganizeridoffice.business.Protocol;
+import una.filesorganizeridoffice.business.xl.XLRow;
 import una.filesorganizeridoffice.business.xl.XLSheet;
 import una.filesorganizeridoffice.business.xl.XLWorkbook;
 import una.filesorganizeridoffice.business.xl.util.ExcelFactory;
+import una.filesorganizeridoffice.model.UniversityPerson;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExcelManager {
     private XLWorkbook xlWorkbook;
@@ -51,5 +55,14 @@ public class ExcelManager {
             return Protocol.Refused;
         }
         return Protocol.Accepted;
+    }
+
+    public List<UniversityPerson> getRequests(int initialRow, int finalRow) {
+        List<UniversityPerson> solicitudes = new ArrayList<>();
+        for (int i = initialRow; i < finalRow; i++) {
+            XLRow row = xlSheet.getRow(i);
+        }
+
+        return  new ArrayList<>();
     }
 }

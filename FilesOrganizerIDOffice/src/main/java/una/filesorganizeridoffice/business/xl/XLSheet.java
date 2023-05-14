@@ -1,6 +1,9 @@
 package una.filesorganizeridoffice.business.xl;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import una.filesorganizeridoffice.business.xl.util.ExcelFactory;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -29,5 +32,13 @@ public class XLSheet {
 
     public XLWorkbook getXlWorkbook() {
         return xlWorkbook;
+    }
+
+    public XLRow getRow(int i) {
+        NodeList rows = xlSheet.getElementsByTagName("row");
+        for (int j = 0; j < rows.getLength(); j++) {
+            ExcelFactory.toStringNode((Element) rows.item(j));
+        }
+        return new XLRow();
     }
 }
