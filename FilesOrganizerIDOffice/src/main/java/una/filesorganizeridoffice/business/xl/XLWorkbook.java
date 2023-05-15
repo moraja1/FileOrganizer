@@ -1,6 +1,7 @@
 package una.filesorganizeridoffice.business.xl;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -94,32 +95,20 @@ public class XLWorkbook {
         }
     }
 
-    /***
-     * Looks for a sheet based on the r:id param, in the workbook passed by parameter.
-     * @param rId sheet's id
-     * @return Document
-     */
-    /*private Document lookForSheet(String rId) {
-        for (Document d : sheets){
-            Element pageSetup = (Element) d.getElementsByTagName("pageSetup").item(0);
-            String page_rId = pageSetup.getAttributeNode("r:id").getValue();
-            if(page_rId.equals(rId)){
-                return d;
-            }
-        }
-        return null;
-    }*/
-
     public DocumentBuilderFactory getDbf() {
         return dbf;
     }
 
+    /***
+     * Get the value from sharedString.xml based on the index passed by param.
+     * @param sharedStrIdx Value Index
+     * @return String with the value or empty String if index it's out of bounds.
+     */
     public String getSharedStrValue(Integer sharedStrIdx) {
-        /*
-
-        EN DESARROLLO
-
-         */
-        return null;
+        NodeList siNodes = xlSharedStrings.getElementsByTagName("si");
+        if(sharedStrIdx >= 0 && sharedStrIdx < siNodes.getLength()){
+            return siNodes.item(sharedStrIdx).getFirstChild().getFirstChild().getNodeValue();
+        }
+        return "";
     }
 }

@@ -60,7 +60,13 @@ public class ExcelManager {
     public List<UniversityPerson> getRequests(int initialRow, int finalRow) {
         List<UniversityPerson> solicitudes = new ArrayList<>();
         for (int i = initialRow; i <= finalRow; i++) {
+            //Ask the sheet to return a row by number
             XLRow row = xlSheet.getRow(i);
+
+            //Converts the row into model
+
+
+            //Return model
         }
 
         return  new ArrayList<>();
