@@ -7,6 +7,7 @@ import org.w3c.dom.NodeList;
 import una.filesorganizeridoffice.business.xl.util.ExcelFactory;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.math.BigDecimal;
 
 public class XLSheet {
     private XLWorkbook xlWorkbook;
@@ -67,8 +68,8 @@ public class XLSheet {
                     String cellPoint = cell.getAttributeNode("r").getValue();
                     cellColumn = cellPoint.replace(String.valueOf(cellRow), "");
 
-                    //Converts cell value to the proper type
-
+                    //Creates de cell with proper value Type
+                    xlCell = createXlCell(cellColumn, cellRow, cellValue);
                 }
                 i = rows.getLength();
             }
@@ -87,5 +88,30 @@ public class XLSheet {
            return Integer.valueOf(tValue);
         }
         return null;
+    }
+
+    private XLCell createXlCell(String cellColumn, Integer cellRow, String cellValue) {
+        if(isScientificNotation(cellValue)){
+            Integer intValue = new BigDecimal(cellValue).intValue();
+        }else if(true){
+            /*
+            EN DESARROLLO. FALTA AVERIGUAR SI ES UNA FECHA
+             */
+        }
+
+        return new XLCell();
+    }
+
+    private  boolean isScientificNotation(String numberString) {
+
+        // Validate number
+        try {
+            new BigDecimal(numberString);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        // Check for scientific notation
+        return numberString.toUpperCase().contains("E") && (numberString.charAt(1)=='.' || numberString.charAt(2)=='.');
     }
 }
