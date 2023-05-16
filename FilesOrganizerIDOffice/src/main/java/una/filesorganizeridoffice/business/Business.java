@@ -91,11 +91,8 @@ public class Business {
                 {
                     case Accepted:
                         //update progress bar
-                        if(isStudent){
-                            solicitudes = xlManager.getRequests(info.getInitialRow(), info.getFinalRow());
-                        }else{
+                        solicitudes = xlManager.getRequests(info.getInitialRow(), info.getFinalRow(), isStudent);
 
-                        }
                         break;
                     case Refused:
                         throw new ExceptionBusiness(xlBuilding.getMessage().concat("Lectura de Hoja de Excel de Solicitudes"));

@@ -14,16 +14,22 @@ public class XLCell<T> {
         this.rowNumber = rowNumber;
         this.value = value;
     }
-
     public String getColumnName() {
         return columnName;
     }
-
     public Integer getRowNumber() {
         return rowNumber;
     }
-
     public T getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "XLCell{" +
+                "columnName='" + columnName + '\'' +
+                ", rowNumber=" + rowNumber +
+                ", value=" + value.toString() +
+                '}';
     }
 }

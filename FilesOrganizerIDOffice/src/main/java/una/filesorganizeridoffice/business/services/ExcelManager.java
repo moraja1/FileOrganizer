@@ -57,8 +57,16 @@ public class ExcelManager {
         return Protocol.Accepted;
     }
 
-    public List<UniversityPerson> getRequests(int initialRow, int finalRow) {
+    public List<UniversityPerson> getRequests(int initialRow, int finalRow, Boolean isStudent) {
         List<UniversityPerson> solicitudes = new ArrayList<>();
+        xlSheet.addIgnoreColumnCase("A");
+        if (isStudent){
+            xlSheet.addIgnoreColumnCase("R");
+            xlSheet.addIgnoreColumnCase("S");
+        }else{
+            xlSheet.addIgnoreColumnCase("C");
+        }
+
         for (int i = initialRow; i <= finalRow; i++) {
             //Ask the sheet to return a row by number
             XLRow row = xlSheet.getRow(i);
@@ -66,9 +74,12 @@ public class ExcelManager {
             //Converts the row into model
 
 
-            //Return model
-        }
+            //Add model to list
 
+
+        }
+        xlSheet.clearIgnoreColumnCases();
+        //Return list
         return  new ArrayList<>();
     }
 }
