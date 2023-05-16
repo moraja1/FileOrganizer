@@ -7,10 +7,8 @@ import una.filesorganizeridoffice.business.xl.util.DateUtil;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class XLSheet {
@@ -82,10 +80,14 @@ public class XLSheet {
                             //Obtain sharedString.xml value based on the index
                             cellValue = xlWorkbook.getSharedStrValue(sharedStrIdx);
                         }else{
+                            Element v = (Element) cell.getFirstChild();
                             //Obtains the cell value
-                            cellValue = cell.getFirstChild().getFirstChild().getNodeValue();
+                            if(v != null){
+                                cellValue = v.getTextContent();
+                            }else{
+                                cellValue = "";
+                            }
                         }
-
                         //Creates de cell with proper value Type
                         xlCell = createXlCell(cellColumn, cellRow, cellValue);
                         row.addXlCell(xlCell);

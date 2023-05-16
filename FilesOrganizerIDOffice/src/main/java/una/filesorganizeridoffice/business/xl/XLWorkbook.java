@@ -1,6 +1,7 @@
 package una.filesorganizeridoffice.business.xl;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -105,9 +106,16 @@ public class XLWorkbook {
      * @return String with the value or empty String if index it's out of bounds.
      */
     public String getSharedStrValue(Integer sharedStrIdx) {
+        String v;
         NodeList siNodes = xlSharedStrings.getElementsByTagName("si");
         if(sharedStrIdx >= 0 && sharedStrIdx < siNodes.getLength()){
-            return siNodes.item(sharedStrIdx).getFirstChild().getFirstChild().getNodeValue();
+            Element e = (Element) siNodes.item(sharedStrIdx);
+            Element t = (Element) e.getFirstChild();
+            v = t.getTextContent();
+            if(t.hasAttribute("xml:space")){
+                v = v.replaceAll("\\s+$", "");
+            }
+            return v;
         }
         return "";
     }
