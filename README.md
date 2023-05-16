@@ -1,14 +1,24 @@
 # FileOrganizer
-This is a project proposal for automating and improving the efficiency of an administrative process for obtaining a Student Card of an important University in Latin America. The project is entirely in Java and does not use any external library for its development, except for the Java xml file reading library disclosed by w3c that is currently part of the JDK.
+This is a project proposal for automating and improving the efficiency of an administrative process for obtaining a Student Card of an important University in Latin America. 
+The project is entirely in Java and does not use any external library for its development, except for the Java xml file reading library disclosed by w3c that is currently part of the JDK.
 
 Executive Summary
-The main objective of this project is to organize student and employee files by creating a folder for each with their name and ID number and placing inside the folder all the necessary files for the student ID application. This will reduce manual work, human errors and processing time. The project will also generate an excel file for each student as a necessary document for processing. The project will be designed to be scalable and deployable to a server in the future, if required by the client.
+
+The main objective of this project is to organize student and employee files by creating a folder for each with their name and ID number and placing inside the folder all the necessary files for the student ID application. 
+This will reduce manual work, human errors and processing time. The project will also generate an excel file for each student as a necessary document for processing. 
+The project will be designed to be scalable and deployable to a server in the future, if required by the client.
 
 Project Background
-The current process of obtaining a Student Card involves several steps that require manual intervention and verification. The students have to submit various documents, such as proof of identity, photografies, etc., in different formats (pdf, jpg, png, jpeg) to a designated Google Forms. The staff then have to download the attachments, check their validity and completeness, and store them in different folders according to the student's name and ID number. The staff also have to create an excel file for each student with their personal and academic information, which is used for further processing. This process is time-consuming, prone to errors and inefficient.
+
+The current process of obtaining a Student Card involves several steps that require manual intervention and verification. 
+The students have to submit various documents, such as proof of identity, photografies, etc., in different formats (pdf, jpg, png, jpeg) to a designated Google Forms. 
+The staff then have to download the attachments, check their validity and completeness, and store them in different folders according to the student's name and ID number. 
+The staff also have to create an excel file for each student with their personal and academic information, which is used for further processing. This process is time-consuming, prone to errors and inefficient.
 
 Proposed Solution
-The purpose of this system is to organize files according to a list of applications and student information. The system has several requirements that must be met in order to function properly and efficiently. These requirements are:
+
+The purpose of this system is to organize files according to a list of applications and student information. 
+The system has several requirements that must be met in order to function properly and efficiently. These requirements are:
 
 - The user must indicate the location of the folders where the files to be organized are located.
 - The user must indicate the location of the excel file where the list of applications and student information is located.
@@ -26,6 +36,7 @@ The purpose of this system is to organize files according to a list of applicati
 - There are 2 similar processes, one process for students and one for staff. The system user must select which of the two corresponds to the organization to be performed.
 
 Project Timeline
+
 The project will be completed in 12 weeks, following these milestones:
 
 - Week 1: Project planning and analysis
@@ -43,6 +54,10 @@ The project will be completed in 12 weeks, following these milestones:
 - Week 15: Delivering the final product and providing support
 
 Conclusion
-This project proposal presents a solution for automating and improving the efficiency of an administrative process for obtaining a Student Card of an important University in Latin America. The project will deliver a Java application that organizes student files by creating folders for each student with their name and ID number and placing inside them all the necessary files for processing. The project team has the skills and experience to deliver a high-quality product that meets or exceeds client expectations.
 
-The entire logic of the proyect is being developed on Figma in the following url: https://www.figma.com/file/bVLHo0LxgvvDriddrMPbVV/Untitled?type=whiteboard&node-id=0%3A1&t=Avmig897usB7r3gG-1. You can go ahead and check it if you want. All the logic is being written in spanish.
+This project proposal presents a solution for automating and improving the efficiency of an administrative process for obtaining a Student Card of an important University in Latin America. 
+The project will deliver a Java application that organizes student files by creating folders for each student with their name and ID number and placing inside them all the necessary files for processing. 
+The project team has the skills and experience to deliver a high-quality product that meets or exceeds client expectations.
+
+The entire logic of the proyect is being developed on Figma in the following url: https://www.figma.com/file/bVLHo0LxgvvDriddrMPbVV/Untitled?type=whiteboard&node-id=0%3A1&t=Avmig897usB7r3gG-1. 
+You can go ahead and check it if you want. All the logic is being written in spanish.
