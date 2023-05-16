@@ -11,6 +11,17 @@ public class XLRow {
     public void addXlCell(XLCell cell){
         row.add(cell);
     }
+    public int getCellCount(){
+        return row.size();
+    }
+
+    public XLCell getLastCell(){
+        return row.get(row.size()-1);
+    }
+
+    public XLCell getCell(int idx){
+        return row.get(idx);
+    }
 
     @Override
     public String toString() {

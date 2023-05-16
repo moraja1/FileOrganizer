@@ -6,12 +6,16 @@ import una.filesorganizeridoffice.business.xl.XLRow;
 import una.filesorganizeridoffice.business.xl.XLSheet;
 import una.filesorganizeridoffice.business.xl.XLWorkbook;
 import una.filesorganizeridoffice.business.xl.util.ExcelFactory;
+import una.filesorganizeridoffice.business.xl.util.ExcelParser;
+import una.filesorganizeridoffice.model.Adult;
+import una.filesorganizeridoffice.model.UnderAgeStudent;
 import una.filesorganizeridoffice.model.UniversityPerson;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ExcelManager {
     private XLWorkbook xlWorkbook;
@@ -58,28 +62,27 @@ public class ExcelManager {
     }
 
     public List<UniversityPerson> getRequests(int initialRow, int finalRow, Boolean isStudent) {
-        List<UniversityPerson> solicitudes = new ArrayList<>();
+        List<UniversityPerson> requests = new ArrayList<>();
         xlSheet.addIgnoreColumnCase("A");
-        if (isStudent){
+        if (isStudent) {
             xlSheet.addIgnoreColumnCase("R");
             xlSheet.addIgnoreColumnCase("S");
-        }else{
+        } else {
             xlSheet.addIgnoreColumnCase("C");
         }
 
         for (int i = initialRow; i <= finalRow; i++) {
+            Adult adultStud;
+            UnderAgeStudent underAgeStud;
             //Ask the sheet to return a row by number
             XLRow row = xlSheet.getRow(i);
-
             //Converts the row into model
-
-
+            requests.add(ExcelParser.rowToRequest(row));
             //Add model to list
-
 
         }
         xlSheet.clearIgnoreColumnCases();
         //Return list
-        return  new ArrayList<>();
+        return new ArrayList<>();
     }
 }

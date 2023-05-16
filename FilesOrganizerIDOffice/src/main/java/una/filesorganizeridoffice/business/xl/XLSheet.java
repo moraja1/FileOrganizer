@@ -92,7 +92,6 @@ public class XLSheet {
                         xlCell = createXlCell(cellColumn, cellRow, cellValue);
                         row.addXlCell(xlCell);
                     }
-                    System.out.println(row);
                     return row;
                 }
             }
