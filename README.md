@@ -19,3 +19,5 @@ Requirements:
 12. The system should organize pdf files, and image formats: jpg, png, jpeg.
 13. The system must rename the files if necessary so that each file has the student's ID number as its name.
 14. There are 2 similar processes, one process for students and one for staff. The system user must select which of the two corresponds to the organization to be performed.
+
+The entire logic of the proyect is being developed on Figma in the following url: https://www.figma.com/file/bVLHo0LxgvvDriddrMPbVV/Untitled?type=whiteboard&node-id=0%3A1&t=Avmig897usB7r3gG-1. You can go ahead and check it if you want. All the logic is being written in spanish.
