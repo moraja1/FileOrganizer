@@ -1,21 +1,16 @@
 package una.filesorganizeridoffice.model;
 
 import una.filesorganizeridoffice.model.base.PersonalData;
+import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class UnderAgeStudent extends UniversityPerson implements Serializable {
+public class UnderAgeStudent extends UniversityPerson {
     private Date birthDate;
     private Authorized authorized;
 
     public UnderAgeStudent() {
-    }
-
-    public UnderAgeStudent(PersonalData p, UniversityPerson uP, Date birthDate, Authorized authorized) {
-        super(p, uP);
-        this.birthDate = birthDate;
-        this.authorized = authorized;
     }
 
     public Date getBirthDate() {

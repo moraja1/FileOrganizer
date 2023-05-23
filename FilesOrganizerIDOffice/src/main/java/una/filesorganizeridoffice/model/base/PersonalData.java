@@ -2,92 +2,68 @@ package una.filesorganizeridoffice.model.base;
 
 import java.io.Serializable;
 
-public class PersonalData implements Serializable {
-    private IdentificationType idType;
-    private int id;
-    private String name;
-    private String middleName;
-    private String lastName;
-    private Gender gender;
-    private int phoneNumber;
+public abstract class PersonalData {
+    protected IdentificationType idType;
+    protected int id;
+    protected String name;
+    protected String middleName;
+    protected String lastName;
+    protected Gender gender;
+    protected String phoneNumber;
 
-    public PersonalData() {
-    }
-
-    public PersonalData(String name, String middleName, String lastName, IdentificationType idType, Integer id, Gender gender, Integer phoneNumber) {
-        this.name = name;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.idType = idType;
-        this.id = id;
-        this.gender = gender;
-        this.phoneNumber = phoneNumber;
-    }
-
-    protected PersonalData(PersonalData p) {
-        this.name = p.getName();
-        this.middleName = p.getMiddleName();
-        this.lastName = p.getLastName();
-        this.idType = p.getIdType();
-        this.id = p.getId();
-        this.gender = p.getGender();
-        this.phoneNumber = p.getPhoneNumber();
-        p = null;
-    }
-
-    public String getName() {
+    protected String getName() {
         return name;
     }
 
-    public String getMiddleName() {
+    protected String getMiddleName() {
         return middleName;
     }
 
-    public String getLastName() {
+    protected String getLastName() {
         return lastName;
     }
 
-    public IdentificationType getIdType() {
+    protected IdentificationType getIdType() {
         return idType;
     }
 
-    public Integer getId() {
+    protected Integer getId() {
         return id;
     }
 
-    public Gender getGender() {
+    protected Gender getGender() {
         return gender;
     }
 
-    public Integer getPhoneNumber() {
+    protected String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setIdType(IdentificationType idType) {
+    protected void setIdType(IdentificationType idType) {
         this.idType = idType;
     }
 
-    public void setId(Integer id) {
+    protected void setId(Integer id) {
         this.id = id;
     }
 
-    public void setName(String name) {
+    protected void setName(String name) {
         this.name = name;
     }
 
-    public void setMiddleName(String middleName) {
+    protected void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
 
-    public void setLastName(String lastName) {
+    protected void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public void setGender(Gender gender) {
+    protected void setGender(Gender gender) {
         this.gender = gender;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    protected void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }

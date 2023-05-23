@@ -5,17 +5,11 @@ import una.filesorganizeridoffice.model.base.PersonalData;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Authorized extends PersonalData implements Serializable {
+public class Authorized extends PersonalData {
     private Date birthDate;
     private String email;
 
     public Authorized() {
-    }
-
-    public Authorized(PersonalData p, Date birthDate, String email) {
-        super(p);
-        this.birthDate = birthDate;
-        this.email = email;
     }
 
     public Date getBirthDate() {

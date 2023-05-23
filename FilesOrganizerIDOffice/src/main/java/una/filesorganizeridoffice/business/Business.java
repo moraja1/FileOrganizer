@@ -1,10 +1,10 @@
 package una.filesorganizeridoffice.business;
 
-import una.filesorganizeridoffice.business.exceptions.ExceptionBusiness;
+import una.filesorganizeridoffice.business.exceptions.BusinessException;
 import una.filesorganizeridoffice.business.services.ExcelManager;
 import una.filesorganizeridoffice.business.services.FilePreparer;
 import una.filesorganizeridoffice.business.services.Security;
-import una.filesorganizeridoffice.model.UniversityPerson;
+import una.filesorganizeridoffice.model.base.UniversityPerson;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
 import java.util.ArrayList;
@@ -26,14 +26,14 @@ public class Business {
      * and to organize the files the best way possible.
      * @param info WindowInformation
      * @param isStudent Boolean
-     * @throws ExceptionBusiness with the message to be displayed on screen.
+     * @throws BusinessException with the message to be displayed on screen.
      */
-    public void startOrganization(WindowInfo info, Boolean isStudent) throws ExceptionBusiness {
+    public void startOrganization(WindowInfo info, Boolean isStudent) throws BusinessException {
         try {
             securityProcess(info, isStudent);
             prepareFilesBeforeOrganizing(info, isStudent);
             readExcel(info, isStudent);
-        } catch (ExceptionBusiness e) {
+        } catch (BusinessException e) {
             security = null;
             preparer = null;
             //writeLog(); Save a registry of the errors and results in a file.
@@ -47,9 +47,9 @@ public class Business {
      * This method executes the Security process and evaluates whether Security accepted it or not.
      * @param info WindowInformation
      * @param isStudent Boolean
-     * @throws ExceptionBusiness with the message created by createException method.
+     * @throws BusinessException with the message created by createException method.
      */
-    private void securityProcess(WindowInfo info, Boolean isStudent) throws ExceptionBusiness {
+    private void securityProcess(WindowInfo info, Boolean isStudent) throws BusinessException {
         security = new Security();
         Protocol securityResponse = security.verifyInformation(info, isStudent);
         errorList = security.getErrorList();
@@ -78,15 +78,15 @@ public class Business {
         //Update progress Bar
     }
 
-    public void readExcel(WindowInfo info, Boolean isStudent) throws ExceptionBusiness {
+    public void readExcel(WindowInfo info, Boolean isStudent) throws BusinessException {
         //Si es estudiante la idea sería recibir aqui la lista de estudiantes según los row
         xlManager = new ExcelManager(info.getExcelFileUrl());
-        Protocol xlBuilding = xlManager.completeXl();
+        Protocol xlBuilding = xlManager.openXL();
         switch (xlBuilding)
         {
             case Accepted:
                 //update progress bar
-                Protocol xlSheetBuilding = xlManager.loadSheet(0);
+                Protocol xlSheetBuilding = xlManager.startWorking();
                 switch (xlSheetBuilding)
                 {
                     case Accepted:
@@ -95,13 +95,13 @@ public class Business {
 
                         break;
                     case Refused:
-                        throw new ExceptionBusiness(xlBuilding.getMessage().concat("Lectura de Hoja de Excel de Solicitudes"));
+                        throw new BusinessException(xlBuilding.getMessage().concat("Lectura de Hoja de Excel de Solicitudes"));
                     default:
                         break;
                 }
                 break;
             case Refused:
-                throw new ExceptionBusiness(xlBuilding.getMessage().concat("Lectura de Excel de Solicitudes"));
+                throw new BusinessException(xlBuilding.getMessage().concat("Lectura de Excel de Solicitudes"));
             default:
                 break;
         }
@@ -110,14 +110,14 @@ public class Business {
 
     /***
      * This method creates the Error Message that will be displayed on the screen.
-     * @throws ExceptionBusiness with the message to be displayed on screen.
+     * @throws BusinessException with the message to be displayed on screen.
      */
-    private void createException() throws ExceptionBusiness {
+    private void createException() throws BusinessException {
         String errorMessage = "Los siguientes errores impiden continuar: \n";
         for (String k : errorList.keySet()){
             Protocol p = errorList.get(k);
             errorMessage = errorMessage.concat(k).concat(": ").concat(p.getMessage());
         }
-        throw new ExceptionBusiness(errorMessage);
+        throw new BusinessException(errorMessage);
     }
 }

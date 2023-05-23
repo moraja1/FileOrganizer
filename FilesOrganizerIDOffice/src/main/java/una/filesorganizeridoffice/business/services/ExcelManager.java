@@ -2,6 +2,7 @@ package una.filesorganizeridoffice.business.services;
 
 import org.xml.sax.SAXException;
 import una.filesorganizeridoffice.business.Protocol;
+import una.filesorganizeridoffice.business.exceptions.BusinessException;
 import una.filesorganizeridoffice.business.xl.XLRow;
 import una.filesorganizeridoffice.business.xl.XLSheet;
 import una.filesorganizeridoffice.business.xl.XLWorkbook;
@@ -9,13 +10,12 @@ import una.filesorganizeridoffice.business.xl.util.ExcelFactory;
 import una.filesorganizeridoffice.business.xl.util.ExcelParser;
 import una.filesorganizeridoffice.model.Adult;
 import una.filesorganizeridoffice.model.UnderAgeStudent;
-import una.filesorganizeridoffice.model.UniversityPerson;
+import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ExcelManager {
     private XLWorkbook xlWorkbook;
@@ -34,10 +34,19 @@ public class ExcelManager {
      * Completes XLWorkbook using Excel utility. This charges the basic xml files and the sheets id and names.
      * @return
      */
-    public Protocol completeXl(){
+    public Protocol openXL(){
         try {
             ExcelFactory.buildWorkbook(xlWorkbook);
         } catch (IOException | ParserConfigurationException | SAXException e) {
+            return Protocol.Refused;
+        }
+        return Protocol.Accepted;
+    }
+
+    public Protocol startWorking() {
+        try{
+            loadSheet(0);
+        }catch (IOException | ParserConfigurationException | SAXException | BusinessException e) {
             return Protocol.Refused;
         }
         return Protocol.Accepted;
@@ -48,17 +57,12 @@ public class ExcelManager {
      * @param i sheet´s index
      * @return Protocol.Accept or Refuse, depending on the result.
      */
-    public Protocol loadSheet(int i) {
+    private void loadSheet(int i) throws IOException, ParserConfigurationException, SAXException, BusinessException {
         i++;
-        try {
-            xlSheet = ExcelFactory.buildSheet(xlWorkbook, i);
-            if(xlSheet == null){
-                return Protocol.Refused;
-            }
-        } catch (IOException | ParserConfigurationException | SAXException e) {
-            return Protocol.Refused;
+        xlSheet = ExcelFactory.buildSheet(xlWorkbook, i);
+        if(xlSheet == null){
+            throw  new BusinessException("Hoja de Excel");
         }
-        return Protocol.Accepted;
     }
 
     public List<UniversityPerson> getRequests(int initialRow, int finalRow, Boolean isStudent) {
@@ -85,4 +89,6 @@ public class ExcelManager {
         //Return list
         return new ArrayList<>();
     }
+
+
 }

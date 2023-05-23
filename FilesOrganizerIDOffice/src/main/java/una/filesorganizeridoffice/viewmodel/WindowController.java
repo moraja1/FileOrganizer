@@ -15,14 +15,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.layout.AnchorPane;
 import una.filesorganizeridoffice.business.Business;
-import una.filesorganizeridoffice.business.exceptions.ExceptionBusiness;
+import una.filesorganizeridoffice.business.exceptions.BusinessException;
 
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class WindowController implements Initializable {
@@ -378,7 +377,7 @@ public class WindowController implements Initializable {
                     try{
                         Business b = new Business();
                         b.startOrganization(info, isStudent);
-                    }catch(ExceptionBusiness e) {
+                    }catch(BusinessException e) {
                         showDialog("Error en la información", e.getMessage(), Alert.AlertType.ERROR);
                     }
                 }else{

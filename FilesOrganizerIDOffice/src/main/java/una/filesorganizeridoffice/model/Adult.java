@@ -1,22 +1,15 @@
 package una.filesorganizeridoffice.model;
 
-import una.filesorganizeridoffice.model.base.PersonalData;
+import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 import java.io.Serializable;
 
-public class Adult extends UniversityPerson implements Serializable {
+public class Adult extends UniversityPerson {
     private String countryResidence;
     private String occupancy;
     private String address;
 
     public Adult() {
-    }
-
-    public Adult(PersonalData p, UniversityPerson uP, String countryResidence, String occupancy, String address) {
-        super(p, uP);
-        this.countryResidence = countryResidence;
-        this.occupancy = occupancy;
-        this.address = address;
     }
 
     public String getCountryResidence() {
@@ -29,6 +22,18 @@ public class Adult extends UniversityPerson implements Serializable {
 
     public String getAddress() {
         return address;
+    }
+
+    public void setCountryResidence(String countryResidence) {
+        this.countryResidence = countryResidence;
+    }
+
+    public void setOccupancy(String occupancy) {
+        this.occupancy = occupancy;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
 

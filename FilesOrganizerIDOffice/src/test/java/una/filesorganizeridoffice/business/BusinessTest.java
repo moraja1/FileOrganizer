@@ -1,10 +1,7 @@
 package una.filesorganizeridoffice.business;
 
-import org.junit.jupiter.api.Test;
-import una.filesorganizeridoffice.business.exceptions.ExceptionBusiness;
+import una.filesorganizeridoffice.business.exceptions.BusinessException;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class BusinessTest {
     public static void main(String[] args) {
@@ -15,7 +12,7 @@ class BusinessTest {
         w.setFinalRow(5);
         try {
             b.readExcel(w, true);
-        } catch (ExceptionBusiness e) {
+        } catch (BusinessException e) {
             throw new RuntimeException(e);
         }
     }
