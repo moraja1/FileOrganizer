@@ -8,8 +8,8 @@ class BusinessTest {
         Business b = new Business();
         WindowInfo w = new WindowInfo();
         w.setExcelFileUrl("C:\\Users\\N00148095\\Downloads\\Solicitud de Carné-Tarjeta UNA-BNCR Estudiante (respuestas).xlsx");
-        w.setInitialRow(2);
-        w.setFinalRow(5);
+        w.setInitialRow(3);
+        w.setFinalRow(4);
         try {
             b.readExcel(w, true);
         } catch (BusinessException e) {

@@ -1,7 +1,10 @@
 package una.filesorganizeridoffice.model.base;
 
-import java.io.Serializable;
+import una.filesorganizeridoffice.business.xl.annotations.XLBaseSerializable;
+import una.filesorganizeridoffice.business.xl.annotations.XLCellColumn;
+import una.filesorganizeridoffice.business.xl.annotations.XLCellSetValue;
 
+@XLBaseSerializable
 public abstract class PersonalData {
     protected IdentificationType idType;
     protected int id;
@@ -10,60 +13,78 @@ public abstract class PersonalData {
     protected String lastName;
     protected Gender gender;
     protected String phoneNumber;
-
-    protected String getName() {
+    public String getName() {
         return name;
     }
-
-    protected String getMiddleName() {
+    public String getMiddleName() {
         return middleName;
     }
-
-    protected String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    protected IdentificationType getIdType() {
+    public IdentificationType getIdType() {
         return idType;
     }
 
-    protected Integer getId() {
+    public Integer getId() {
         return id;
     }
 
-    protected Gender getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    protected String getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
-
-    protected void setIdType(IdentificationType idType) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "F"),
+            @XLCellColumn(processOf = "authorized", column = "V")
+    })
+    public void setIdType(IdentificationType idType) {
         this.idType = idType;
     }
-
-    protected void setId(Integer id) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "G"),
+            @XLCellColumn(processOf = "authorized", column = "W")
+    })
+    public void setId(Integer id) {
         this.id = id;
     }
-
-    protected void setName(String name) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "C"),
+            @XLCellColumn(processOf = "authorized", column = "X")
+    })
+    public void setName(String name) {
         this.name = name;
     }
-
-    protected void setMiddleName(String middleName) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "D"),
+            @XLCellColumn(processOf = "authorized", column = "Y")
+    })
+    public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
-
-    protected void setLastName(String lastName) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "E"),
+            @XLCellColumn(processOf = "authorized", column = "Z")
+    })
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    protected void setGender(Gender gender) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "J"),
+            @XLCellColumn(processOf = "authorized", column = "AA")
+    })
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
-
-    protected void setPhoneNumber(String phoneNumber) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "I"),
+            @XLCellColumn(processOf = "authorized", column = "AC")
+    })
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }

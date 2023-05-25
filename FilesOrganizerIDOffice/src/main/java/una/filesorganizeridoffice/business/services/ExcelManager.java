@@ -6,8 +6,8 @@ import una.filesorganizeridoffice.business.exceptions.BusinessException;
 import una.filesorganizeridoffice.business.xl.XLRow;
 import una.filesorganizeridoffice.business.xl.XLSheet;
 import una.filesorganizeridoffice.business.xl.XLWorkbook;
-import una.filesorganizeridoffice.business.xl.util.ExcelFactory;
-import una.filesorganizeridoffice.business.xl.util.ExcelParser;
+import una.filesorganizeridoffice.business.xl.util.XLFactory;
+import una.filesorganizeridoffice.business.xl.util.XLSerializer;
 import una.filesorganizeridoffice.model.Adult;
 import una.filesorganizeridoffice.model.UnderAgeStudent;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
@@ -19,7 +19,6 @@ import java.util.List;
 
 public class ExcelManager {
     private XLWorkbook xlWorkbook;
-
     private XLSheet xlSheet;
 
     /***
@@ -36,7 +35,7 @@ public class ExcelManager {
      */
     public Protocol openXL(){
         try {
-            ExcelFactory.buildWorkbook(xlWorkbook);
+            XLFactory.buildWorkbook(xlWorkbook);
         } catch (IOException | ParserConfigurationException | SAXException e) {
             return Protocol.Refused;
         }
@@ -45,7 +44,7 @@ public class ExcelManager {
 
     public Protocol startWorking() {
         try{
-            loadSheet(0);
+            openSheet(0);
         }catch (IOException | ParserConfigurationException | SAXException | BusinessException e) {
             return Protocol.Refused;
         }
@@ -57,14 +56,22 @@ public class ExcelManager {
      * @param i sheet´s index
      * @return Protocol.Accept or Refuse, depending on the result.
      */
-    private void loadSheet(int i) throws IOException, ParserConfigurationException, SAXException, BusinessException {
+    private void openSheet(int i) throws IOException, ParserConfigurationException, SAXException, BusinessException {
         i++;
-        xlSheet = ExcelFactory.buildSheet(xlWorkbook, i);
+        xlSheet = XLFactory.loadSheet(xlWorkbook, i);
         if(xlSheet == null){
             throw  new BusinessException("Hoja de Excel");
         }
     }
 
+    /***
+     * This method read row by row and uses XL API to serialize every single row to a request and save one by one
+     * in a List, then returns that List.
+     * @param initialRow int
+     * @param finalRow int
+     * @param isStudent boolean
+     * @return ArrayList of requests
+     */
     public List<UniversityPerson> getRequests(int initialRow, int finalRow, Boolean isStudent) {
         List<UniversityPerson> requests = new ArrayList<>();
         xlSheet.addIgnoreColumnCase("A");
@@ -76,18 +83,16 @@ public class ExcelManager {
         }
 
         for (int i = initialRow; i <= finalRow; i++) {
-            Adult adultStud;
-            UnderAgeStudent underAgeStud;
             //Ask the sheet to return a row by number
             XLRow row = xlSheet.getRow(i);
             //Converts the row into model
-            requests.add(ExcelParser.rowToRequest(row));
+            requests.add(XLSerializer.rowToRequest(row, isStudent));
             //Add model to list
 
         }
         xlSheet.clearIgnoreColumnCases();
         //Return list
-        return new ArrayList<>();
+        return requests;
     }
 
 

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class XLRow {
+public final class XLRow {
     private final List<XLCell> row = new ArrayList<>();
 
     public void addXlCell(XLCell cell){

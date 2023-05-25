@@ -16,7 +16,7 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class ExcelFactory {
+public class XLFactory {
     /***
      * Obtains Document object from excel file.
      * @param workbook XLWorkbook
@@ -66,6 +66,28 @@ public class ExcelFactory {
     }
 
     /***
+     * Creates a Document of the sheet with the filename "sheet" plus the index passed by param plus ".xml" located in
+     * the Workbook file passed by Param.
+     * @param w XLWorkbook
+     * @param i Integer
+     * @return XLSheet if the sheet with the name exists, or null if not.
+     * @throws IOException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     */
+    public static XLSheet loadSheet(XLWorkbook w, Integer i) throws IOException, ParserConfigurationException, SAXException {
+        ZipFile zipFile = new ZipFile(w.getXlFile());
+        String baseName = "xl/worksheets/sheet";
+        ZipEntry entry = null;
+        String entryName = baseName.concat(i.toString()).concat(".xml");
+        entry = zipFile.getEntry(entryName);
+        if(entry != null){
+            return new XLSheet(w, createDocument(zipFile, entry));
+        }
+        return null;
+    }
+
+    /***
      * Print in console any Node. Test purposes.
      * @param node xml Node to be printed.
      */
@@ -75,19 +97,5 @@ public class ExcelFactory {
         LSSerializer serializer = domImplLS.createLSSerializer();
         String str = serializer.writeToString(node);
         System.out.println(str);
-    }
-
-    public static XLSheet buildSheet(XLWorkbook w, Integer i) throws IOException, ParserConfigurationException, SAXException {
-        ZipFile zipFile = new ZipFile(w.getXlFile());
-        String baseName = "xl/worksheets/sheet";
-        ZipEntry entry = null;
-        String entryName = baseName.concat(i.toString()).concat(".xml");
-        entry = zipFile.getEntry(entryName);
-        if(entry != null){
-            XLSheet sheet = new XLSheet(w);
-            sheet.setXlSheet(createDocument(zipFile, entry));
-            return sheet;
-        }
-        return null;
     }
 }

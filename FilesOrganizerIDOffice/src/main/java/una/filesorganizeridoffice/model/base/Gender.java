@@ -2,6 +2,15 @@ package una.filesorganizeridoffice.model.base;
 
 import java.io.Serializable;
 
-public enum Gender implements Serializable {
-    Masculine, Feminine
+public enum Gender {
+    Masculine("Masculino"), Feminine("Femenino");
+
+    private final String value;
+    Gender(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }

@@ -16,7 +16,7 @@ public class Business {
     private Security security;
     private FilePreparer preparer;
     private ExcelManager xlManager;
-    private List<UniversityPerson> solicitudes = new ArrayList<>();
+    private List<UniversityPerson> requests = new ArrayList<>();
 
     public Business() {
     }
@@ -33,6 +33,7 @@ public class Business {
             securityProcess(info, isStudent);
             prepareFilesBeforeOrganizing(info, isStudent);
             readExcel(info, isStudent);
+
         } catch (BusinessException e) {
             security = null;
             preparer = null;
@@ -91,7 +92,7 @@ public class Business {
                 {
                     case Accepted:
                         //update progress bar
-                        solicitudes = xlManager.getRequests(info.getInitialRow(), info.getFinalRow(), isStudent);
+                        requests = xlManager.getRequests(info.getInitialRow(), info.getFinalRow(), isStudent);
 
                         break;
                     case Refused:

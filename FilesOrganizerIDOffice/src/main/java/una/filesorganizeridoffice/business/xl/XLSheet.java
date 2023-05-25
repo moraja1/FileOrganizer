@@ -3,40 +3,28 @@ package una.filesorganizeridoffice.business.xl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import una.filesorganizeridoffice.business.xl.util.DateUtil;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XLSheet {
-    private XLWorkbook xlWorkbook;
+public final class XLSheet {
+    private final XLWorkbook xlWorkbook;
     private Document xlSheet;
     private List<String> ignoreColumnCases = new ArrayList<>();
 
-    public XLSheet(XLWorkbook xlWorkbook) {
+    /***
+     * Creates a XLSheet
+     * @param xlWorkbook
+     * @param document
+     * @throws ParserConfigurationException
+     */
+    public XLSheet(XLWorkbook xlWorkbook, Document document) throws ParserConfigurationException {
         this.xlWorkbook = xlWorkbook;
-    }
-
-    public Document getXlSheet() {
-        return xlSheet;
-    }
-
-    public void setXlSheet(Document xlSheet) {
-        try {
-            this.xlSheet = xlWorkbook.getDbf().newDocumentBuilder().newDocument();
-            this.xlSheet.appendChild(
-                    this.xlSheet.importNode(xlSheet.getDocumentElement(), true)
-            );
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace(System.out);
-        }
-    }
-
-    public XLWorkbook getXlWorkbook() {
-        return xlWorkbook;
+        this.xlSheet = xlWorkbook.getDbf().newDocumentBuilder().newDocument();
+        this.xlSheet.appendChild(
+                this.xlSheet.importNode(document.getDocumentElement(), true)
+        );
     }
 
     /***
@@ -89,7 +77,7 @@ public class XLSheet {
                             }
                         }
                         //Creates de cell with proper value Type
-                        xlCell = createXlCell(cellColumn, cellRow, cellValue);
+                        xlCell = new XLCell<>(cellColumn, cellRow, cellValue);
                         row.addXlCell(xlCell);
                     }
                     return row;
@@ -110,44 +98,6 @@ public class XLSheet {
            return Integer.valueOf(tValue);
         }
         return null;
-    }
-
-    /***
-     * Creates an XLCell containing the row number, column name and a value of the proper Type.
-     * @param cellColumn String
-     * @param cellRow Integer
-     * @param cellValue Object
-     * @return XLCell
-     */
-    private XLCell createXlCell(String cellColumn, Integer cellRow, String cellValue) {
-        Integer intValue;
-        LocalDate dateValue;
-        if(isScientificNotation(cellValue)){
-            intValue = new BigDecimal(cellValue).intValue();
-            return new XLCell<Integer>(cellColumn, cellRow, intValue);
-        }else if(DateUtil.isDate(cellValue)){
-            dateValue = DateUtil.toDate(cellValue);
-            return new XLCell<LocalDate>(cellColumn, cellRow, dateValue);
-        }
-        return new XLCell<String>(cellColumn, cellRow, cellValue);
-    }
-
-    /***
-     * Detects whether a String contains a Scientific Notation Number
-     * @param numberString String vale
-     * @return Boolean
-     */
-    private boolean isScientificNotation(String numberString) {
-
-        // Validate number
-        try {
-            new BigDecimal(numberString);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-
-        // Check for scientific notation
-        return numberString.toUpperCase().contains("E") && (numberString.charAt(1)=='.' || numberString.charAt(2)=='.');
     }
 
     public void addIgnoreColumnCase(String column) {

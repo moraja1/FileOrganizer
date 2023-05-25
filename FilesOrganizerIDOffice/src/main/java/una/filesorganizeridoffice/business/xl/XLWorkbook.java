@@ -9,10 +9,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.util.HashMap;
 
-public class XLWorkbook {
+public final class XLWorkbook {
     private final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    private String xlName;
-    private File xlFile;
+    private final String xlName;
+    private final File xlFile;
     private Document xlWorkbook;
     private Document xlSharedStrings;
     private Document xlStyles;
@@ -26,16 +26,8 @@ public class XLWorkbook {
         return xlName;
     }
 
-    public void setXlName(String xlName) {
-        this.xlName = xlName;
-    }
-
     public File getXlFile() {
         return xlFile;
-    }
-
-    public void setXlFile(File xlFile) {
-        this.xlFile = xlFile;
     }
 
     public void addSheet(String sheet_rId, String sheetName) {

@@ -1,9 +1,9 @@
 package una.filesorganizeridoffice.model.base;
 
-import una.filesorganizeridoffice.model.base.PersonalData;
+import una.filesorganizeridoffice.business.xl.annotations.XLCellColumn;
+import una.filesorganizeridoffice.business.xl.annotations.XLCellSetValue;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 public abstract class UniversityPerson extends PersonalData {
     protected String id_una;
@@ -11,62 +11,75 @@ public abstract class UniversityPerson extends PersonalData {
     protected int office;
     protected int grossSalary;
     protected int netSalary;
-    protected Date hireDate;
+    protected LocalDate hireDate;
     protected int licence;
-
-    protected String getId_una() {
+    public String getId_una() {
         return id_una;
     }
 
-    protected String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    protected Integer getOffice() {
+    public Integer getOffice() {
         return office;
     }
 
-    protected Integer getGrossSalary() {
+    public Integer getGrossSalary() {
         return grossSalary;
     }
 
-    protected Integer getNetSalary() {
+    public Integer getNetSalary() {
         return netSalary;
     }
 
-    protected Date getHireDate() {
+    public LocalDate getHireDate() {
         return hireDate;
     }
 
-    protected Integer getLicence() {
+    public Integer getLicence() {
         return licence;
     }
-
-    protected void setId_una(String id_una) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "H")
+    })
+    public void setId_una(String id_una) {
         this.id_una = id_una;
     }
-
-    protected void setEmail(String email) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "B")
+    })
+    public void setEmail(String email) {
         this.email = email;
     }
-
-    protected void setOffice(Integer office) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "N")
+    })
+    public void setOffice(Integer office) {
         this.office = office;
     }
-
-    protected void setGrossSalary(Integer grossSalary) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "O")
+    })
+    public void setGrossSalary(Integer grossSalary) {
         this.grossSalary = grossSalary;
     }
-
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "P")
+    })
     public void setNetSalary(Integer netSalary) {
         this.netSalary = netSalary;
     }
-
-    protected void setHireDate(Date hireDate) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "Q")
+    })
+    public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
-
-    protected void setLicence(Integer licence) {
+    @XLCellSetValue({
+            @XLCellColumn(processOf = "student", column = "B")
+    })
+    public void setLicence(Integer licence) {
         this.licence = licence;
     }
 }
