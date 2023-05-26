@@ -3,22 +3,26 @@ package una.filesorganizeridoffice.business.services;
 import org.xml.sax.SAXException;
 import una.filesorganizeridoffice.business.Protocol;
 import una.filesorganizeridoffice.business.exceptions.BusinessException;
-import una.filesorganizeridoffice.business.xl.XLRow;
-import una.filesorganizeridoffice.business.xl.XLSheet;
-import una.filesorganizeridoffice.business.xl.XLWorkbook;
-import una.filesorganizeridoffice.business.xl.util.XLFactory;
-import una.filesorganizeridoffice.business.xl.util.XLSerializer;
+import una.filesorganizeridoffice.business.api.xl.XLRow;
+import una.filesorganizeridoffice.business.api.xl.XLSheet;
+import una.filesorganizeridoffice.business.api.xl.XLWorkbook;
+import una.filesorganizeridoffice.business.api.xl.exceptions.XLSerializableException;
+import una.filesorganizeridoffice.business.api.xl.util.XLFactory;
+import una.filesorganizeridoffice.business.api.xl.util.XLSerializer;
 import una.filesorganizeridoffice.model.Adult;
+import una.filesorganizeridoffice.model.Authorized;
 import una.filesorganizeridoffice.model.UnderAgeStudent;
+import una.filesorganizeridoffice.model.base.PersonalData;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExcelManager {
-    private XLWorkbook xlWorkbook;
+    private final XLWorkbook xlWorkbook;
     private XLSheet xlSheet;
 
     /***
@@ -72,7 +76,7 @@ public class ExcelManager {
      * @param isStudent boolean
      * @return ArrayList of requests
      */
-    public List<UniversityPerson> getRequests(int initialRow, int finalRow, Boolean isStudent) {
+    public List<UniversityPerson> getRequests(int initialRow, int finalRow, Boolean isStudent) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
         List<UniversityPerson> requests = new ArrayList<>();
         xlSheet.addIgnoreColumnCase("A");
         if (isStudent) {
@@ -86,14 +90,43 @@ public class ExcelManager {
             //Ask the sheet to return a row by number
             XLRow row = xlSheet.getRow(i);
             //Converts the row into model
-            requests.add(XLSerializer.rowToRequest(row, isStudent));
+            XLSerializer<PersonalData> studentSerializer = new XLSerializer<>();
+            UniversityPerson request = new Adult();
+            Authorized authorized;
+            String processOf;
+            if(isStudent){
+                if (!isAdult(row)){
+                    request = new UnderAgeStudent();
+                    authorized = new Authorized();
+                    studentSerializer.rowToRequest(row, authorized, "authorized");
+                    ((UnderAgeStudent) request).setAuthorized(authorized);
+                }
+                processOf = "student";
+            }else{
+                processOf = "employee";
+            }
+            studentSerializer.rowToRequest(row, request, processOf);
             //Add model to list
-
+            requests.add(request);
         }
         xlSheet.clearIgnoreColumnCases();
         //Return list
         return requests;
     }
 
-
+    /***
+     * Verifies if a row contains at least one cell stating the request to be from an adult.
+     * @param row XLRow
+     * @return Boolean
+     */
+    private boolean isAdult(XLRow row) {
+        for (int i = 0; i < row.getCellCount(); i++) {
+            if(row.getCell(i).getValue().equals("Mayor de edad")){
+                return true;
+            } else if (row.getCell(i).getValue().equals("Menor de edad")) {
+                return false;
+            }
+        }
+        return false;
+    }
 }

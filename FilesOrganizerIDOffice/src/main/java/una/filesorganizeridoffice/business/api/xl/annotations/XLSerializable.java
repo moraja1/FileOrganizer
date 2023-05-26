@@ -1,9 +1,9 @@
-package una.filesorganizeridoffice.business.xl.annotations;
+package una.filesorganizeridoffice.business.api.xl.annotations;
 
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Inherited
-public @interface XLBaseSerializable {
+public @interface XLSerializable {
 }

@@ -1,8 +1,8 @@
 package una.filesorganizeridoffice.business.services;
 
 import org.xml.sax.SAXException;
-import una.filesorganizeridoffice.business.xl.XLWorkbook;
-import una.filesorganizeridoffice.business.xl.util.XLFactory;
+import una.filesorganizeridoffice.business.api.xl.XLWorkbook;
+import una.filesorganizeridoffice.business.api.xl.util.XLFactory;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;

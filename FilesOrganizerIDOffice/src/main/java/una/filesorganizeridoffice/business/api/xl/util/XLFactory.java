@@ -1,4 +1,4 @@
-package una.filesorganizeridoffice.business.xl.util;
+package una.filesorganizeridoffice.business.api.xl.util;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -6,8 +6,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
-import una.filesorganizeridoffice.business.xl.XLSheet;
-import una.filesorganizeridoffice.business.xl.XLWorkbook;
+import una.filesorganizeridoffice.business.api.xl.XLSheet;
+import una.filesorganizeridoffice.business.api.xl.XLWorkbook;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;

@@ -85,8 +85,8 @@ public class WindowController implements Initializable {
     private Button startBtn;
     @FXML
     private Tab tabStudent;
-    private IntegerProperty initialRow = new SimpleIntegerProperty();
-    private IntegerProperty finalRow = new SimpleIntegerProperty();
+    private final IntegerProperty initialRow = new SimpleIntegerProperty();
+    private final IntegerProperty finalRow = new SimpleIntegerProperty();
     private final WindowInfo info = new WindowInfo();
 
     /***
@@ -223,10 +223,7 @@ public class WindowController implements Initializable {
      */
     private boolean verifyURLExistence(String urlInserted) {
         File f = new File(urlInserted);
-        if(f.exists()){
-           return true;
-        }
-        return false;
+        return f.exists();
     }
 
     /***

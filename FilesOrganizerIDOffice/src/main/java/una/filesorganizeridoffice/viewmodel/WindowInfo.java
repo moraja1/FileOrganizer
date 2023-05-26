@@ -4,13 +4,13 @@ import javafx.beans.property.*;
 import javafx.util.StringConverter;
 
 public class WindowInfo {
-    private StringProperty pdfFileUrl = new SimpleStringProperty("");
-    private StringProperty photoFileUrl = new SimpleStringProperty("");
-    private StringProperty excelFileUrl = new SimpleStringProperty("");
-    private StringProperty outputFileUrl = new SimpleStringProperty("");
-    private IntegerProperty initialRow = new SimpleIntegerProperty(0);
-    private IntegerProperty finalRow = new SimpleIntegerProperty(0);
-    private StringConverter<Number> converter;
+    private final StringProperty pdfFileUrl = new SimpleStringProperty("");
+    private final StringProperty photoFileUrl = new SimpleStringProperty("");
+    private final StringProperty excelFileUrl = new SimpleStringProperty("");
+    private final StringProperty outputFileUrl = new SimpleStringProperty("");
+    private final IntegerProperty initialRow = new SimpleIntegerProperty(0);
+    private final IntegerProperty finalRow = new SimpleIntegerProperty(0);
+    private final StringConverter<Number> converter;
 
     public WindowInfo() {
         converter = new StringConverter<Number>() {

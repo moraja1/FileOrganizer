@@ -1,4 +1,4 @@
-package una.filesorganizeridoffice.business.xl;
+package una.filesorganizeridoffice.business.api.xl;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -10,8 +10,8 @@ import java.util.List;
 
 public final class XLSheet {
     private final XLWorkbook xlWorkbook;
-    private Document xlSheet;
-    private List<String> ignoreColumnCases = new ArrayList<>();
+    private final Document xlSheet;
+    private final List<String> ignoreColumnCases = new ArrayList<>();
 
     /***
      * Creates a XLSheet
@@ -79,6 +79,8 @@ public final class XLSheet {
                         //Creates de cell with proper value Type
                         xlCell = new XLCell<>(cellColumn, cellRow, cellValue);
                         row.addXlCell(xlCell);
+                        //Ends if its adult
+                        if(xlCell.getValue().equals("Mayor de edad")) j = cells.getLength();
                     }
                     return row;
                 }

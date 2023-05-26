@@ -9,7 +9,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class FlowController {
-    private Stage mainStage;
+    private final Stage mainStage;
     public FlowController(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FlowController.class.getResource("MainWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

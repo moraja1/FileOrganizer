@@ -1,22 +1,19 @@
 package una.filesorganizeridoffice.model;
 
-import una.filesorganizeridoffice.business.xl.annotations.XLCellColumn;
-import una.filesorganizeridoffice.business.xl.annotations.XLCellSetValue;
-import una.filesorganizeridoffice.business.xl.annotations.XLSubSerializable;
-import una.filesorganizeridoffice.model.base.IdentificationType;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
 import una.filesorganizeridoffice.model.base.PersonalData;
 
-import java.util.Date;
-@XLSubSerializable(processOf = "authorized")
+import java.time.LocalDate;
+@XLSerializable
 public class Authorized extends PersonalData {
-    private Date birthDate;
+    private LocalDate birthDate;
     private String email;
-    protected IdentificationType idType;
-    protected int id;
     public Authorized() {
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
@@ -26,7 +23,7 @@ public class Authorized extends PersonalData {
     @XLCellSetValue({
             @XLCellColumn(processOf = "authorized", column = "AB")
     })
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
     @XLCellSetValue({

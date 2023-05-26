@@ -1,12 +1,10 @@
-package una.filesorganizeridoffice.business.xl;
+package una.filesorganizeridoffice.business.api.xl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public final class XLRow {
-    private final List<XLCell> row = new ArrayList<>();
+    private final List<XLCell> row = new LinkedList<>();
 
     public void addXlCell(XLCell cell){
         row.add(cell);
@@ -21,6 +19,10 @@ public final class XLRow {
 
     public XLCell getCell(int idx){
         return row.get(idx);
+    }
+
+    public List<XLCell> asList() {
+        return new LinkedList<>(row);
     }
 
     @Override

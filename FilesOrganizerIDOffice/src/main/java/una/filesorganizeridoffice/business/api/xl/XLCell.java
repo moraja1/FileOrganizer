@@ -1,14 +1,14 @@
-package una.filesorganizeridoffice.business.xl;
+package una.filesorganizeridoffice.business.api.xl;
 
-import una.filesorganizeridoffice.business.xl.util.DateUtil;
+import una.filesorganizeridoffice.business.api.xl.util.DateUtil;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public final class XLCell<T> {
-    private String columnName;
-    private Integer rowNumber;
-    private T value;
+    private final String columnName;
+    private final Integer rowNumber;
+    private final T value;
     public XLCell() {
         columnName = "";
         rowNumber = 0;

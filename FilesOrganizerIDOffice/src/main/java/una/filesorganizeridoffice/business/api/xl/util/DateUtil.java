@@ -1,4 +1,4 @@
-package una.filesorganizeridoffice.business.xl.util;
+package una.filesorganizeridoffice.business.api.xl.util;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -26,9 +26,6 @@ public class DateUtil {
             return false;
         }
         LocalDate currentDate = LocalDate.now();
-        if (toDate(value).isAfter(currentDate)) {
-            return false;
-        }
-        return true;
+        return !toDate(value).isAfter(currentDate);
     }
 }

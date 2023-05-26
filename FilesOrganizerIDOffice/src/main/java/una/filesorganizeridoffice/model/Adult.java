@@ -1,11 +1,11 @@
 package una.filesorganizeridoffice.model;
 
-import una.filesorganizeridoffice.business.xl.annotations.XLCellColumn;
-import una.filesorganizeridoffice.business.xl.annotations.XLCellSetValue;
-import una.filesorganizeridoffice.business.xl.annotations.XLSubSerializable;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
 
-@XLSubSerializable(processOf = "student")
+@XLSerializable
 public class Adult extends UniversityPerson {
 
     private String countryResidence;

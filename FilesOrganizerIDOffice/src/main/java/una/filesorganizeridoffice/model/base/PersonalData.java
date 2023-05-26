@@ -1,13 +1,17 @@
 package una.filesorganizeridoffice.model.base;
 
-import una.filesorganizeridoffice.business.xl.annotations.XLBaseSerializable;
-import una.filesorganizeridoffice.business.xl.annotations.XLCellColumn;
-import una.filesorganizeridoffice.business.xl.annotations.XLCellSetValue;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
 
-@XLBaseSerializable
+import static una.filesorganizeridoffice.model.base.Gender.Feminine;
+import static una.filesorganizeridoffice.model.base.Gender.Masculine;
+import static una.filesorganizeridoffice.model.base.IdentificationType.*;
+
+@XLSerializable
 public abstract class PersonalData {
     protected IdentificationType idType;
-    protected int id;
+    protected Integer id;
     protected String name;
     protected String middleName;
     protected String lastName;
@@ -42,6 +46,17 @@ public abstract class PersonalData {
             @XLCellColumn(processOf = "student", column = "F"),
             @XLCellColumn(processOf = "authorized", column = "V")
     })
+    public void setIdType(String idType) {
+        if (idType.equals(DIMEX.getValue())) {
+            this.idType = DIMEX;
+        } else if (idType.equals(Passport.getValue())) {
+            this.idType = Passport;
+        } else if (idType.equals(DIDI.getValue())) {
+            this.idType = DIDI;
+        }else{
+            this.idType = Cedula;
+        }
+    }
     public void setIdType(IdentificationType idType) {
         this.idType = idType;
     }
@@ -73,18 +88,25 @@ public abstract class PersonalData {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "J"),
             @XLCellColumn(processOf = "authorized", column = "AA")
     })
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setGender(String gender) {
+        if (gender.equals(Feminine.getValue())){
+            this.gender = Feminine;
+        }else{
+            this.gender = Masculine;
+        }
     }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "I"),
             @XLCellColumn(processOf = "authorized", column = "AC")
     })
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(Object phoneNumber) {
+        this.phoneNumber = String.valueOf(phoneNumber);
     }
 }

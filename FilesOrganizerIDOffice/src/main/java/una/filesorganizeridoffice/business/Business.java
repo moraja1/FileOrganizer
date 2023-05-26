@@ -4,9 +4,11 @@ import una.filesorganizeridoffice.business.exceptions.BusinessException;
 import una.filesorganizeridoffice.business.services.ExcelManager;
 import una.filesorganizeridoffice.business.services.FilePreparer;
 import una.filesorganizeridoffice.business.services.Security;
+import una.filesorganizeridoffice.business.api.xl.exceptions.XLSerializableException;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,13 +35,14 @@ public class Business {
             securityProcess(info, isStudent);
             prepareFilesBeforeOrganizing(info, isStudent);
             readExcel(info, isStudent);
-
         } catch (BusinessException e) {
             security = null;
             preparer = null;
             //writeLog(); Save a registry of the errors and results in a file.
             errorList.clear();
             throw e;
+        } catch (XLSerializableException | InvocationTargetException | IllegalAccessException e) {
+            throw new BusinessException("No se completó el proceso. Se utilizó un modelo de clase distinta al permitido.");
         }
 
     }
@@ -79,21 +82,29 @@ public class Business {
         //Update progress Bar
     }
 
-    public void readExcel(WindowInfo info, Boolean isStudent) throws BusinessException {
+    /***
+     * This method uses an ExcelManager service to create the requests list.
+     * @param info Window Info
+     * @param isStudent Boolean
+     * @throws BusinessException
+     * @throws XLSerializableException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
+    public void readExcel(WindowInfo info, Boolean isStudent) throws BusinessException, XLSerializableException, InvocationTargetException, IllegalAccessException {
         //Si es estudiante la idea sería recibir aqui la lista de estudiantes según los row
         xlManager = new ExcelManager(info.getExcelFileUrl());
         Protocol xlBuilding = xlManager.openXL();
         switch (xlBuilding)
         {
             case Accepted:
-                //update progress bar
                 Protocol xlSheetBuilding = xlManager.startWorking();
+                //update progress bar
                 switch (xlSheetBuilding)
                 {
                     case Accepted:
-                        //update progress bar
                         requests = xlManager.getRequests(info.getInitialRow(), info.getFinalRow(), isStudent);
-
+                        //update progress bar
                         break;
                     case Refused:
                         throw new BusinessException(xlBuilding.getMessage().concat("Lectura de Hoja de Excel de Solicitudes"));
