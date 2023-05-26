@@ -44,7 +44,8 @@ public abstract class PersonalData {
     }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "F"),
-            @XLCellColumn(processOf = "authorized", column = "V")
+            @XLCellColumn(processOf = "authorized", column = "V"),
+            @XLCellColumn(processOf = "employee", column = "G")
     })
     public void setIdType(String idType) {
         if (idType.equals(DIMEX.getValue())) {
@@ -62,28 +63,32 @@ public abstract class PersonalData {
     }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "G"),
-            @XLCellColumn(processOf = "authorized", column = "W")
+            @XLCellColumn(processOf = "authorized", column = "W"),
+            @XLCellColumn(processOf = "employee", column = "H")
     })
     public void setId(Integer id) {
         this.id = id;
     }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "C"),
-            @XLCellColumn(processOf = "authorized", column = "X")
+            @XLCellColumn(processOf = "authorized", column = "X"),
+            @XLCellColumn(processOf = "employee", column = "D")
     })
     public void setName(String name) {
         this.name = name;
     }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "D"),
-            @XLCellColumn(processOf = "authorized", column = "Y")
+            @XLCellColumn(processOf = "authorized", column = "Y"),
+            @XLCellColumn(processOf = "employee", column = "E")
     })
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "E"),
-            @XLCellColumn(processOf = "authorized", column = "Z")
+            @XLCellColumn(processOf = "authorized", column = "Z"),
+            @XLCellColumn(processOf = "employee", column = "F")
     })
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -93,7 +98,8 @@ public abstract class PersonalData {
     }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "J"),
-            @XLCellColumn(processOf = "authorized", column = "AA")
+            @XLCellColumn(processOf = "authorized", column = "AA"),
+            @XLCellColumn(processOf = "employee", column = "J")
     })
     public void setGender(String gender) {
         if (gender.equals(Feminine.getValue())){
@@ -104,7 +110,8 @@ public abstract class PersonalData {
     }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "I"),
-            @XLCellColumn(processOf = "authorized", column = "AC")
+            @XLCellColumn(processOf = "authorized", column = "AC"),
+            @XLCellColumn(processOf = "employee", column = "I")
     })
     public void setPhoneNumber(Object phoneNumber) {
         this.phoneNumber = String.valueOf(phoneNumber);

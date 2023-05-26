@@ -7,24 +7,17 @@ import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 @XLSerializable
 public class Adult extends UniversityPerson {
-
     private String countryResidence;
-
     private String occupancy;
-
     private String address;
-
     public Adult() {
     }
-
     public String getCountryResidence() {
         return countryResidence;
     }
-
     public String getOccupancy() {
         return occupancy;
     }
-
     public String getAddress() {
         return address;
     }

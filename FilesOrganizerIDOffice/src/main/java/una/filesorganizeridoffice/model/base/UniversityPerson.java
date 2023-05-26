@@ -43,7 +43,8 @@ public abstract class UniversityPerson extends PersonalData {
         return licence;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "H")
+            @XLCellColumn(processOf = "student", column = "H"),
+            @XLCellColumn(processOf = "employee", column = "H")
     })
     public void setId_una(Object id_una) {
         if(id_una instanceof String){
@@ -53,13 +54,15 @@ public abstract class UniversityPerson extends PersonalData {
         }
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "B")
+            @XLCellColumn(processOf = "student", column = "B"),
+            @XLCellColumn(processOf = "employee", column = "B")
     })
     public void setEmail(String email) {
         this.email = email;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "N")
+            @XLCellColumn(processOf = "student", column = "N"),
+            @XLCellColumn(processOf = "employee", column = "O")
     })
     public void setOffice(String office) {
         this.office = office;
@@ -81,13 +84,15 @@ public abstract class UniversityPerson extends PersonalData {
         }
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "Q")
+            @XLCellColumn(processOf = "student", column = "Q"),
+            @XLCellColumn(processOf = "employee", column = "P")
     })
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "licence", column = "B")
+            @XLCellColumn(processOf = "licence", column = "B"),
+            @XLCellColumn(processOf = "employee", column = "H")
     })
     public void setLicence(Integer licence) {
         this.licence = licence;

@@ -19,10 +19,8 @@ public class Business {
     private FilePreparer preparer;
     private ExcelManager xlManager;
     private List<UniversityPerson> requests = new ArrayList<>();
-
     public Business() {
     }
-
     /***
      * This method leads the organization process. Passing the information from one service to another to find any issue
      * and to organize the files the best way possible.
@@ -35,6 +33,7 @@ public class Business {
             securityProcess(info, isStudent);
             prepareFilesBeforeOrganizing(info, isStudent);
             readExcel(info, isStudent);
+            organizeFiles(info);
         } catch (BusinessException e) {
             security = null;
             preparer = null;
@@ -44,9 +43,7 @@ public class Business {
         } catch (XLSerializableException | InvocationTargetException | IllegalAccessException e) {
             throw new BusinessException("No se completó el proceso. Se utilizó un modelo de clase distinta al permitido.");
         }
-
     }
-
     /***
      * This method executes the Security process and evaluates whether Security accepted it or not.
      * @param info WindowInformation
@@ -70,7 +67,6 @@ public class Business {
                 break;
         }
     }
-
     /***
      * This method uses other service to prepare all the files before organization.
      * @param info WindowInformation
@@ -81,7 +77,6 @@ public class Business {
         preparer.prepareFiles(info, isStudent);
         //Update progress Bar
     }
-
     /***
      * This method uses an ExcelManager service to create the requests list.
      * @param info Window Info
@@ -95,13 +90,11 @@ public class Business {
         //Si es estudiante la idea sería recibir aqui la lista de estudiantes según los row
         xlManager = new ExcelManager(info.getExcelFileUrl());
         Protocol xlBuilding = xlManager.openXL();
-        switch (xlBuilding)
-        {
+        switch (xlBuilding) {
             case Accepted:
                 Protocol xlSheetBuilding = xlManager.startWorking();
                 //update progress bar
-                switch (xlSheetBuilding)
-                {
+                switch (xlSheetBuilding) {
                     case Accepted:
                         requests = xlManager.getRequests(info.getInitialRow(), info.getFinalRow(), isStudent);
                         //update progress bar
@@ -117,9 +110,7 @@ public class Business {
             default:
                 break;
         }
-
     }
-
     /***
      * This method creates the Error Message that will be displayed on the screen.
      * @throws BusinessException with the message to be displayed on screen.
@@ -131,5 +122,12 @@ public class Business {
             errorMessage = errorMessage.concat(k).concat(": ").concat(p.getMessage());
         }
         throw new BusinessException(errorMessage);
+    }
+
+    /***
+     * This method manages to create a directory for every request as well as move their required files.
+     * @param info
+     */
+    private void organizeFiles(WindowInfo info) {
     }
 }
