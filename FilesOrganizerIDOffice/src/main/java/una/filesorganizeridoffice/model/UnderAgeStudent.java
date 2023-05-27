@@ -9,28 +9,35 @@ import java.time.LocalDate;
 
 @XLSerializable
 public class UnderAgeStudent extends UniversityPerson {
-    private LocalDate birthDate;
     private Authorized authorized;
-
     public UnderAgeStudent() {
     }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
     public Authorized getAuthorized() {
         return authorized;
     }
-
-    @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "U")
-    })
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
     public void setAuthorized(Authorized authorized) {
         this.authorized = authorized;
+    }
+
+    @Override
+    public String toString() {
+        return "UnderAgeStudent{" +
+                "authorized=" + authorized +
+                ", id_una='" + id_una + '\'' +
+                ", email='" + email + '\'' +
+                ", office='" + office + '\'' +
+                ", grossSalary=" + grossSalary +
+                ", netSalary=" + netSalary +
+                ", hireDate=" + hireDate +
+                ", licence=" + licence +
+                ", averageIncome=" + averageIncome +
+                ", idType=" + idType +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender=" + gender +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 }

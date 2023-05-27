@@ -10,11 +10,12 @@ class BusinessTest {
     public static void main(String[] args) {
         Business b = new Business();
         WindowInfo w = new WindowInfo();
-        w.setExcelFileUrl("C:\\Users\\jeiso\\Downloads\\Solicitud de Carné-Tarjeta UNA-BNCR (respuestas).xlsx");
+        w.setExcelFileUrl("C:\\Users\\jeiso\\Downloads\\Solicitud de Carné-Tarjeta UNA-BNCR Estudiante (respuestas).xlsx");
         w.setInitialRow(3);
         w.setFinalRow(5);
         try {
             b.readExcel(w, true);
+            b.startOrganization(w, true);
         } catch (BusinessException | XLSerializableException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

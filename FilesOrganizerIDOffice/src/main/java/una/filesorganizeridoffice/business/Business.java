@@ -8,9 +8,11 @@ import una.filesorganizeridoffice.business.api.xl.exceptions.XLSerializableExcep
 import una.filesorganizeridoffice.model.base.UniversityPerson;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Business {
@@ -33,7 +35,7 @@ public class Business {
             securityProcess(info, isStudent);
             prepareFilesBeforeOrganizing(info, isStudent);
             readExcel(info, isStudent);
-            organizeFiles(info);
+            organizeFiles(info, isStudent);
         } catch (BusinessException e) {
             security = null;
             preparer = null;
@@ -54,7 +56,6 @@ public class Business {
         security = new Security();
         Protocol securityResponse = security.verifyInformation(info, isStudent);
         errorList = security.getErrorList();
-
         switch (securityResponse)
         {
             case Refused:
@@ -128,6 +129,31 @@ public class Business {
      * This method manages to create a directory for every request as well as move their required files.
      * @param info
      */
-    private void organizeFiles(WindowInfo info) {
+    private void organizeFiles(WindowInfo info, boolean isStudent) {
+        List<String> dirWithError = new LinkedList<>();
+        for (UniversityPerson r: requests) {
+            //Creates directory absolute path
+            String dirName = "".concat(r.getName()).concat(" ").concat(r.getMiddleName()).concat(" ").
+                    concat(r.getLastName()).concat("-").concat(r.getId_una());
+            String dirAbsolutePath = info.getOutputFileUrl().concat("\\").concat(dirName);
+            File dir = new File(dirAbsolutePath);
+            //Creates directory
+            if(!dir.exists()){
+                if(dir.mkdir()){
+                    //Move required files
+                    File pdfDirectory = new File(info.getPdfFileUrl());
+                    File[] pdfs = pdfDirectory.listFiles();
+                    for (File pdf : pdfs){
+                        if(pdf.getName().startsWith(r.getId_una())){
+                            System.out.println(pdf.getAbsolutePath());
+                        }
+                    }
+                }else{
+                    //Save errors for future logger.
+                    //Error are not process, just skipped.
+                    dirWithError.add(dirName);
+                }
+            }
+        }
     }
 }
