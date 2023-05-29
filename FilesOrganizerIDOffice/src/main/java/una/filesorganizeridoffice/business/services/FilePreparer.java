@@ -6,10 +6,12 @@ import una.filesorganizeridoffice.viewmodel.WindowInfo;
 import java.io.File;
 
 public class FilePreparer {
-    public FilePreparer() {
-    }
-
-    public void prepareFiles(WindowInfo info, Boolean isStudent) {
+    /***
+     * Removes any space on the name of the files in a directory and changes the extension if needed.
+     * @param info Window Info
+     * @param isStudent Boolean
+     */
+    public static void prepareFiles(WindowInfo info, Boolean isStudent) {
         //Correct pdf names if necessary
         correctFileNames(info.getPdfFileUrl(), "pdf");
 
@@ -19,7 +21,7 @@ public class FilePreparer {
         }
     }
 
-    public void correctFileNames(String dirUrl, String extension) {
+    private static void correctFileNames(String dirUrl, String extension) {
         File file = new File(dirUrl);
 
         File[] children = file.listFiles();

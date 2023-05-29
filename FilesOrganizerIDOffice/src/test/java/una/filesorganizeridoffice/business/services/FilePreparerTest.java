@@ -8,7 +8,5 @@ class FilePreparerTest {
 
     @Test
     void prepareFiles() {
-        FilePreparer fp = new FilePreparer();
-        fp.correctFileNames("C:\\Users\\N00148095\\Documents\\prueba", "pdf");
     }
 }

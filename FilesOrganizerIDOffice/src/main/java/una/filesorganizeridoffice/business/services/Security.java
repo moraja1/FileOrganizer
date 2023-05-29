@@ -9,15 +9,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class Security {
-    private final HashMap<String, Protocol> errorList = new HashMap<>();
+    private static final HashMap<String, Protocol> errorList = new HashMap<>();
     private static final String[] excelNames = {"Estudiante", "Funcionarios"};
     private static final String[] idExtensions = {"pdf"};
     private static final String[] photoExtensions = {"jpg", "png", "jpeg"};
-
-    /***
-     * Singleton Constructor
-     */
-    public Security(){}
 
     /***
      * Provides support for verifying the information sent by user. It returns a Protocol to Refuse or Accept the request.
@@ -25,7 +20,7 @@ public class Security {
      * @param isStudent boolean information to verify additional information.
      * @return Protocol.Accepted o Protocol.Refused
      */
-    public Protocol verifyInformation(WindowInfo info, Boolean isStudent) {
+    public static Protocol verifyInformation(WindowInfo info, Boolean isStudent) {
         //Verifies pdf files
         verifyDirectoryFiles(info.getPdfFileUrl(), "Cédulas", idExtensions);
 
@@ -70,7 +65,7 @@ public class Security {
         return Protocol.Accepted;
     }
 
-    private void verifyDirectoryFiles(String fileUrl, String dirFileType , String[] fileExtensions){
+    private static void verifyDirectoryFiles(String fileUrl, String dirFileType , String[] fileExtensions){
         //Obtains files' name list
         File directory = new File(fileUrl);
         String[] filenames = directory.list();
@@ -100,7 +95,7 @@ public class Security {
         }
     }
 
-    public HashMap<String, Protocol> getErrorList() {
+    public static HashMap<String, Protocol> getErrorList() {
         HashMap<String, Protocol> errorsCopy = new HashMap<>();
         errorsCopy.putAll(errorList);
         errorList.clear();

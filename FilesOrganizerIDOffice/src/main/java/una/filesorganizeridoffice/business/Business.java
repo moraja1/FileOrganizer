@@ -17,8 +17,6 @@ import java.util.List;
 
 public class Business {
     private HashMap<String, Protocol> errorList;
-    private Security security;
-    private FilePreparer preparer;
     private ExcelManager xlManager;
     private List<UniversityPerson> requests = new ArrayList<>();
     public Business() {
@@ -33,12 +31,10 @@ public class Business {
     public void startOrganization(WindowInfo info, Boolean isStudent) throws BusinessException {
         try {
             securityProcess(info, isStudent);
-            prepareFilesBeforeOrganizing(info, isStudent);
+            FilePreparer.prepareFiles(info, isStudent);
             readExcel(info, isStudent);
             organizeFiles(info, isStudent);
         } catch (BusinessException e) {
-            security = null;
-            preparer = null;
             //writeLog(); Save a registry of the errors and results in a file.
             errorList.clear();
             throw e;
@@ -53,9 +49,7 @@ public class Business {
      * @throws BusinessException with the message created by createException method.
      */
     private void securityProcess(WindowInfo info, Boolean isStudent) throws BusinessException {
-        security = new Security();
-        Protocol securityResponse = security.verifyInformation(info, isStudent);
-        errorList = security.getErrorList();
+        Protocol securityResponse = Security.verifyInformation(info, isStudent);
         switch (securityResponse)
         {
             case Refused:
@@ -68,16 +62,7 @@ public class Business {
                 break;
         }
     }
-    /***
-     * This method uses other service to prepare all the files before organization.
-     * @param info WindowInformation
-     * @param isStudent Boolean
-     */
-    private void prepareFilesBeforeOrganizing(WindowInfo info, Boolean isStudent) {
-        preparer = new FilePreparer();
-        preparer.prepareFiles(info, isStudent);
-        //Update progress Bar
-    }
+
     /***
      * This method uses an ExcelManager service to create the requests list.
      * @param info Window Info
@@ -117,6 +102,7 @@ public class Business {
      * @throws BusinessException with the message to be displayed on screen.
      */
     private void createException() throws BusinessException {
+        errorList = Security.getErrorList();
         String errorMessage = "Los siguientes errores impiden continuar: \n";
         for (String k : errorList.keySet()){
             Protocol p = errorList.get(k);
@@ -129,7 +115,7 @@ public class Business {
      * This method manages to create a directory for every request as well as move their required files.
      * @param info
      */
-    private void organizeFiles(WindowInfo info, boolean isStudent) {
+    private void organizeFiles(WindowInfo info, boolean isStudent) throws BusinessException {
         List<String> dirWithError = new LinkedList<>();
         for (UniversityPerson r: requests) {
             //Creates directory absolute path
@@ -145,15 +131,19 @@ public class Business {
                     File[] pdfs = pdfDirectory.listFiles();
                     for (File pdf : pdfs){
                         if(pdf.getName().startsWith(r.getId_una())){
-                            System.out.println(pdf.getAbsolutePath());
+
                         }
                     }
                 }else{
                     //Save errors for future logger.
                     //Error are not process, just skipped.
-                    dirWithError.add(dirName);
+                    errorList.put(dirName, Protocol.CreateDirError);
                 }
             }
+        }
+        //Send error to window and log
+        if(!errorList.isEmpty()){
+            createException();
         }
     }
 }
