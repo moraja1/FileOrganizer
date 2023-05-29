@@ -30,7 +30,7 @@ public class FilePreparer {
             for (File child : children) {
                 String fileName = child.getName();
                 fileName = fileName.replaceAll("\\s+", "");
-                fileName = fileName.toLowerCase();
+                fileName = fileName.toUpperCase();
                 if (!fileName.endsWith(extension)) {
                     int indexExtension = fileName.lastIndexOf('.');
                     fileName = fileName.substring(0, indexExtension + 1);
