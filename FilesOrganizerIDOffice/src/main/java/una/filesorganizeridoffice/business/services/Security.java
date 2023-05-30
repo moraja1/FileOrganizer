@@ -10,9 +10,9 @@ import java.util.HashMap;
 
 public class Security {
     private static final HashMap<String, Protocol> errorList = new HashMap<>();
-    private static final String[] excelNames = {"Estudiante", "Funcionarios"};
-    private static final String[] idExtensions = {"pdf"};
-    private static final String[] photoExtensions = {"jpg", "png", "jpeg"};
+    private static final String[] EXCEL_NAMES = {"Estudiante", "Funcionarios"};
+    private static final String[] ID_EXTENSIONS = {"pdf"};
+    private static final String[] PHOTO_EXTENSIONS = {"jpg", "png", "jpeg"};
 
     /***
      * Provides support for verifying the information sent by user. It returns a Protocol to Refuse or Accept the request.
@@ -22,11 +22,11 @@ public class Security {
      */
     public static Protocol verifyInformation(WindowInfo info, Boolean isStudent) {
         //Verifies pdf files
-        verifyDirectoryFiles(info.getPdfFileUrl(), "Cédulas", idExtensions);
+        verifyDirectoryFiles(info.getPdfFileUrl(), "Cédulas", ID_EXTENSIONS);
 
         //Verifies photo files
         if(isStudent){
-            verifyDirectoryFiles(info.getPhotoFileUrl(), "Fotos", photoExtensions);
+            verifyDirectoryFiles(info.getPhotoFileUrl(), "Fotos", PHOTO_EXTENSIONS);
         }
 
         //Verifies output directory
@@ -41,16 +41,17 @@ public class Security {
             if(!outDir.mkdirs()){
                 errorList.put("Directorio de Salida", Protocol.CreateDirError);
             }
+            info.setOutputFileUrl(outDirPath);
         }
 
         //Verifies excel name
         File excel = new File(info.getExcelFileUrl());
         if(isStudent){
-            if(!excel.getName().contains(excelNames[0])){
+            if(!excel.getName().contains(EXCEL_NAMES[0])){
                 errorList.put("Excel", Protocol.UrlError);
             }
         }else{
-            if(!excel.getName().contains(excelNames[1])){
+            if(!excel.getName().contains(EXCEL_NAMES[1])){
                 errorList.put("Excel", Protocol.UrlError);
             }
         }

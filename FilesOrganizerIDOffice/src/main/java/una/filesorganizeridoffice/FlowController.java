@@ -8,8 +8,17 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
+/***
+ * A simple controller for the windows flow. This controlled provides a single point of communication between windows.
+ */
 public class FlowController {
     private final Stage mainStage;
+
+    /***
+     * Configures the mainStage of the application and initializes the window
+     * @param stage provided by JavaFX framework in the very start of the application.
+     * @throws IOException
+     */
     public FlowController(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FlowController.class.getResource("MainWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

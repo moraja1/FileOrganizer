@@ -2,8 +2,6 @@ package una.filesorganizeridoffice.viewmodel;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +22,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-public class WindowController implements Initializable {
+/***
+ * Initializable class that contains a reference for each FXML.xml file of the window.
+ * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
+ */
+public final class WindowController implements Initializable {
     @FXML
     private AnchorPane anchor;
     @FXML
@@ -85,15 +87,13 @@ public class WindowController implements Initializable {
     private Button startBtn;
     @FXML
     private Tab tabStudent;
-    private final IntegerProperty initialRow = new SimpleIntegerProperty();
-    private final IntegerProperty finalRow = new SimpleIntegerProperty();
     private final WindowInfo info = new WindowInfo();
 
     /***
      * Performs activities at the beginning at the system such as configuration of TabSelectionChanged events. Formatters'
      * configuration for inputs and binding configuration for the ViewModel.
-     * @param url
-     * @param resourceBundle
+     * @param url inherited parameter of initialize function
+     * @param resourceBundle inherited parameter of initialize function
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -109,8 +109,6 @@ public class WindowController implements Initializable {
             stage.setX(mouseEvent.getScreenX() + WindowOffsetInfo.xOffset);
             stage.setY(mouseEvent.getScreenY() + WindowOffsetInfo.yOffset);
         });
-
-
         //Change components at tab event
         tabStudent.setOnSelectionChanged(event -> {
             if(tabStudent.isSelected()){
@@ -159,7 +157,7 @@ public class WindowController implements Initializable {
 
     /***
      * Event at any search button in the window. Verifies the source of the event and calls verifyBtnInput method.
-     * @param e
+     * @param e action event of any search button
      */
     @FXML
     void searchBtn_Clicked(ActionEvent e) {
@@ -188,9 +186,10 @@ public class WindowController implements Initializable {
      * if the information in the TextField is an existing File or not. If not, opens a DirectoryChooser or a FileChooser
      * depending on what is supposed to be selected by the user.
      * @param obj Object DirectoryChooser or FileChooser
-     * @return String
+     * @return url corrected from any wild card or problem related, null if the object passed is no DirectoryChooser or
+     * FileChooser
      */
-    public String verifyBtnInput(Object obj){
+    private String verifyBtnInput(Object obj){
         File fileChosen = null;
         String url;
         if(obj instanceof DirectoryChooser){
@@ -210,7 +209,7 @@ public class WindowController implements Initializable {
                 fileChosen = ((FileChooser)obj).showOpenDialog(new Stage());
             }while(fileChosen == null);
         }else{
-            fileChosen = null;
+            return null;
         }
         url = fileChosen.getAbsolutePath();
         return correctURL(url);
@@ -296,11 +295,8 @@ public class WindowController implements Initializable {
      */
     private void bindInfoModelProperties() {
         //Binding Properties
-        Bindings.bindBidirectional(firstRowTextBox.textProperty(), initialRow, info.getConverter());
-        Bindings.bindBidirectional(lastRowTextBox.textProperty(), finalRow, info.getConverter());
-
-        info.initialRowProperty().bind(initialRow);
-        info.finalRowProperty().bind(finalRow);
+        Bindings.bindBidirectional(firstRowTextBox.textProperty(), info.initialRowProperty(), info.getConverter());
+        Bindings.bindBidirectional(lastRowTextBox.textProperty(), info.finalRowProperty(), info.getConverter());
         info.pdfFileUrlProperty().bindBidirectional(pdfTextBox.textProperty());
         info.outputFileUrlProperty().bindBidirectional(outTextBox.textProperty());
         info.photoFileUrlProperty().bindBidirectional(photoTextBox.textProperty());
@@ -312,11 +308,8 @@ public class WindowController implements Initializable {
      */
     private void unbindInfoModelProperties() {
         //Binding Properties
-        Bindings.unbindBidirectional(firstRowTextBox.textProperty(), initialRow);
-        Bindings.unbindBidirectional(lastRowTextBox.textProperty(), finalRow);
-
-        info.initialRowProperty().unbindBidirectional(initialRow);
-        info.finalRowProperty().unbindBidirectional(finalRow);
+        Bindings.unbindBidirectional(firstRowTextBox.textProperty(), info.initialRowProperty());
+        Bindings.unbindBidirectional(lastRowTextBox.textProperty(), info.finalRowProperty());
         info.pdfFileUrlProperty().unbindBidirectional(pdfTextBox.textProperty());
         info.outputFileUrlProperty().unbindBidirectional(outTextBox.textProperty());
         info.photoFileUrlProperty().unbindBidirectional(photoTextBox.textProperty());
@@ -327,7 +320,8 @@ public class WindowController implements Initializable {
      * Performs close and minimize operations.
      * @param e
      */
-    public void menuBarBtn_Clicked(ActionEvent e) {
+    @FXML
+    void menuBarBtn_Clicked(ActionEvent e) {
         if(e.getSource() == closeBtn){
             System.exit(0);
         }
@@ -351,6 +345,7 @@ public class WindowController implements Initializable {
                 alert.setContentText(message);
                 alert.setOnCloseRequest(e -> {
                     enableControls(true);
+                    bindInfoModelProperties();
                 });
                 alert.showAndWait();
             }
@@ -373,7 +368,11 @@ public class WindowController implements Initializable {
                     unbindInfoModelProperties();
                     try{
                         Business b = new Business();
-                        b.startOrganization(info, isStudent);
+
+                        if(b.startOrganization(info, isStudent)){
+                            showDialog("Proceso completado", "El sistema concluyó satisfactoriamente, puedes" +
+                                    " revisar el reporte en el archivo llamado log.txt", Alert.AlertType.INFORMATION);
+                        }
                     }catch(BusinessException e) {
                         showDialog("Error en la información", e.getMessage(), Alert.AlertType.ERROR);
                     }
@@ -384,11 +383,11 @@ public class WindowController implements Initializable {
             }
         });
         startThread.start();
-        System.out.println();
     }
 
     /***
-     * Contains variables to drag window.
+     * Static inner class with window offset Information
+     * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
      */
     private static class WindowOffsetInfo {
         public static Double xOffset;

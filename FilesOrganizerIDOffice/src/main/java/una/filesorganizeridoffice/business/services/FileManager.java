@@ -1,11 +1,10 @@
 package una.filesorganizeridoffice.business.services;
 
-import una.filesorganizeridoffice.business.Protocol;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
 import java.io.File;
 
-public class FilePreparer {
+public class FileManager {
     /***
      * Removes any space on the name of the files in a directory and changes the extension if needed.
      * @param info Window Info
