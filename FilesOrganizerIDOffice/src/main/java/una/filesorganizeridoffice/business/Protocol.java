@@ -1,5 +1,9 @@
 package una.filesorganizeridoffice.business;
 
+/**
+ * Enumeration of cases reported to business from the services.
+ * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
+ */
 public enum Protocol {
     Accepted(""),
     Refused("Gestión rechazada.\n"),

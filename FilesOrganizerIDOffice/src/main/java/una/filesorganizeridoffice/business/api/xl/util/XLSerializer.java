@@ -10,6 +10,11 @@ import una.filesorganizeridoffice.business.api.xl.exceptions.XLSerializableExcep
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * A generic implementation to serialize and de-serialize any Type who is annotated as XLSerializable.
+ * @param <T> any Type class who has been annotated as XLSerializable.
+ * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
+ */
 public class XLSerializer<T> {
     /***
      * This method transforms a XLRow into an object of any type.
@@ -20,15 +25,16 @@ public class XLSerializer<T> {
      */
     public void rowToRequest(XLRow row, T request, String processOf) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
         //Verifies if its XLSerializable
-        Class<?> clazz = request.getClass();
-        if(!clazz.isAnnotationPresent(XLSerializable.class)){
+        Class<?> paper = request.getClass();
+        if(!paper.isAnnotationPresent(XLSerializable.class)){
             throw new XLSerializableException();
         }
+
         for (XLCell cell : row.asList()){
             String cellColumn = cell.getColumnName();
             String processColumn;
-            //Look for process column name required
-            for (Method m : clazz.getMethods()){
+            //Look for process column name for each cell in each method of the XLSerializable class.
+            for (Method m : paper.getMethods()){
                 if (m.isAnnotationPresent(XLCellSetValue.class)){
                     boolean done = false;
                     XLCellSetValue annotationSet = m.getAnnotation(XLCellSetValue.class);

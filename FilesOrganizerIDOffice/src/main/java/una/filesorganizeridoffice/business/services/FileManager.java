@@ -1,10 +1,22 @@
 package una.filesorganizeridoffice.business.services;
 
+import una.filesorganizeridoffice.business.Protocol;
+import una.filesorganizeridoffice.business.exceptions.BusinessException;
+import una.filesorganizeridoffice.business.util.Tools;
+import una.filesorganizeridoffice.model.base.UniversityPerson;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-public class FileManager {
+/**
+ * A file manager service who encapsulate all methods related to file handle.
+ * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
+ */
+public final class FileManager {
+
     /***
      * Removes any space on the name of the files in a directory and changes the extension if needed.
      * @param info Window Info
@@ -20,6 +32,13 @@ public class FileManager {
         }
     }
 
+    /***
+     * Remove any space on the name of the files in the directory indicated, as well as changes their extension to the
+     * one indicated by parameter.
+     * Note: This method changes the extension of the files of a directory. This could damage an important file.
+     * @param dirUrl the directory url that contains the files to be corrected
+     * @param extension the new extension of the files
+     */
     private static void correctFileNames(String dirUrl, String extension) {
         File file = new File(dirUrl);
 
@@ -40,5 +59,89 @@ public class FileManager {
                 child.renameTo(new File(parent));
             }
         }
+    }
+
+    /***
+     * This method manages to create a directory for every request as well as move their required files. If it can not
+     * create a directory for the request it will not do anything but saving the error. If it can not move a required file,
+     * it will continue to try to move the next one but saving the error in the list.
+     * @param request personal data of the one who is requesting a Licence.
+     * @param info inserted in the fields of the window.
+     * @param isStudent indicates if the person is student or not
+     */
+    public static void organizeFiles(UniversityPerson request, WindowInfo info, boolean isStudent) throws BusinessException {
+        //Creates directory name
+        String dirName = "".concat(request.getName()).concat(" ").concat(request.getMiddleName()).concat(" ").
+                concat(request.getLastName()).concat("-").concat(request.getId_una());
+
+        File dir = createDirectory(dirName, info.getOutputFileUrl());
+
+        //Move files if possible
+        if(dir.exists()) {
+            //Move required files if possible
+            try {
+                if (isStudent) {
+                    //Move photo if its student
+                    if (moveFile(request.getId_una(), dir, info.getPhotoFileUrl())) {
+                        String approvedMessage = request.getName() + " " + request.getMiddleName() + " " + request.getLastName() +
+                                ": " + "Se movió correctamente el archivo " + request.getId_una().concat(".jpg");
+                        Tools.approvedProcesses.add(approvedMessage);
+                    }
+                }
+                //Move pdf for any request
+                if (moveFile(request.getId_una(), dir, info.getPdfFileUrl())) {
+                    String approvedMessage = request.getName() + " " + request.getMiddleName() + " " + request.getLastName() +
+                            ": " + "Se movió correctamente el archivo " + request.getId_una().concat(".pdf");
+                    Tools.approvedProcesses.add(approvedMessage);
+                }
+            } catch (IOException e) {
+                Tools.errorList.put(dir.getName(), Protocol.MoveFileError);
+            }
+        }
+    }
+
+    /***
+     * Creates a directory inside a specified parent with a specified name.
+     * @param name of the directory
+     * @param parent of the directory
+     * @return File whether it exists or not
+     */
+    private static File createDirectory(String name, String parent){
+        //Creates directory absolute path
+        String dirAbsolutePath = parent.concat("\\").concat(name);
+
+        //Creates directory if necessary
+        File dir = new File(dirAbsolutePath);
+        if(!dir.exists()){
+            if(!dir.mkdir()){
+                //Save errors for future logger.
+                //Error are not process, just skipped.
+                Tools.errorList.put(name, Protocol.CreateDirError);
+            }
+        }
+        return dir;
+    }
+
+    /***
+     * Move a file to a new directory only if the new directory exists and the filename is in the fileToMoveDir.
+     * @param fileName information of the one who requests a licence.
+     * @param fileNewDirectory file of the new directory that will contain the organized files.
+     * @param fileToMoveDir the url of the directory where the file is located.
+     * @throws IOException
+     */
+    private static boolean moveFile(String fileName, File fileNewDirectory, String fileToMoveDir) throws IOException {
+        if(fileNewDirectory.exists()){
+            File fileDirectory = new File(fileToMoveDir);
+            File[] entries = fileDirectory.listFiles();
+            for (File entry : entries){
+                if(entry.getName().startsWith(fileName)){
+                    String newPath = fileNewDirectory.getAbsolutePath();
+                    newPath = newPath.concat("\\").concat(entry.getName());
+                    Files.move(entry.toPath(), Paths.get(newPath));
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

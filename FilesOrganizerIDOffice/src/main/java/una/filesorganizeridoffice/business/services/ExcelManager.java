@@ -21,21 +21,31 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A service class who modularize every method related to Excel management.
+ * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
+ */
 public class ExcelManager {
+    /**
+     * The Excel used by the manager to operate.
+     */
     private final XLWorkbook xlWorkbook;
+    /**
+     * The sheet that it's been used by the manager.
+     */
     private XLSheet xlSheet;
 
-    /***
+    /**
      * Receives the Workbook URL.
-     * @param url
+     * @param url of the workbook file
      */
     public ExcelManager(String url) {
         this.xlWorkbook = new XLWorkbook(url);
     }
 
-    /***
+    /**
      * Completes XLWorkbook using Excel utility. This charges the basic xml files and the sheets id and names.
-     * @return
+     * @return Protocol.Accept or Refuse, depending on the result.
      */
     public Protocol openXL(){
         try {
@@ -46,6 +56,10 @@ public class ExcelManager {
         return Protocol.Accepted;
     }
 
+    /**
+     * This method opens the default sheet where it will operate, its like executing the Excel.
+     * @return Protocol.Accept or Refuse, depending on the result.
+     */
     public Protocol startWorking() {
         try{
             openSheet(0);
@@ -55,7 +69,7 @@ public class ExcelManager {
         return Protocol.Accepted;
     }
 
-    /***
+    /**
      * This method creates an Excel sheet based on the index provided. By default, it will charge de index 0.
      * @param i sheet´s index
      * @return Protocol.Accept or Refuse, depending on the result.
@@ -68,7 +82,7 @@ public class ExcelManager {
         }
     }
 
-    /***
+    /**
      * This method read row by row and uses XL API to serialize every single row to a request and save one by one
      * in a List, then returns that List.
      * @param initialRow int
@@ -114,7 +128,7 @@ public class ExcelManager {
         return requests;
     }
 
-    /***
+    /**
      * Verifies if a row contains at least one cell stating the request to be from an adult.
      * @param row XLRow
      * @return Boolean
