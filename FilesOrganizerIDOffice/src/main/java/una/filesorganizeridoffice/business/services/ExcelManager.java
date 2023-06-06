@@ -9,6 +9,7 @@ import una.filesorganizeridoffice.business.api.xl.XLWorkbook;
 import una.filesorganizeridoffice.business.api.xl.exceptions.XLSerializableException;
 import una.filesorganizeridoffice.business.api.xl.util.XLFactory;
 import una.filesorganizeridoffice.business.api.xl.util.XLSerializer;
+import una.filesorganizeridoffice.business.util.Tools;
 import una.filesorganizeridoffice.model.Adult;
 import una.filesorganizeridoffice.model.Authorized;
 import una.filesorganizeridoffice.model.UnderAgeStudent;
@@ -18,8 +19,6 @@ import una.filesorganizeridoffice.model.base.UniversityPerson;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A service class who modularize every method related to Excel management.
@@ -90,8 +89,7 @@ public class ExcelManager {
      * @param isStudent boolean
      * @return ArrayList of requests
      */
-    public List<UniversityPerson> getRequests(int initialRow, int finalRow, Boolean isStudent) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
-        List<UniversityPerson> requests = new ArrayList<>();
+    public void getRequests(int initialRow, int finalRow, Boolean isStudent) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
         xlSheet.addIgnoreColumnCase("A");
         if (isStudent) {
             xlSheet.addIgnoreColumnCase("R");
@@ -121,11 +119,18 @@ public class ExcelManager {
             }
             studentSerializer.rowToRequest(row, request, processOf);
             //Add model to list
-            requests.add(request);
+            Tools.requests.add(request);
         }
         xlSheet.clearIgnoreColumnCases();
-        //Return list
-        return requests;
+    }
+
+    /**
+     *
+     * @param request
+     * @param isStudent
+     * @return
+     */
+    public Object createExcel(UniversityPerson request, Boolean isStudent) {
     }
 
     /**
@@ -142,5 +147,21 @@ public class ExcelManager {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns the XLWorkbook that its being managed at the time of the invocation.
+     * @return XLWorkbook
+     */
+    public XLWorkbook getXlWorkbook() {
+        return xlWorkbook;
+    }
+
+    /**
+     * Returns the XLSheet that its being managed at the time of the invocation.
+     * @return XLSheet
+     */
+    public XLSheet getXlSheet() {
+        return xlSheet;
     }
 }

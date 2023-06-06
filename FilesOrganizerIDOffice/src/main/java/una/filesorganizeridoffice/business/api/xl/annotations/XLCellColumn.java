@@ -4,6 +4,6 @@ import java.lang.annotation.Repeatable;
 
 @Repeatable(XLCellSetValue.class)
 public @interface XLCellColumn {
-    String processOf();
+    Integer processOf();
     String column();
 }

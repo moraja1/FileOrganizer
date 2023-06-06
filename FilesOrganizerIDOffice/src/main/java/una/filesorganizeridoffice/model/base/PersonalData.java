@@ -1,8 +1,10 @@
 package una.filesorganizeridoffice.model.base;
 
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLCellGetValue;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
+import una.filesorganizeridoffice.business.util.Processes;
 
 import static una.filesorganizeridoffice.model.base.Gender.Feminine;
 import static una.filesorganizeridoffice.model.base.Gender.Masculine;
@@ -17,9 +19,16 @@ public abstract class PersonalData {
     protected String lastName;
     protected Gender gender;
     protected String phoneNumber;
+    @XLCellGetValue({
+            @XLCellColumn(processOf = "adultStu", column = "A"),
+            @XLCellColumn(processOf = "underAgeStu", column = "D"),
+            @XLCellColumn(processOf = "employee", column = "A"),
+            @XLCellColumn(processOf = "authorized", column = "N")
+    })
     public String getName() {
         return name;
     }
+
     public String getMiddleName() {
         return middleName;
     }
@@ -43,9 +52,9 @@ public abstract class PersonalData {
         return phoneNumber;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "F"),
-            @XLCellColumn(processOf = "authorized", column = "V"),
-            @XLCellColumn(processOf = "employee", column = "G")
+            @XLCellColumn(processOf = Processes.STUDENT, column = "F"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "V"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "G")
     })
     public void setIdType(String idType) {
         if (idType.equals(DIMEX.getValue())) {
@@ -57,9 +66,6 @@ public abstract class PersonalData {
         }else{
             this.idType = Cedula;
         }
-    }
-    public void setIdType(IdentificationType idType) {
-        this.idType = idType;
     }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "G"),
@@ -92,9 +98,6 @@ public abstract class PersonalData {
     })
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-    public void setGender(Gender gender) {
-        this.gender = gender;
     }
     @XLCellSetValue({
             @XLCellColumn(processOf = "student", column = "J"),

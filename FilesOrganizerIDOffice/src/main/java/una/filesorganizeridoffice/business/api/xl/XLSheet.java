@@ -11,6 +11,7 @@ import java.util.List;
 public final class XLSheet {
     private final XLWorkbook xlWorkbook;
     private final Document xlSheet;
+    private final String name;
     private final List<String> ignoreColumnCases = new ArrayList<>();
 
     /***
@@ -19,12 +20,13 @@ public final class XLSheet {
      * @param document
      * @throws ParserConfigurationException
      */
-    public XLSheet(XLWorkbook xlWorkbook, Document document) throws ParserConfigurationException {
+    public XLSheet(XLWorkbook xlWorkbook, Document document, String name) throws ParserConfigurationException {
         this.xlWorkbook = xlWorkbook;
         this.xlSheet = xlWorkbook.getDbf().newDocumentBuilder().newDocument();
         this.xlSheet.appendChild(
                 this.xlSheet.importNode(document.getDocumentElement(), true)
         );
+        this.name = name;
     }
 
     /***
@@ -110,5 +112,13 @@ public final class XLSheet {
         if (!ignoreColumnCases.isEmpty()){
             ignoreColumnCases.clear();
         }
+    }
+
+    /**
+     * Returns the name of the xml file that contains the sheet's information
+     * @return String
+     */
+    public String getName() {
+        return name;
     }
 }

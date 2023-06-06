@@ -1,6 +1,7 @@
 package una.filesorganizeridoffice.business.util;
 
 import una.filesorganizeridoffice.business.Protocol;
+import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -19,6 +20,10 @@ public class Tools {
      * Contains all the processes completed for log writing.
      */
     public static final List<String> approvedProcesses = new LinkedList<>();
+    /***
+     * Requests List of UniversityPerson Class, required to contain the list of requesters of University Licence.
+     */
+    public static final List<UniversityPerson> requests = new LinkedList<>();
 
     /**
      * Inner static class as member of Tools.

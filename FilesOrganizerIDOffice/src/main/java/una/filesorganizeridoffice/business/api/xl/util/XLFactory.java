@@ -82,7 +82,7 @@ public class XLFactory {
         String entryName = baseName.concat(i.toString()).concat(".xml");
         entry = zipFile.getEntry(entryName);
         if(entry != null){
-            return new XLSheet(w, createDocument(zipFile, entry));
+            return new XLSheet(w, createDocument(zipFile, entry), entryName);
         }
         return null;
     }

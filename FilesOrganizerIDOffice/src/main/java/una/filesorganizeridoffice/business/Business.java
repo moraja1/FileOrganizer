@@ -1,22 +1,18 @@
 package una.filesorganizeridoffice.business;
 
+import una.filesorganizeridoffice.App;
 import una.filesorganizeridoffice.business.exceptions.BusinessException;
 import una.filesorganizeridoffice.business.services.ExcelManager;
 import una.filesorganizeridoffice.business.services.FileManager;
 import una.filesorganizeridoffice.business.services.Security;
 import una.filesorganizeridoffice.business.api.xl.exceptions.XLSerializableException;
 import una.filesorganizeridoffice.business.util.Tools;
+import una.filesorganizeridoffice.model.Adult;
+import una.filesorganizeridoffice.model.UnderAgeStudent;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 /***
  * Final class that contains all the logical process of the system. This class establishes the step by step to
@@ -28,10 +24,6 @@ public final class Business {
      * Excel manager instance, required to process API.xl
      */
     private ExcelManager xlManager;
-    /***
-     * Requests List of UniversityPerson Class, required to contain the list of requesters of University Licence.
-     */
-    private List<UniversityPerson> requests = new LinkedList<>();
 
     /***
      * Base Constructor
@@ -50,9 +42,9 @@ public final class Business {
             securityProcess(info, isStudent);
             FileManager.prepareFiles(info, isStudent);
             readExcel(info, isStudent);
-            for (UniversityPerson request : requests) {
+            for (UniversityPerson request : Tools.requests) {
+                writeExcel(request, isStudent);
                 FileManager.organizeFiles(request, info, isStudent);
-                writeExcel(request, info, isStudent);
             }
         } catch (BusinessException e) {
             //createLog(); Save a registry of the errors and results in a file.
@@ -99,18 +91,42 @@ public final class Business {
     public void readExcel(WindowInfo info, Boolean isStudent) throws BusinessException, XLSerializableException, InvocationTargetException, IllegalAccessException {
         //Si es estudiante la idea sería recibir aqui la lista de estudiantes según los row
         xlManager = new ExcelManager(info.getExcelFileUrl());
+        runExcel(xlManager);
+        //update progress bar
+        xlManager.getRequests(info.getInitialRow(), info.getFinalRow(), isStudent);
+    }
+
+    /**
+     * This method uses ExcelManager to create the individual Excel file for each request.
+     * @param isStudent boolean
+     */
+    private void writeExcel(UniversityPerson request, Boolean isStudent) throws BusinessException {
+        //Creates the ExcelManager for each type of request
+        boolean isOk = true;
+        if(request instanceof Adult){
+            xlManager = new ExcelManager(App.class.getResource("xlsx\\Formato Individual Mayores.xlsx").toString());
+        }else if(request instanceof UnderAgeStudent){
+            xlManager = new ExcelManager(App.class.getResource("xlsx\\Formato Individual Menores.xlsx").toString());
+        }else{
+            Tools.errorList.put(request.getId_una(), Protocol.Refused);
+            isOk = false;
+        }
+
+        if(isOk){
+            runExcel(xlManager);
+            //update progress bar
+            xlManager.createExcel(request, isStudent);
+        }
+    }
+
+    private void runExcel(ExcelManager xlManager) throws BusinessException {
         Protocol xlBuilding = xlManager.openXL();
         switch (xlBuilding) {
             case Accepted:
                 Protocol xlSheetBuilding = xlManager.startWorking();
-                //update progress bar
                 switch (xlSheetBuilding) {
-                    case Accepted:
-                        requests = xlManager.getRequests(info.getInitialRow(), info.getFinalRow(), isStudent);
-                        //update progress bar
-                        break;
                     case Refused:
-                        Tools.errorList.put("Lectura de Hoja de Excel de Solicitudes: ", Protocol.Refused);
+                        Tools.errorList.put("Lectura de Hoja de Excel " + xlManager.getXlSheet().getName() + ": ", Protocol.Refused);
                         Tools.LoggerWriter.createLog();
                         createException();
                     default:
@@ -118,22 +134,12 @@ public final class Business {
                 }
                 break;
             case Refused:
-                Tools.errorList.put("Lectura de Excel de Solicitudes: ", Protocol.Refused);
+                Tools.errorList.put("Lectura de Excel " + xlManager.getXlWorkbook().getXlName() + ": ", Protocol.Refused);
                 Tools.LoggerWriter.createLog();
                 createException();
             default:
                 break;
         }
-    }
-
-    /**
-     * This method uses ExcelManager to create the individual Excel file for each request.
-     * @param request the model with information of the person who requested a licence.
-     * @param info the info inserted by the user in the window
-     * @param isStudent boolean
-     */
-    private void writeExcel(UniversityPerson request, WindowInfo info, Boolean isStudent) {
-
     }
 
     /***

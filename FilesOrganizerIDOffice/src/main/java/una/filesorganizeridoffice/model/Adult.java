@@ -1,6 +1,7 @@
 package una.filesorganizeridoffice.model;
 
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
+import una.filesorganizeridoffice.business.api.xl.annotations.XLCellGetValue;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
