@@ -3,10 +3,15 @@ package una.filesorganizeridoffice.business.api.xl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import una.filesorganizeridoffice.business.api.xl.util.DateUtil;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isScientificNotation;
 
 public final class XLSheet {
     private final XLWorkbook xlWorkbook;
@@ -36,8 +41,8 @@ public final class XLSheet {
      */
     public XLRow getRow(int idx) {
         //Cell memory space
-        XLRow row = new XLRow();
-        XLCell xlCell;
+        XLRow row = new XLRow(idx);
+        XLCell<?> xlCell;
         String cellValue;
         String cellColumn;
         Integer cellRow;
@@ -79,7 +84,23 @@ public final class XLSheet {
                             }
                         }
                         //Creates de cell with proper value Type
-                        xlCell = new XLCell<>(cellColumn, cellRow, cellValue);
+                        Integer intValue;
+                        LocalDate dateValue;
+                        String stringValue;
+                        if(isScientificNotation(cellValue)){
+                            intValue = new BigDecimal(cellValue).intValue();
+                            xlCell = new XLCell<Integer>(cellColumn, cellRow, intValue);
+                        }else if(DateUtil.isDate(cellValue)){
+                            dateValue = DateUtil.toDate(cellValue);
+                            xlCell = new XLCell<LocalDate>(cellColumn, cellRow, dateValue);
+                        }else if(cellValue.matches("\\d*") && !cellValue.isEmpty()){
+                            intValue = Integer.valueOf(cellValue);
+                            xlCell = new XLCell<Integer>(cellColumn, cellRow, intValue);
+                        }else{
+                            stringValue = cellValue;
+                            xlCell = new XLCell<String>(cellColumn, cellRow, stringValue);
+                        }
+
                         row.addXlCell(xlCell);
                         //Ends if its adult
                         if(xlCell.getValue().equals("Mayor de edad")) j = cells.getLength();

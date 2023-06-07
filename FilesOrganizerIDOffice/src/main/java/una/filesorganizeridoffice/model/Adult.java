@@ -13,8 +13,10 @@ public class Adult extends UniversityPerson {
     private String occupancy;
     private String address;
     private String hasAccount;
+
     public Adult() {
     }
+
     @XLCellGetValue({
             @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "I"),
             @XLCellColumn(processOf = Processes.EMPLOYEE, column = "J")

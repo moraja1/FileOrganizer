@@ -33,7 +33,8 @@ public class XLFactory {
                 workbook.setXlStyles(createDocument(zipFile, entry));
             }else if (entry.getName().equals("xl/workbook.xml")) {
                 workbook.setXlWorkbook(createDocument(zipFile, entry));
-            } else if (workbook.getXlWorkbook() != null && workbook.getXlStyles() != null &&
+            }
+            if (workbook.getXlWorkbook() != null && workbook.getXlStyles() != null &&
                     workbook.getXlSharedStrings() != null) {
                 break;
             }

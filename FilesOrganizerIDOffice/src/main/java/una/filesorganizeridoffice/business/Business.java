@@ -24,12 +24,6 @@ public final class Business {
      * Excel manager instance, required to process API.xl
      */
     private ExcelManager xlManager;
-
-    /***
-     * Base Constructor
-     */
-    public Business() {
-    }
     /***
      * This method leads the organization process. Passing the information from one service to another to find any issue
      * and to organize the files the best way possible.
@@ -44,7 +38,7 @@ public final class Business {
             readExcel(info, isStudent);
             for (UniversityPerson request : Tools.requests) {
                 writeExcel(request, isStudent);
-                FileManager.organizeFiles(request, info, isStudent);
+                //FileManager.organizeFiles(request, info, isStudent);
             }
         } catch (BusinessException e) {
             //createLog(); Save a registry of the errors and results in a file.
@@ -100,13 +94,15 @@ public final class Business {
      * This method uses ExcelManager to create the individual Excel file for each request.
      * @param isStudent boolean
      */
-    private void writeExcel(UniversityPerson request, Boolean isStudent) throws BusinessException {
+    private void writeExcel(UniversityPerson request, Boolean isStudent) throws BusinessException, XLSerializableException, InvocationTargetException, IllegalAccessException {
         //Creates the ExcelManager for each type of request
         boolean isOk = true;
         if(request instanceof Adult){
-            xlManager = new ExcelManager(App.class.getResource("xlsx\\Formato Individual Mayores.xlsx").toString());
+            String path = App.class.getResource("xlsx/formatAdult.xlsx").getPath();
+            xlManager = new ExcelManager(path);
         }else if(request instanceof UnderAgeStudent){
-            xlManager = new ExcelManager(App.class.getResource("xlsx\\Formato Individual Menores.xlsx").toString());
+            String path = App.class.getResource("xlsx/formatUnderAge.xlsx").getPath();
+            xlManager = new ExcelManager(path);
         }else{
             Tools.errorList.put(request.getId_una(), Protocol.Refused);
             isOk = false;

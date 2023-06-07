@@ -18,7 +18,6 @@ public class UnderAgeStudent extends UniversityPerson {
     public void setAuthorized(Authorized authorized) {
         this.authorized = authorized;
     }
-
     @Override
     public String toString() {
         return "UnderAgeStudent{" +

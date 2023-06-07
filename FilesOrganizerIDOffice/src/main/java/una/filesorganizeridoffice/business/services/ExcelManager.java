@@ -2,6 +2,7 @@ package una.filesorganizeridoffice.business.services;
 
 import org.xml.sax.SAXException;
 import una.filesorganizeridoffice.business.Protocol;
+import una.filesorganizeridoffice.business.api.xl.XLCell;
 import una.filesorganizeridoffice.business.exceptions.BusinessException;
 import una.filesorganizeridoffice.business.api.xl.XLRow;
 import una.filesorganizeridoffice.business.api.xl.XLSheet;
@@ -20,6 +21,7 @@ import una.filesorganizeridoffice.model.base.UniversityPerson;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 
 /**
  * A service class who modularize every method related to Excel management.
@@ -34,6 +36,11 @@ public class ExcelManager {
      * The sheet that it's been used by the manager.
      */
     private XLSheet xlSheet;
+
+    /**
+     * A serializer to transform the row into requests and the other way around.
+     */
+    private final XLSerializer<PersonalData> serializer = new XLSerializer<>();
 
     /**
      * Receives the Workbook URL.
@@ -98,29 +105,43 @@ public class ExcelManager {
         } else {
             xlSheet.addIgnoreColumnCase("C");
         }
-
         for (int i = initialRow; i <= finalRow; i++) {
             //Ask the sheet to return a row by number
             XLRow row = xlSheet.getRow(i);
-            //Converts the row into model
-            XLSerializer<PersonalData> studentSerializer = new XLSerializer<>();
-            UniversityPerson request = new Adult();
-            Authorized authorized;
-            Integer processOf;
-            if(isStudent){
-                if (!isAdult(row)){
-                    request = new UnderAgeStudent();
-                    authorized = new Authorized();
-                    studentSerializer.rowToType(row, authorized, Processes.AUTHORIZED);
-                    ((UnderAgeStudent) request).setAuthorized(authorized);
+            if(row != null){
+                //Correct address
+                for(XLCell cell : row.asList()){
+                    if(isStudent && cell.getColumnName().equals("N")){
+                        String address = (String) cell.getValue();
+                        address = address.substring(0, address.indexOf("-"));
+                        cell.setValue(address);
+                        break;
+                    } else if(!isStudent && cell.getColumnName().equals("O")) {
+                        String address = (String) cell.getValue();
+                        address = address.substring(0, address.indexOf("-"));
+                        cell.setValue(address);
+                        break;
+                    }
                 }
-                processOf = Processes.STUDENT;
-            }else{
-                processOf = Processes.EMPLOYEE;
+                //Converts the row into model
+                UniversityPerson request = new Adult();
+                Authorized authorized;
+                int processOf;
+                if(isStudent){
+                    if (!isAdult(row)){
+                        request = new UnderAgeStudent();
+                        authorized = new Authorized();
+                        serializer.rowToType(row, authorized, Processes.AUTHORIZED);
+                        ((UnderAgeStudent) request).setAuthorized(authorized);
+                    }
+                    processOf = Processes.STUDENT;
+                }else{
+                    processOf = Processes.EMPLOYEE;
+                }
+                serializer.rowToType(row, request, processOf);
+                //Add model to list
+                Tools.requests.add(request);
             }
-            studentSerializer.rowToType(row, request, processOf);
-            //Add model to list
-            Tools.requests.add(request);
         }
         xlSheet.clearIgnoreColumnCases();
     }
@@ -129,12 +150,32 @@ public class ExcelManager {
      *
      * @param request
      * @param isStudent
-     * @return
      */
-    public void createExcel(UniversityPerson request, Boolean isStudent) {
-        /*
-        EN DESARROLLO
-         */
+    public void createExcel(UniversityPerson request, Boolean isStudent) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
+        //Transforms request into row
+        XLRow row = new XLRow(2);
+        XLRow authorizedRow;
+        Integer processOf = null;
+        if(isStudent){
+            if(request instanceof UnderAgeStudent){
+                processOf = Processes.UNDER_AGE_STUDENT;
+            }else{
+                processOf = Processes.ADULT_STUDENT;
+            }
+        }else{
+            processOf = Processes.EMPLOYEE;
+        }
+        //If it is an under-age student first the authorized row is created and added to the main row
+        if(processOf.equals(Processes.UNDER_AGE_STUDENT)){
+            authorizedRow = new XLRow(2);
+            serializer.typeToRow(authorizedRow, ((UnderAgeStudent) request).getAuthorized(), Processes.AUTHORIZED);
+            for(XLCell cell : authorizedRow.asList()){
+                row.addXlCell(cell);
+            }
+        }
+        serializer.typeToRow(row, request, processOf);
+        row.sort();
+        System.out.println(row.toString());
     }
 
     /**
