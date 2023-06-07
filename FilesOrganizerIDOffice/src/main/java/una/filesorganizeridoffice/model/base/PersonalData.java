@@ -20,34 +20,66 @@ public abstract class PersonalData {
     protected Gender gender;
     protected String phoneNumber;
     @XLCellGetValue({
-            @XLCellColumn(processOf = "adultStu", column = "A"),
-            @XLCellColumn(processOf = "underAgeStu", column = "D"),
-            @XLCellColumn(processOf = "employee", column = "A"),
-            @XLCellColumn(processOf = "authorized", column = "N")
+            @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "A"),
+            @XLCellColumn(processOf = Processes.UNDER_AGE_STUDENT, column = "D"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "A"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "N")
     })
     public String getName() {
         return name;
     }
-
+    @XLCellGetValue({
+            @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "B"),
+            @XLCellColumn(processOf = Processes.UNDER_AGE_STUDENT, column = "E"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "B"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "O")
+    })
     public String getMiddleName() {
         return middleName;
     }
+    @XLCellGetValue({
+            @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "C"),
+            @XLCellColumn(processOf = Processes.UNDER_AGE_STUDENT, column = "F"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "C"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "P")
+    })
     public String getLastName() {
         return lastName;
     }
-
-    public IdentificationType getIdType() {
-        return idType;
+    @XLCellGetValue({
+            @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "D"),
+            @XLCellColumn(processOf = Processes.UNDER_AGE_STUDENT, column = "A"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "D"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "L")
+    })
+    public String getIdType() {
+        return idType.getValue();
     }
-
+    @XLCellGetValue({
+            @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "E"),
+            @XLCellColumn(processOf = Processes.UNDER_AGE_STUDENT, column = "B"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "E"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "M")
+    })
     public Integer getId() {
         return id;
     }
-
-    public Gender getGender() {
-        return gender;
+    @XLCellGetValue({
+            @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "H"),
+            @XLCellColumn(processOf = Processes.UNDER_AGE_STUDENT, column = "G"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "H"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "Q")
+    })
+    public String getGender() {
+        return gender.getValue();
     }
 
+    @XLCellGetValue({
+            @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "G"),
+            @XLCellColumn(processOf = Processes.UNDER_AGE_STUDENT, column = "I"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "G"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "S")
+    })
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -68,41 +100,41 @@ public abstract class PersonalData {
         }
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "G"),
-            @XLCellColumn(processOf = "authorized", column = "W"),
-            @XLCellColumn(processOf = "employee", column = "H")
+            @XLCellColumn(processOf = Processes.STUDENT, column = "G"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "W"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "H")
     })
     public void setId(Integer id) {
         this.id = id;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "C"),
-            @XLCellColumn(processOf = "authorized", column = "X"),
-            @XLCellColumn(processOf = "employee", column = "D")
+            @XLCellColumn(processOf = Processes.STUDENT, column = "C"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "X"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "D")
     })
     public void setName(String name) {
         this.name = name;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "D"),
-            @XLCellColumn(processOf = "authorized", column = "Y"),
-            @XLCellColumn(processOf = "employee", column = "E")
+            @XLCellColumn(processOf = Processes.STUDENT, column = "D"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "Y"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "E")
     })
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "E"),
-            @XLCellColumn(processOf = "authorized", column = "Z"),
-            @XLCellColumn(processOf = "employee", column = "F")
+            @XLCellColumn(processOf = Processes.STUDENT, column = "E"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "Z"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "F")
     })
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "J"),
-            @XLCellColumn(processOf = "authorized", column = "AA"),
-            @XLCellColumn(processOf = "employee", column = "J")
+            @XLCellColumn(processOf = Processes.STUDENT, column = "J"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "AA"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "J")
     })
     public void setGender(String gender) {
         if (gender.equals(Feminine.getValue())){
@@ -112,9 +144,9 @@ public abstract class PersonalData {
         }
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "I"),
-            @XLCellColumn(processOf = "authorized", column = "AC"),
-            @XLCellColumn(processOf = "employee", column = "I")
+            @XLCellColumn(processOf = Processes.STUDENT, column = "I"),
+            @XLCellColumn(processOf = Processes.AUTHORIZED, column = "AC"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "I")
     })
     public void setPhoneNumber(Object phoneNumber) {
         this.phoneNumber = String.valueOf(phoneNumber);

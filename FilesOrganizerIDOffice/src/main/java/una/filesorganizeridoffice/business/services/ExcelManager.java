@@ -9,6 +9,7 @@ import una.filesorganizeridoffice.business.api.xl.XLWorkbook;
 import una.filesorganizeridoffice.business.api.xl.exceptions.XLSerializableException;
 import una.filesorganizeridoffice.business.api.xl.util.XLFactory;
 import una.filesorganizeridoffice.business.api.xl.util.XLSerializer;
+import una.filesorganizeridoffice.business.util.Processes;
 import una.filesorganizeridoffice.business.util.Tools;
 import una.filesorganizeridoffice.model.Adult;
 import una.filesorganizeridoffice.model.Authorized;
@@ -105,19 +106,19 @@ public class ExcelManager {
             XLSerializer<PersonalData> studentSerializer = new XLSerializer<>();
             UniversityPerson request = new Adult();
             Authorized authorized;
-            String processOf;
+            Integer processOf;
             if(isStudent){
                 if (!isAdult(row)){
                     request = new UnderAgeStudent();
                     authorized = new Authorized();
-                    studentSerializer.rowToRequest(row, authorized, "authorized");
+                    studentSerializer.rowToType(row, authorized, Processes.AUTHORIZED);
                     ((UnderAgeStudent) request).setAuthorized(authorized);
                 }
-                processOf = "student";
+                processOf = Processes.STUDENT;
             }else{
-                processOf = "employee";
+                processOf = Processes.EMPLOYEE;
             }
-            studentSerializer.rowToRequest(row, request, processOf);
+            studentSerializer.rowToType(row, request, processOf);
             //Add model to list
             Tools.requests.add(request);
         }
@@ -130,7 +131,10 @@ public class ExcelManager {
      * @param isStudent
      * @return
      */
-    public Object createExcel(UniversityPerson request, Boolean isStudent) {
+    public void createExcel(UniversityPerson request, Boolean isStudent) {
+        /*
+        EN DESARROLLO
+         */
     }
 
     /**

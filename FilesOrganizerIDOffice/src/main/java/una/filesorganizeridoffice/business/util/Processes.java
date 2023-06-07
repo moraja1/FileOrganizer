@@ -6,4 +6,5 @@ public class Processes {
     public static final Integer ADULT_STUDENT = 2;
     public static final Integer UNDER_AGE_STUDENT = 3;
     public static final Integer AUTHORIZED = 4;
+    public static final Integer LICENCE = 5;
 }

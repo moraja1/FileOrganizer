@@ -4,6 +4,7 @@ import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellGetValue;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
+import una.filesorganizeridoffice.business.util.Processes;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 @XLSerializable
@@ -14,41 +15,56 @@ public class Adult extends UniversityPerson {
     private String hasAccount;
     public Adult() {
     }
+    @XLCellGetValue({
+            @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "I"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "J")
+    })
     public String getCountryResidence() {
         return countryResidence;
     }
+    @XLCellGetValue({
+            @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "J"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "K")
+    })
     public String getOccupancy() {
         return occupancy;
     }
+    @XLCellGetValue({
+            @XLCellColumn(processOf = Processes.ADULT_STUDENT, column = "L"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "M")
+    })
     public String getAddress() {
         return address;
     }
+    @XLCellGetValue({
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "R")
+    })
     public String getHasAccount() {
         return hasAccount;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "K"),
-            @XLCellColumn(processOf = "employee", column = "L")
+            @XLCellColumn(processOf = Processes.STUDENT, column = "K"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "L")
     })
     public void setCountryResidence(String countryResidence) {
         this.countryResidence = countryResidence;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "L"),
-            @XLCellColumn(processOf = "employee", column = "M")
+            @XLCellColumn(processOf = Processes.STUDENT, column = "L"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "M")
     })
     public void setOccupancy(String occupancy) {
         this.occupancy = occupancy;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "student", column = "M"),
-            @XLCellColumn(processOf = "employee", column = "N")
+            @XLCellColumn(processOf = Processes.STUDENT, column = "M"),
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "N")
     })
     public void setAddress(String address) {
         this.address = address;
     }
     @XLCellSetValue({
-            @XLCellColumn(processOf = "employee", column = "R")
+            @XLCellColumn(processOf = Processes.EMPLOYEE, column = "R")
     })
     public void setHasAccount(String hasAccount) {
         this.hasAccount = hasAccount;

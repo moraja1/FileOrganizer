@@ -23,7 +23,7 @@ public class XLSerializer<T> {
      * @param request T
      * @param processOf String
      */
-    public void rowToRequest(XLRow row, T request, String processOf) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
+    public void rowToType(XLRow row, T request, Integer processOf) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
         //Verifies if its XLSerializable
         Class<?> paper = request.getClass();
         if(!paper.isAnnotationPresent(XLSerializable.class)){
