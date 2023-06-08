@@ -48,7 +48,8 @@ public final class XLSheet {
         Integer cellRow;
         //Get all rows
         NodeList rows = xlSheet.getElementsByTagName("row");
-        if(idx > 0 && idx < rows.getLength()){
+        int rowsCant = rows.getLength();
+        if(idx > 0 && idx <= rowsCant){
             for (int i = 0; i < rows.getLength(); i++) {
                 Element e = (Element) rows.item(i);
                 //Obtains the row number
@@ -60,11 +61,9 @@ public final class XLSheet {
                     NodeList cells = e.getElementsByTagName("c");
                     for (int j = 0; j < cells.getLength(); j++) {
                         Element cell = (Element) cells.item(j);
-
                         //Prepare cell information
                         String cellPoint = cell.getAttributeNode("r").getValue();
                         cellColumn = cellPoint.replace(String.valueOf(cellRow), "");
-
                         //Ignore Column Cases
                         if(ignoreColumnCases.contains(cellColumn)){
                             continue;
@@ -112,6 +111,9 @@ public final class XLSheet {
         return null;
     }
 
+    public void insertRow(XLRow row) {
+
+    }
     /***
      * Obtains index of sharedString.xml or null if it's not a sharedString
      * @param e Element

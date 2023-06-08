@@ -76,7 +76,7 @@ public class XLFactory {
      * @throws ParserConfigurationException
      * @throws SAXException
      */
-    public static XLSheet loadSheet(XLWorkbook w, Integer i) throws IOException, ParserConfigurationException, SAXException {
+    public static XLSheet buildSheet(XLWorkbook w, Integer i) throws IOException, ParserConfigurationException, SAXException {
         ZipFile zipFile = new ZipFile(w.getXlFile());
         String baseName = "xl/worksheets/sheet";
         ZipEntry entry = null;

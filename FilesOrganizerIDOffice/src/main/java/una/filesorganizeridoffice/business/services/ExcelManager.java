@@ -32,7 +32,7 @@ public class ExcelManager {
     /**
      * The Excel used by the manager to operate.
      */
-    private final XLWorkbook xlWorkbook;
+    private XLWorkbook xlWorkbook;
     /**
      * The sheet that it's been used by the manager.
      */
@@ -60,29 +60,19 @@ public class ExcelManager {
     }
 
     /**
-     * This method opens the default sheet where it will operate, its like executing the Excel.
+     * This method opens the default sheet where it will operate, it is like executing the Excel file.
      * @return Protocol.Accept or Refuse, depending on the result.
      */
     public Protocol startWorking() {
         try{
-            openSheet(0);
+            xlSheet = XLFactory.buildSheet(xlWorkbook, 1);
+            if(xlSheet == null){
+                throw  new BusinessException("Hoja de Excel");
+            }
         }catch (IOException | ParserConfigurationException | SAXException | BusinessException e) {
             return Protocol.Refused;
         }
         return Protocol.Accepted;
-    }
-
-    /**
-     * This method creates an Excel sheet based on the index provided. By default, it will charge de index 0.
-     * @param i sheet´s index
-     * @return Protocol.Accept or Refuse, depending on the result.
-     */
-    private void openSheet(int i) throws IOException, ParserConfigurationException, SAXException, BusinessException {
-        i++;
-        xlSheet = XLFactory.loadSheet(xlWorkbook, i);
-        if(xlSheet == null){
-            throw  new BusinessException("Hoja de Excel");
-        }
     }
 
     /**
@@ -149,38 +139,52 @@ public class ExcelManager {
      * @param isStudent
      */
     public void createExcel(UniversityPerson request, Boolean isStudent) throws XLSerializableException, InvocationTargetException, IllegalAccessException, IOException {
-        //Create a temp xlsx where the information will be placed.
+        //Create a xlsx in the temp directory where the information will be placed.
         String path = System.getProperty("java.io.tmpdir");
-        path = path.concat(request.getId_una()).concat(".xlsx");
+        path = path.concat("tempReq").concat("/");
         File newXL = new File(path);
+        if(!newXL.exists()){
+            newXL.mkdirs();
+        }
+        path = path.concat(request.getId_una()).concat(".xlsx");
+        newXL = new File(path);
         Files.copy(xlWorkbook.getXlFile().toPath(), newXL.toPath());
 
+        //Opens temp xlsx
+        //Verifying is not a must as it is a copy of a file that has already been opened.
+        xlWorkbook = new XLWorkbook(path);
+        openXL();
+        startWorking();
 
         //Transforms request into row
-        XLRow row = new XLRow(2);
-        XLRow authorizedRow;
-        Integer processOf = null;
-        if (isStudent) {
-            if (request instanceof UnderAgeStudent) {
-                processOf = Processes.UNDER_AGE_STUDENT;
+        XLRow row = xlSheet.getRow(2);
+        if(row != null){
+            XLRow authorizedRow;
+            int processOf;
+            if (isStudent) {
+                if (request instanceof UnderAgeStudent) {
+                    processOf = Processes.UNDER_AGE_STUDENT;
+                } else {
+                    processOf = Processes.ADULT_STUDENT;
+                }
             } else {
-                processOf = Processes.ADULT_STUDENT;
+                processOf = Processes.EMPLOYEE;
             }
-        } else {
-            processOf = Processes.EMPLOYEE;
-        }
-        //If it is an under-age student first the authorized row is created and added to the main row
-        XLSerializer<PersonalData> serializer = new XLSerializer<>();
-        if (processOf.equals(Processes.UNDER_AGE_STUDENT)) {
-            authorizedRow = new XLRow(2);
-            serializer.typeToRow(authorizedRow, ((UnderAgeStudent) request).getAuthorized(), Processes.AUTHORIZED);
-            for (XLCell cell : authorizedRow.asList()) {
-                row.addXlCell(cell);
+            //If it is an under-age student first the authorized row is created and added to the main row
+            XLSerializer<PersonalData> serializer = new XLSerializer<>();
+            if (processOf == Processes.UNDER_AGE_STUDENT) {
+                authorizedRow = new XLRow(2);
+                serializer.typeToRow(authorizedRow, ((UnderAgeStudent) request).getAuthorized(), Processes.AUTHORIZED);
+                for (XLCell<?> cell : authorizedRow.asList()) {
+                    row.addXlCell(cell);
+                }
             }
+            serializer.typeToRow(row, request, processOf);
+            row.sort();
+            System.out.println(row);
+            //Insert Row in the sheet
+            xlSheet.insertRow(row);
         }
-        serializer.typeToRow(row, request, processOf);
-        row.sort();
-
     }
 
     /**

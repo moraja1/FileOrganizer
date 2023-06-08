@@ -67,21 +67,7 @@ public class XLSerializer<T> {
         Class<?> paper = obj.getClass();
         verifiesSerializable(paper);
 
-        for (Method m : paper.getMethods()){
-            if (m.isAnnotationPresent(XLCellGetValue.class)){
-                XLCellGetValue annotationGet = m.getAnnotation(XLCellGetValue.class);
-                for (XLCellColumn annotationCellColumn : annotationGet.value()){
-                    if (annotationCellColumn.processOf() == processOf){
-                        String cellColumn = annotationCellColumn.column();
-                        Object value = m.invoke(obj);
-                        if(value == null){
-                            value = 0;
-                        }
-                        row.addXlCell(new XLCell<>(cellColumn, row.getRowNum(), value));
-                    }
-                }
-            }
-        }
+
     }
 
     private void verifiesSerializable(Class<?> paper) throws XLSerializableException {
@@ -89,4 +75,6 @@ public class XLSerializer<T> {
             throw new XLSerializableException();
         }
     }
+
+
 }
