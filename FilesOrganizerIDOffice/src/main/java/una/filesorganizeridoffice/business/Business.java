@@ -12,6 +12,7 @@ import una.filesorganizeridoffice.model.UnderAgeStudent;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 /***
@@ -46,6 +47,8 @@ public final class Business {
             throw e;
         } catch (XLSerializableException | InvocationTargetException | IllegalAccessException e) {
             throw new BusinessException("No se completó el proceso. Se utilizó un modelo de clase distinta al permitido.");
+        } catch (IOException e) {
+            throw new BusinessException("No se pudo copiar un archivo.");
         }
         Tools.LoggerWriter.createLog();
         return true;
@@ -94,14 +97,16 @@ public final class Business {
      * This method uses ExcelManager to create the individual Excel file for each request.
      * @param isStudent boolean
      */
-    private void writeExcel(UniversityPerson request, Boolean isStudent) throws BusinessException, XLSerializableException, InvocationTargetException, IllegalAccessException {
+    private void writeExcel(UniversityPerson request, Boolean isStudent) throws BusinessException, XLSerializableException, InvocationTargetException, IllegalAccessException, IOException {
         //Creates the ExcelManager for each type of request
         boolean isOk = true;
         if(request instanceof Adult){
-            String path = App.class.getResource("xlsx/formatAdult.xlsx").getPath();
+            //String path = App.class.getResource("xlsx/formatAdult.xlsx").getPath();
+            String path = "C:\\Users\\N00148095\\Downloads\\formatAdult.xlsx";
             xlManager = new ExcelManager(path);
         }else if(request instanceof UnderAgeStudent){
-            String path = App.class.getResource("xlsx/formatUnderAge.xlsx").getPath();
+            //String path = App.class.getResource("xlsx/formatUnderAge.xlsx").getPath();
+            String path = "C:\\Users\\N00148095\\Downloads\\formatAdult.xlsx";
             xlManager = new ExcelManager(path);
         }else{
             Tools.errorList.put(request.getId_una(), Protocol.Refused);
@@ -110,8 +115,8 @@ public final class Business {
 
         if(isOk){
             runExcel(xlManager);
-            //update progress bar
             xlManager.createExcel(request, isStudent);
+            //update progress bar
         }
     }
 

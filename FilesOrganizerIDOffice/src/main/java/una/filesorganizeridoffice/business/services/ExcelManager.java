@@ -19,8 +19,10 @@ import una.filesorganizeridoffice.model.base.PersonalData;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 
 /**
  * A service class who modularize every method related to Excel management.
@@ -146,32 +148,39 @@ public class ExcelManager {
      * @param request
      * @param isStudent
      */
-    public void createExcel(UniversityPerson request, Boolean isStudent) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
+    public void createExcel(UniversityPerson request, Boolean isStudent) throws XLSerializableException, InvocationTargetException, IllegalAccessException, IOException {
+        //Create a temp xlsx where the information will be placed.
+        String path = System.getProperty("java.io.tmpdir");
+        path = path.concat(request.getId_una()).concat(".xlsx");
+        File newXL = new File(path);
+        Files.copy(xlWorkbook.getXlFile().toPath(), newXL.toPath());
+
+
         //Transforms request into row
         XLRow row = new XLRow(2);
         XLRow authorizedRow;
         Integer processOf = null;
-        if(isStudent){
-            if(request instanceof UnderAgeStudent){
+        if (isStudent) {
+            if (request instanceof UnderAgeStudent) {
                 processOf = Processes.UNDER_AGE_STUDENT;
-            }else{
+            } else {
                 processOf = Processes.ADULT_STUDENT;
             }
-        }else{
+        } else {
             processOf = Processes.EMPLOYEE;
         }
         //If it is an under-age student first the authorized row is created and added to the main row
         XLSerializer<PersonalData> serializer = new XLSerializer<>();
-        if(processOf.equals(Processes.UNDER_AGE_STUDENT)){
+        if (processOf.equals(Processes.UNDER_AGE_STUDENT)) {
             authorizedRow = new XLRow(2);
             serializer.typeToRow(authorizedRow, ((UnderAgeStudent) request).getAuthorized(), Processes.AUTHORIZED);
-            for(XLCell cell : authorizedRow.asList()){
+            for (XLCell cell : authorizedRow.asList()) {
                 row.addXlCell(cell);
             }
         }
         serializer.typeToRow(row, request, processOf);
         row.sort();
-        System.out.println(row.toString());
+
     }
 
     /**

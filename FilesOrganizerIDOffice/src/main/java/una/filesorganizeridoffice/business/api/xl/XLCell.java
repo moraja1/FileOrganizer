@@ -19,11 +19,8 @@ public final class XLCell<T> {
     public XLCell(String columnName, Integer rowNumber, T value) {
         this.columnName = columnName;
         this.rowNumber = rowNumber;
-        if(value instanceof LocalDate){
-            this.value = (T) DateUtil.toString((LocalDate) value);
-        }else{
-            this.value = value;
-        }
+        this.value = value;
+
     }
 
     /***

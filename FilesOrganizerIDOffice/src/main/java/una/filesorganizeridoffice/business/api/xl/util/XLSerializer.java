@@ -45,8 +45,10 @@ public class XLSerializer<T> {
                                 try{
                                     m.invoke(obj, cell.getValue());
                                 }catch (IllegalArgumentException e){
-                                    throw new IllegalArgumentException("No se puede pasar un " + cell.getValue().getClass() + " a " + m.getParameterTypes()[0]
-                                            + " en el metodo " + m.getName());
+                                    throw new IllegalArgumentException("You are passing a " + cell.getValue().getClass() +
+                                            " as a parameter that should be " + m.getParameterTypes()[0]
+                                            + " int the method " + m.getName() + ". Please check your model "
+                                            + "or the XLCell valueType and try again.");
                                 }
                                 done = true;
                             }

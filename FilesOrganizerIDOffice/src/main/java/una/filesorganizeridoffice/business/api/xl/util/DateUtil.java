@@ -1,14 +1,14 @@
 package una.filesorganizeridoffice.business.api.xl.util;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class DateUtil {
     private static final LocalDate startDate = LocalDate.of(1900, 1, 1);
     public static LocalDate toDate(String value) {
         double dias = Double.parseDouble(value);
-        LocalDate date = startDate.plusDays((long) dias - 1);
-        return date;
+        return startDate.plusDays((long) dias - 1);
     }
 
     public static String toString(LocalDate date) {
