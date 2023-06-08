@@ -141,7 +141,7 @@ public class ExcelManager {
     public void createExcel(UniversityPerson request, Boolean isStudent) throws XLSerializableException, InvocationTargetException, IllegalAccessException, IOException {
         //Create a xlsx in the temp directory where the information will be placed.
         String path = System.getProperty("java.io.tmpdir");
-        path = path.concat("tempReq").concat("/");
+        path = path.concat("tempReq").concat("\\");
         File newXL = new File(path);
         if(!newXL.exists()){
             newXL.mkdirs();

@@ -9,6 +9,7 @@ import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
 import una.filesorganizeridoffice.business.api.xl.exceptions.XLSerializableException;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -27,53 +28,80 @@ public class XLSerializer<T> {
      */
     public void rowToType(XLRow row, @NotNull T obj, int processOf) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
         //Verifies if its XLSerializable
-        Class<?> paper = obj.getClass();
-        verifiesSerializable(paper);
+        Class<?> paper = verifiesSerializable(obj);
 
         for (XLCell cell : row.asList()){
-            String cellColumn = cell.getColumnName();
-            String processColumn;
-            //Look for process column name for each cell in each method of the XLSerializable class.
-            for (Method m : paper.getMethods()){
-                if (m.isAnnotationPresent(XLCellSetValue.class)){
-                    boolean done = false;
-                    XLCellSetValue annotationSet = m.getAnnotation(XLCellSetValue.class);
-                    for (XLCellColumn annotationCellColumn : annotationSet.value()){
-                        if (annotationCellColumn.processOf() == processOf){
-                            processColumn = annotationCellColumn.column();
-                            if (cellColumn.equals(processColumn)){
-                                try{
-                                    m.invoke(obj, cell.getValue());
-                                }catch (IllegalArgumentException e){
-                                    throw new IllegalArgumentException("You are passing a " + cell.getValue().getClass() +
-                                            " as a parameter that should be " + m.getParameterTypes()[0]
-                                            + " int the method " + m.getName() + ". Please check your model "
-                                            + "or the XLCell valueType and try again.");
-                                }
-                                done = true;
-                            }
-                        }
-                    }
-                    if (done){
-                        break;
-                    }
+            Method m = null;
+            try {
+                m = getRequiredMethod(cell, paper, XLCellSetValue.class, processOf);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace(System.out);
+            }
+            if(m != null){
+                try{
+                    m.invoke(obj, cell.getValue());
+                }catch (IllegalArgumentException e){
+                    throw new IllegalArgumentException("You are passing a " + cell.getValue().getClass() +
+                            " as a parameter that should be " + m.getParameterTypes()[0]
+                            + " int the method " + m.getName() + ". Please check your model "
+                            + "or the XLCell valueType and try again.");
                 }
             }
         }
     }
 
     public void typeToRow(XLRow row, T obj, int processOf) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
-        //Verifies Serializable class
-        Class<?> paper = obj.getClass();
-        verifiesSerializable(paper);
+        //Verifies if its XLSerializable
+        Class<?> paper = verifiesSerializable(obj);
 
-
+        for (XLCell cell : row.asList()){
+            Method m = null;
+            try {
+                m = getRequiredMethod(cell, paper, XLCellGetValue.class, processOf);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace(System.out);
+            }
+            if(m != null){
+                try{
+                    cell.setValue(m.invoke(obj));
+                }catch (IllegalArgumentException e){
+                    throw new IllegalArgumentException("You are passing a " + cell.getValue().getClass() +
+                            " as a parameter that should be " + m.getParameterTypes()[0]
+                            + " int the method " + m.getName() + ". Please check your model "
+                            + "or the XLCell valueType and try again.");
+                }
+            }
+        }
     }
 
-    private void verifiesSerializable(Class<?> paper) throws XLSerializableException {
+    private Method getRequiredMethod(XLCell cell, Class<?> paper, Class<? extends Annotation> annotation, int processOf)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        String cellColumn = cell.getColumnName();
+        String processColumn;
+        //Look for process column name for each cell in each method of the XLSerializable class.
+        for (Method m : paper.getMethods()){
+            if (m.isAnnotationPresent(annotation)){
+                var annotationSet = m.getAnnotation(annotation);
+                Method mx = annotationSet.annotationType().getMethod("value", null);
+                for (XLCellColumn annotationCellColumn : (XLCellColumn[]) mx.invoke(annotationSet)){
+                    if (annotationCellColumn.processOf() == processOf){
+                        processColumn = annotationCellColumn.column();
+                        if (cellColumn.equals(processColumn)){
+                            return m;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private Class<?> verifiesSerializable(T obj) throws XLSerializableException {
+        Class<?> paper = obj.getClass();
         if(!paper.isAnnotationPresent(XLSerializable.class)){
             throw new XLSerializableException();
         }
+        return paper;
     }
 
 

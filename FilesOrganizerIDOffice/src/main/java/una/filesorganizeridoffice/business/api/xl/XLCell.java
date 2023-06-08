@@ -51,10 +51,17 @@ public final class XLCell<T> {
 
     @Override
     public String toString() {
+        if(value != null){
+            return "XLCell{" +
+                    "columnName='" + columnName + '\'' +
+                    ", rowNumber=" + rowNumber +
+                    ", value=" + value.toString() +
+                    '}';
+        }
         return "XLCell{" +
-                "columnName='" + columnName + '\'' +
-                ", rowNumber=" + rowNumber +
-                ", value=" + value.toString() +
-                '}';
+            "columnName='" + columnName + '\'' +
+                    ", rowNumber=" + rowNumber +
+                    ", value=" + "N/A" +
+                    '}';
     }
 }
