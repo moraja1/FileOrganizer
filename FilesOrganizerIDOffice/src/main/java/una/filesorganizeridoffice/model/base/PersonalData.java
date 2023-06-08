@@ -3,14 +3,13 @@ package una.filesorganizeridoffice.model.base;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellGetValue;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
-import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
 import una.filesorganizeridoffice.business.util.Processes;
 
 import static una.filesorganizeridoffice.model.base.Gender.Feminine;
 import static una.filesorganizeridoffice.model.base.Gender.Masculine;
 import static una.filesorganizeridoffice.model.base.IdentificationType.*;
 
-@XLSerializable
+
 public abstract class PersonalData {
     protected IdentificationType idType;
     protected Integer id;

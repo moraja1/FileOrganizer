@@ -3,12 +3,10 @@ package una.filesorganizeridoffice.model.base;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellGetValue;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
-import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
 import una.filesorganizeridoffice.business.util.Processes;
 
 import java.time.LocalDate;
 
-@XLSerializable
 public abstract class UniversityPerson extends PersonalData {
     protected String id_una;
     protected String email;

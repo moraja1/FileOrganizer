@@ -1,13 +1,10 @@
 package una.filesorganizeridoffice.model;
 
-import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
-import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
-import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 import java.time.LocalDate;
 
-@XLSerializable
+
 public class UnderAgeStudent extends UniversityPerson {
     private Authorized authorized;
     public UnderAgeStudent() {

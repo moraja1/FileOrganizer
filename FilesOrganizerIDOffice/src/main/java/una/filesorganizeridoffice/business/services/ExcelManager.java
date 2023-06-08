@@ -21,7 +21,6 @@ import una.filesorganizeridoffice.model.base.UniversityPerson;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 
 /**
  * A service class who modularize every method related to Excel management.
@@ -36,11 +35,6 @@ public class ExcelManager {
      * The sheet that it's been used by the manager.
      */
     private XLSheet xlSheet;
-
-    /**
-     * A serializer to transform the row into requests and the other way around.
-     */
-    private final XLSerializer<PersonalData> serializer = new XLSerializer<>();
 
     /**
      * Receives the Workbook URL.
@@ -124,6 +118,7 @@ public class ExcelManager {
                     }
                 }
                 //Converts the row into model
+                XLSerializer<PersonalData> serializer = new XLSerializer<>();
                 UniversityPerson request = new Adult();
                 Authorized authorized;
                 int processOf;
@@ -166,6 +161,7 @@ public class ExcelManager {
             processOf = Processes.EMPLOYEE;
         }
         //If it is an under-age student first the authorized row is created and added to the main row
+        XLSerializer<PersonalData> serializer = new XLSerializer<>();
         if(processOf.equals(Processes.UNDER_AGE_STUDENT)){
             authorizedRow = new XLRow(2);
             serializer.typeToRow(authorizedRow, ((UnderAgeStudent) request).getAuthorized(), Processes.AUTHORIZED);

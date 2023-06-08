@@ -1,5 +1,6 @@
 package una.filesorganizeridoffice.business.api.xl.util;
 
+import org.jetbrains.annotations.NotNull;
 import una.filesorganizeridoffice.business.api.xl.XLCell;
 import una.filesorganizeridoffice.business.api.xl.XLRow;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
@@ -24,12 +25,10 @@ public class XLSerializer<T> {
      * @param obj T
      * @param processOf String
      */
-    public void rowToType(XLRow row, T obj, Integer processOf) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
+    public void rowToType(XLRow row, @NotNull T obj, int processOf) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
         //Verifies if its XLSerializable
         Class<?> paper = obj.getClass();
-        if(!paper.isAnnotationPresent(XLSerializable.class)){
-            throw new XLSerializableException();
-        }
+        verifiesSerializable(paper);
 
         for (XLCell cell : row.asList()){
             String cellColumn = cell.getColumnName();
@@ -46,7 +45,7 @@ public class XLSerializer<T> {
                                 try{
                                     m.invoke(obj, cell.getValue());
                                 }catch (IllegalArgumentException e){
-                                    throw new XLSerializableException("No se puede pasar un " + cell.getValue().getClass() + " a " + m.getParameterTypes()[0]
+                                    throw new IllegalArgumentException("No se puede pasar un " + cell.getValue().getClass() + " a " + m.getParameterTypes()[0]
                                             + " en el metodo " + m.getName());
                                 }
                                 done = true;
@@ -61,12 +60,10 @@ public class XLSerializer<T> {
         }
     }
 
-    public void typeToRow(XLRow row, T obj, Integer processOf) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
+    public void typeToRow(XLRow row, T obj, int processOf) throws XLSerializableException, InvocationTargetException, IllegalAccessException {
         //Verifies Serializable class
         Class<?> paper = obj.getClass();
-        if(!paper.isAnnotationPresent(XLSerializable.class)){
-            throw new XLSerializableException();
-        }
+        verifiesSerializable(paper);
 
         for (Method m : paper.getMethods()){
             if (m.isAnnotationPresent(XLCellGetValue.class)){
@@ -86,6 +83,8 @@ public class XLSerializer<T> {
     }
 
     private void verifiesSerializable(Class<?> paper) throws XLSerializableException {
-
+        if(!paper.isAnnotationPresent(XLSerializable.class)){
+            throw new XLSerializableException();
+        }
     }
 }

@@ -3,12 +3,11 @@ package una.filesorganizeridoffice.model;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellColumn;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellGetValue;
 import una.filesorganizeridoffice.business.api.xl.annotations.XLCellSetValue;
-import una.filesorganizeridoffice.business.api.xl.annotations.XLSerializable;
 import una.filesorganizeridoffice.business.util.Processes;
 import una.filesorganizeridoffice.model.base.PersonalData;
 
 import java.time.LocalDate;
-@XLSerializable
+
 public class Authorized extends PersonalData {
     private LocalDate birthDate;
     private String email;
