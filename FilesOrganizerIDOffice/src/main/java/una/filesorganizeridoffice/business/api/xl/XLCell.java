@@ -37,6 +37,7 @@ public final class XLCell<T> {
     public Integer getRowNumber() {
         return rowNumber;
     }
+
     /***
      * Return the cell value
      * @return Type

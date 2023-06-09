@@ -1,6 +1,5 @@
 package una.filesorganizeridoffice.business;
 
-import una.filesorganizeridoffice.App;
 import una.filesorganizeridoffice.business.exceptions.BusinessException;
 import una.filesorganizeridoffice.business.services.ExcelManager;
 import una.filesorganizeridoffice.business.services.FileManager;
@@ -102,11 +101,11 @@ public final class Business {
         boolean isOk = true;
         if(request instanceof Adult){
             //String path = App.class.getResource("xlsx/formatAdult.xlsx").getPath();
-            String path = "C:\\Users\\N00148095\\Downloads\\formatAdult.xlsx";
+            String path = "C:\\Users\\jeiso\\Downloads\\formatAdult.xlsx";
             xlManager = new ExcelManager(path);
         }else if(request instanceof UnderAgeStudent){
             //String path = App.class.getResource("xlsx/formatUnderAge.xlsx").getPath();
-            String path = "C:\\Users\\N00148095\\Downloads\\formatAdult.xlsx";
+            String path = "C:\\Users\\jeiso\\Downloads\\formatAdult.xlsx";
             xlManager = new ExcelManager(path);
         }else{
             Tools.errorList.put(request.getId_una(), Protocol.Refused);

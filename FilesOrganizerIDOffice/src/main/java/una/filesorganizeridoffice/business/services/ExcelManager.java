@@ -183,7 +183,7 @@ public class ExcelManager {
             row.sort();
             System.out.println(row);
             //Insert Row in the sheet
-            xlSheet.insertRow(row);
+            xlSheet.pasteRow(row);
         }
     }
 

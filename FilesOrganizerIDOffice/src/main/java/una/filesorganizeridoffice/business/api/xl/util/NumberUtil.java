@@ -18,4 +18,8 @@ public class NumberUtil {
         // Check for scientific notation
         return numberString.toUpperCase().contains("E") && (numberString.charAt(1)=='.' || numberString.charAt(2)=='.');
     }
+
+    public static boolean isNumber(String value){
+        return value.matches("\\d+");
+    }
 }

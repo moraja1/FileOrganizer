@@ -145,13 +145,12 @@ public final class WindowController implements Initializable {
     private TextFormatter<?> getFormatter() {
         TextFormatter<String> formatter = new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
+            if (newText.matches("\\d+")) {
                 return change;
             } else {
                 return null;
             }
         });
-
         return formatter;
     }
 
