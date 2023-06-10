@@ -15,6 +15,7 @@ import static una.filesorganizeridoffice.business.api.xl.util.DateUtil.isDate;
 import static una.filesorganizeridoffice.business.api.xl.util.DateUtil.toDate;
 import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isNumber;
 import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isScientificNotation;
+import static una.filesorganizeridoffice.business.api.xl.util.XLFactory.toStringNode;
 
 public final class XLSheet {
     private final XLWorkbook xlWorkbook;
@@ -124,14 +125,21 @@ public final class XLSheet {
                 rowTag.setAttributeNS("x14ac", "dyDescent", "0.25");
 
                 for(XLCell<?> cell : row.asList()){
+                    //Obtenemos el valor que vamos a almacenar en la celda
+                    String textContext = cellTypetoString(cell.getValue());
+                    if(!isNumber(textContext)){
+                        /*
+                        TENGO QUE SABER PRIMERO SI EL VALOR VA PARA SHAREDSTRINGS O NO
+                         */
+                    }
                     //Creo cada celda sin formato y se la inserto al Row
                     Element cellTag = xlSheet.createElement("c");
                     String rValue = cell.getColumnName().concat(String.valueOf(rowIdx));
                     cellTag.setAttribute("r", rValue);
 
                     Element vTag = xlSheet.createElement("v");
-                    var cellValue = cell.getValue();
-                    String textContext = convertCellType(cellValue);
+
+
                     vTag.setTextContent(textContext);
                     rowTag.appendChild(cellTag);
                 }
@@ -146,25 +154,40 @@ public final class XLSheet {
                    //Recorro cada celda del XLRow y comparo las columnas, si coinciden inserto el valor
                     for(XLCell<?> cell : row.asList()){
                         if (cell.getColumnName().equals(cellColumn)){
-                            cellTag.setTextContent(convertCellType(cell.getValue()));
+                            Element vTag = xlSheet.createElement("v");
+                            String textContext = cellTypetoString(cell.getValue());
+                            if(!textContext.isEmpty()){
+                                vTag.setTextContent(textContext);
+                                cellTag.appendChild(vTag);
+                            }
                         }
                     }
                 }
             }
+            toStringNode((Element) xlSheet.getFirstChild());
         }
     }
 
-    private String convertCellType(Object cellValue) {
+    private String cellTypetoString(Object cellValue) {
         if(cellValue instanceof Integer){
             return cellValue.toString();
         }
-        if(cellValue instanceof LocalDate){
+        else if(cellValue instanceof LocalDate){
             return DateUtil.toString(((LocalDate)cellValue));
         }
-        if(cellValue instanceof String){
+        else if(cellValue instanceof String){
             return (String)cellValue;
         }
-        return null;
+        else if(cellValue instanceof Float){
+            String value = String.valueOf(cellValue);
+            if(value.endsWith(".0")){
+                value = value.replace(".0", "");
+            }
+            return value;
+        }
+        else{
+            return "";
+        }
     }
 
     private Element getRowElement(int idx) {

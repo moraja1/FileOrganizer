@@ -96,6 +96,7 @@ public class XLFactory {
         Document document = node.getOwnerDocument();
         DOMImplementationLS domImplLS = (DOMImplementationLS) document.getImplementation();
         LSSerializer serializer = domImplLS.createLSSerializer();
+        serializer.getDomConfig().setParameter("format-pretty-print", true);
         String str = serializer.writeToString(node);
         System.out.println(str);
     }

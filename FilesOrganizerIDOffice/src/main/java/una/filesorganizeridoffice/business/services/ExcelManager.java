@@ -181,7 +181,6 @@ public class ExcelManager {
             }
             serializer.typeToRow(row, request, processOf);
             row.sort();
-            System.out.println(row);
             //Insert Row in the sheet
             xlSheet.pasteRow(row);
         }
