@@ -148,7 +148,9 @@ public class ExcelManager {
         }
         path = path.concat(request.getId_una()).concat(".xlsx");
         newXL = new File(path);
-        Files.copy(xlWorkbook.getXlFile().toPath(), newXL.toPath());
+        if(!newXL.exists()){
+            Files.copy(xlWorkbook.getXlFile().toPath(), newXL.toPath());
+        }
 
         //Opens temp xlsx
         //Verifying is not a must as it is a copy of a file that has already been opened.

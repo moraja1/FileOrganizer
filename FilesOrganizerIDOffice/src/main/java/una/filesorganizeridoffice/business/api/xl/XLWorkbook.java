@@ -9,6 +9,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.util.HashMap;
 
+import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isNumber;
+
 public final class XLWorkbook {
     private final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     private final String xlName;
@@ -110,5 +112,49 @@ public final class XLWorkbook {
             return v;
         }
         return "";
+    }
+
+    /**
+     * Returns the int value of the shared string in the sharedStrings.xml if exists or -1 if it does not exist yet.
+     * @param value string that will be search in sharedStrings.xml file.
+     * @return index of the value or -1 if it does not exist.
+     */
+    private int isSharedStr(String value) {
+        NodeList siNodes = xlSharedStrings.getElementsByTagName("si");
+        int siNodesLength = siNodes.getLength();
+        if(siNodesLength > 0){
+            for(int i = 0; i < siNodesLength; i++){
+                Element siTag = (Element) siNodes.item(i);
+                Element tTag = (Element)siTag.getFirstChild();
+
+                String tValue = tTag.getTextContent();
+                if(tValue.equals(value)){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Inserts a shared string in sharedStrings.xml if the value passed is no empty.
+     * @param textContext that will be placed as shared string.
+     * @return int value index of the shared string if exists.
+     */
+    public int createSharedStr(String textContext) {
+        int idx = isSharedStr(textContext);
+        if(!textContext.isEmpty() && !isNumber(textContext)){
+            if(idx != -1){
+                return idx;
+            }
+            Element sstTag = (Element) xlSharedStrings.getElementsByTagName("sst").item(0);
+            Element siTag = xlSharedStrings.createElement("si");
+            Element tTag = xlSharedStrings.createElement("t");
+
+            tTag.setTextContent(textContext);
+            siTag.appendChild(tTag);
+            sstTag.appendChild(siTag);
+        }
+        return idx;
     }
 }

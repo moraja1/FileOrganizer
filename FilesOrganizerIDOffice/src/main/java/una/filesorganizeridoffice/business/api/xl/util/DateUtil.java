@@ -13,7 +13,7 @@ public class DateUtil {
 
     public static String toString(LocalDate date) {
 
-        long dias = ChronoUnit.DAYS.between(startDate, date);
+        long dias = ChronoUnit.DAYS.between(startDate, date)+1;
         return Long.toString(dias);
     }
 

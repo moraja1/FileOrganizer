@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import una.filesorganizeridoffice.business.api.xl.util.DateUtil;
+import una.filesorganizeridoffice.business.api.xl.util.XLFactory;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static una.filesorganizeridoffice.business.api.xl.util.Converter.cellTypetoString;
 import static una.filesorganizeridoffice.business.api.xl.util.DateUtil.isDate;
 import static una.filesorganizeridoffice.business.api.xl.util.DateUtil.toDate;
 import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isNumber;
@@ -113,81 +115,67 @@ public final class XLSheet {
         return null;
     }
 
+    /**
+     * This method receives a XLRow and paste it into the sheet .xml file.
+     * Note: This method will change the value of the cell that exists in the row number you are pasting if there is any.
+     * If there is not a row already in that row number, then it will create the new row.
+     * @param row with the cells that will be placed in the sheet.
+     */
     public void pasteRow(XLRow row) {
         int rowIdx = row.getRowNum();
         if(rowIdx > 0){
             Element rowTag = getRowElement(rowIdx);
+            //si el row no existe en el xml creo el row
             if(rowTag == null){
-                //Creo el row
                 rowTag = xlSheet.createElement("row");
                 rowTag.setAttribute("r", String.valueOf(rowIdx));
                 rowTag.setAttribute("spans", "1:2");
                 rowTag.setAttributeNS("x14ac", "dyDescent", "0.25");
-
-                for(XLCell<?> cell : row.asList()){
-                    //Obtenemos el valor que vamos a almacenar en la celda
-                    String textContext = cellTypetoString(cell.getValue());
-                    if(!isNumber(textContext)){
-                        /*
-                        TENGO QUE SABER PRIMERO SI EL VALOR VA PARA SHAREDSTRINGS O NO
-                         */
-                    }
-                    //Creo cada celda sin formato y se la inserto al Row
-                    Element cellTag = xlSheet.createElement("c");
-                    String rValue = cell.getColumnName().concat(String.valueOf(rowIdx));
-                    cellTag.setAttribute("r", rValue);
-
-                    Element vTag = xlSheet.createElement("v");
-
-
-                    vTag.setTextContent(textContext);
-                    rowTag.appendChild(cellTag);
-                }
-            }else{
-                NodeList cells = rowTag.getElementsByTagName("c");
-                for(int i = 0; i < cells.getLength(); i++) {
-                   //De cada tag de celda obtengo la columna
-                   Element cellTag = (Element)cells.item(i);
-                   String cellColumn = cellTag.getAttribute("r");
-                   cellColumn = cellColumn.replace(String.valueOf(rowIdx), "");
-
-                   //Recorro cada celda del XLRow y comparo las columnas, si coinciden inserto el valor
-                    for(XLCell<?> cell : row.asList()){
-                        if (cell.getColumnName().equals(cellColumn)){
-                            Element vTag = xlSheet.createElement("v");
-                            String textContext = cellTypetoString(cell.getValue());
-                            if(!textContext.isEmpty()){
-                                vTag.setTextContent(textContext);
-                                cellTag.appendChild(vTag);
-                            }
-                        }
-                    }
-                }
             }
-            toStringNode((Element) xlSheet.getFirstChild());
+            //Recorro cada celda del XLRow
+            for(int i = 0; i < row.getCellCount(); i++) {
+                XLCell<?> xlCell = row.getCell(i);
+                Element cellTag;
+                String rValue = xlCell.getColumnName().concat(String.valueOf(rowIdx));
+                cellTag = getCell(rowTag, rValue);
+
+                //Obtenemos el valor que vamos a almacenar en la celda
+                String textContext = cellTypetoString(xlCell.getValue());
+
+                //Si no es numero lo creo en sharedString.xml y obtengo su indice
+                int sharedStrIdx = -1;
+                if(!isNumber(textContext) && !textContext.isEmpty()){
+                    sharedStrIdx = xlWorkbook.createSharedStr(textContext);
+                    textContext = String.valueOf(sharedStrIdx);
+                }
+                //Busco o creo el tag v y almaceno el textContext
+                Element vTag = (Element) cellTag.getFirstChild();
+                if(vTag == null){
+                    vTag = xlSheet.createElement("v");
+                }
+                vTag.setTextContent(textContext);
+                cellTag.appendChild(vTag);
+            }
         }
     }
 
-    private String cellTypetoString(Object cellValue) {
-        if(cellValue instanceof Integer){
-            return cellValue.toString();
-        }
-        else if(cellValue instanceof LocalDate){
-            return DateUtil.toString(((LocalDate)cellValue));
-        }
-        else if(cellValue instanceof String){
-            return (String)cellValue;
-        }
-        else if(cellValue instanceof Float){
-            String value = String.valueOf(cellValue);
-            if(value.endsWith(".0")){
-                value = value.replace(".0", "");
+    private Element getCell(Element rowTag, String rValue) {
+        NodeList xmlCells = rowTag.getElementsByTagName("c");
+        Element xmlCell;
+
+        for(int i = 0; i < xmlCells.getLength(); i++) {
+            xmlCell = (Element) xmlCells.item(i);
+
+            String rAttr = xmlCell.getAttribute("r");
+            if(rAttr.equals(rValue)){
+                return xmlCell;
             }
-            return value;
         }
-        else{
-            return "";
-        }
+        //Si la celda que voy a copiar no existe en el xml, creo una celda sin formato y se la inserto al row del xml.
+        xmlCell = xlSheet.createElement("c");
+        xmlCell.setAttribute("r", rValue);
+        rowTag.appendChild(xmlCell);
+        return xmlCell;
     }
 
     private Element getRowElement(int idx) {

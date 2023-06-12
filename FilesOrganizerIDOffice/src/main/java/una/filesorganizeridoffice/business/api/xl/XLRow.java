@@ -16,6 +16,11 @@ public final class XLRow {
     public void addXlCell(XLCell cell){
         row.add(cell);
     }
+
+    /**
+     * Size of the list of cells in the row.
+     * @return An int value of the size of the cell's list.
+     */
     public int getCellCount(){
         return row.size();
     }

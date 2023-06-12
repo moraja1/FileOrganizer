@@ -20,6 +20,6 @@ public class NumberUtil {
     }
 
     public static boolean isNumber(String value){
-        return value.matches("\\d+");
+        return value.matches("-?\\d+(\\.\\d+)?");
     }
 }
