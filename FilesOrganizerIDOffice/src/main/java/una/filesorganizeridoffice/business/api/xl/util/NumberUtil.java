@@ -2,7 +2,7 @@ package una.filesorganizeridoffice.business.api.xl.util;
 
 import java.math.BigDecimal;
 
-public class NumberUtil {
+public final class NumberUtil {
     /***
      * Detects whether a String contains a Scientific Notation Number
      * @param numberString String vale

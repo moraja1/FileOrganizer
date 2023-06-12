@@ -3,8 +3,6 @@ package una.filesorganizeridoffice.business.api.xl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import una.filesorganizeridoffice.business.api.xl.util.DateUtil;
-import una.filesorganizeridoffice.business.api.xl.util.XLFactory;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.math.BigDecimal;
@@ -17,7 +15,6 @@ import static una.filesorganizeridoffice.business.api.xl.util.DateUtil.isDate;
 import static una.filesorganizeridoffice.business.api.xl.util.DateUtil.toDate;
 import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isNumber;
 import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isScientificNotation;
-import static una.filesorganizeridoffice.business.api.xl.util.XLFactory.toStringNode;
 
 public final class XLSheet {
     private final XLWorkbook xlWorkbook;
@@ -216,5 +213,9 @@ public final class XLSheet {
      */
     public String getName() {
         return name;
+    }
+
+    public Document getXlSheet() {
+        return xlSheet;
     }
 }

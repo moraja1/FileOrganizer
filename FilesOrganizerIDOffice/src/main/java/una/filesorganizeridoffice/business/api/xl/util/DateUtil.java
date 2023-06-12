@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-public class DateUtil {
+public final class DateUtil {
     private static final LocalDate startDate = LocalDate.of(1900, 1, 1);
     public static LocalDate toDate(String value) {
         double dias = Double.parseDouble(value);

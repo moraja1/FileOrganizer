@@ -6,8 +6,12 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.util.HashMap;
+import java.util.*;
 
 import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isNumber;
 
@@ -19,6 +23,7 @@ public final class XLWorkbook {
     private Document xlSharedStrings;
     private Document xlStyles;
     private final HashMap<String, String> sheetsIdName = new HashMap();
+    final List<XLSheet> xlSheets = new LinkedList<>();
 
     public XLWorkbook(String xlUrl) {
         xlFile = new File(xlUrl);
@@ -155,6 +160,6 @@ public final class XLWorkbook {
             siTag.appendChild(tTag);
             sstTag.appendChild(siTag);
         }
-        return idx;
+        return isSharedStr(textContext);
     }
 }

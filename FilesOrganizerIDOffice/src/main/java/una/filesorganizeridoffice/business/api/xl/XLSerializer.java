@@ -1,4 +1,4 @@
-package una.filesorganizeridoffice.business.api.xl.util;
+package una.filesorganizeridoffice.business.api.xl;
 
 import org.jetbrains.annotations.NotNull;
 import una.filesorganizeridoffice.business.api.xl.XLCell;
@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
  * @param <T> any Type class who has been annotated as XLSerializable.
  * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
  */
-public class XLSerializer<T> {
+public final class XLSerializer<T> {
     /***
      * This method transforms a XLRow into an object of any type.
      * The object passed has to be annotated correctly in the Class and methods to be serialized.

@@ -8,8 +8,8 @@ import una.filesorganizeridoffice.business.api.xl.XLRow;
 import una.filesorganizeridoffice.business.api.xl.XLSheet;
 import una.filesorganizeridoffice.business.api.xl.XLWorkbook;
 import una.filesorganizeridoffice.business.api.xl.exceptions.XLSerializableException;
-import una.filesorganizeridoffice.business.api.xl.util.XLFactory;
-import una.filesorganizeridoffice.business.api.xl.util.XLSerializer;
+import una.filesorganizeridoffice.business.api.xl.XLFactory;
+import una.filesorganizeridoffice.business.api.xl.XLSerializer;
 import una.filesorganizeridoffice.business.util.Processes;
 import una.filesorganizeridoffice.business.util.Tools;
 import una.filesorganizeridoffice.model.Adult;
@@ -19,6 +19,7 @@ import una.filesorganizeridoffice.model.base.PersonalData;
 import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -53,7 +54,7 @@ public class ExcelManager {
     public Protocol openXL(){
         try {
             XLFactory.buildWorkbook(xlWorkbook);
-        } catch (IOException | ParserConfigurationException | SAXException e) {
+        } catch (IOException | ParserConfigurationException | SAXException | TransformerException e) {
             return Protocol.Refused;
         }
         return Protocol.Accepted;
@@ -185,6 +186,12 @@ public class ExcelManager {
             row.sort();
             //Insert Row in the sheet
             xlSheet.pasteRow(row);
+
+            try {
+                XLFactory.saveWorkbook(xlWorkbook);
+            } catch (ParserConfigurationException | SAXException | TransformerException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
