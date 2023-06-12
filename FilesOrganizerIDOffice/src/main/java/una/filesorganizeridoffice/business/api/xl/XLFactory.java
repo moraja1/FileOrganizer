@@ -6,7 +6,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
-import una.filesorganizeridoffice.business.api.xl.util.TriConsumer;
+import una.filesorganizeridoffice.business.api.xl.util.XLFactoryConsumer;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,7 +22,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public final class XLFactory {
-    private static final TriConsumer<XLWorkbook, ZipFile, ZipEntry> BUILDER = (w, zip, entry) ->
+    private static final XLFactoryConsumer<XLWorkbook, ZipFile, ZipEntry> BUILDER = (w, zip, entry) ->
     {
         if (entry.getName().equals("xl/sharedStrings.xml")) {
             w.setXlSharedStrings(createDocument(zip, entry));
@@ -33,7 +33,7 @@ public final class XLFactory {
         }
     };
 
-    private static final TriConsumer<XLWorkbook, ZipFile, ZipEntry> SAVER = (w, zip, entry) ->
+    private static final XLFactoryConsumer<XLWorkbook, ZipFile, ZipEntry> SAVER = (w, zip, entry) ->
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -75,7 +75,7 @@ public final class XLFactory {
         }
     }
 
-    private static void coreAction(XLWorkbook workbook, TriConsumer<XLWorkbook, ZipFile, ZipEntry> consumer) throws IOException,
+    private static void coreAction(XLWorkbook workbook, XLFactoryConsumer<XLWorkbook, ZipFile, ZipEntry> consumer) throws IOException,
             ParserConfigurationException, SAXException, TransformerException {
         //Obtaining xml basic files
         ZipFile zipFile = new ZipFile(workbook.getXlFile());

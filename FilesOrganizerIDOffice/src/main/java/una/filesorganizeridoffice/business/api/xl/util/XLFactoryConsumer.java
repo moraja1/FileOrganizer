@@ -7,6 +7,6 @@ import javax.xml.transform.TransformerException;
 import java.io.IOException;
 
 @FunctionalInterface
-public interface TriConsumer<T, U, V> {
+public interface XLFactoryConsumer<T, U, V> {
     void apply(T t, U u, V v) throws IOException, ParserConfigurationException, SAXException, TransformerException;
 }
