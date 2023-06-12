@@ -41,7 +41,7 @@ The project will be completed in 12 weeks, following these milestones:
 
 - Week 1: Project planning and analysis
 - Week 2: Designing the user interface and data structures
-- Week 3-5: Implementing the excel file generation functionality
+- Week 3-5: Implementing the excel api.
 - Week 6: Implementing the file reading functionality
 - Week 7: Implementing the file writing functionality
 - Week 8: Implementing the folder creation and organization functionality
