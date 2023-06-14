@@ -3,7 +3,6 @@ package una.filesorganizeridoffice.business;
 import una.filesorganizeridoffice.business.exceptions.BusinessException;
 import una.filesorganizeridoffice.viewmodel.WindowInfo;
 
-import static org.junit.jupiter.api.Assertions.*;
 class BusinessTest {
     //Complete test
     public static void main(String[] args) {

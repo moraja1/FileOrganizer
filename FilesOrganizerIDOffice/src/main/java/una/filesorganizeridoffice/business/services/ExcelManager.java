@@ -140,26 +140,6 @@ public class ExcelManager {
      * @param isStudent
      */
     public void createExcel(UniversityPerson request, Boolean isStudent) throws XLSerializableException, InvocationTargetException, IllegalAccessException, IOException {
-        //Create a xlsx in the temp directory where the information will be placed.
-        String path = System.getProperty("java.io.tmpdir");
-        path = path.concat("tempReq").concat("\\");
-        File newXL = new File(path);
-        if(!newXL.exists()){
-            newXL.mkdirs();
-        }
-        path = path.concat(request.getId_una()).concat(".xlsx");
-        newXL = new File(path);
-        if(!newXL.exists()){
-            Files.copy(xlWorkbook.getXlFile().toPath(), newXL.toPath());
-        }
-
-        //Opens temp xlsx
-        //Verifying is not a must as it is a copy of a file that has already been opened.
-        xlWorkbook = new XLWorkbook(path);
-        openXL();
-        startWorking();
-
-
         //Transforms request into row
         XLRow row = xlSheet.getRow(2);
         if(row != null){
@@ -189,7 +169,7 @@ public class ExcelManager {
             xlSheet.pasteRow(row);
 
             try {
-                XLFactory.saveWorkbook(xlWorkbook);
+                XLFactory.saveWorkbook(xlWorkbook, request.getId_una());
             } catch (ParserConfigurationException | SAXException | TransformerException e) {
                 throw new RuntimeException(e);
             }
