@@ -33,7 +33,7 @@ public class Tools {
          * Writes a report of every process made in a txt file, keeping the previous information written in the txt file. And
          * only adding the new process information at the bottom of the file.
          */
-        public static void createLog() {
+        {
         /*
         EXAMPLE LOG, DATE, HOUR, ROWS REMAIN TO BE ADDED TO THE MESSAGE,
         STILL NEED TO BE WROTE IN A TXT FILE.

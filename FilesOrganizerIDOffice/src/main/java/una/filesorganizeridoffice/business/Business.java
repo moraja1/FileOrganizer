@@ -33,23 +33,57 @@ public final class Business {
      */
     public boolean startOrganization(WindowInfo info, Boolean isStudent) throws BusinessException {
         try {
+            //Runs Security and Prepare files
             securityProcess(info, isStudent);
             FileManager.prepareFiles(info, isStudent);
-            readExcel(info, isStudent);
+            //update progress bar
+
+            //Read Excel requests and get requests
+            xlManager = new ExcelManager(info.getExcelFileUrl());
+            runExcel(xlManager);
+            xlManager.getRequests(info.getInitialRow(), info.getFinalRow(), isStudent);
+            //update progress bar
+
+            //Processes requests
             for (UniversityPerson request : Tools.requests) {
-                writeExcel(request, isStudent);
-                //FileManager.organizeFiles(request, info, isStudent);
+                //Creates the ExcelManager for each type of request
+                boolean isOk = true;
+                if(request instanceof Adult){
+                    //String path = App.class.getResource("xlsx/formatAdult.xlsx").getPath();
+                    String path = "C:\\Users\\N00148095\\Downloads\\formatAdult.xlsx";
+                    xlManager = new ExcelManager(path);
+                }else if(request instanceof UnderAgeStudent){
+                    //String path = App.class.getResource("xlsx/formatUnderAge.xlsx").getPath();
+                    String path = "C:\\Users\\N00148095\\Downloads\\formatAdult.xlsx";
+                    xlManager = new ExcelManager(path);
+                }else{
+                    Tools.errorList.put(request.getId_una(), Protocol.Refused);
+                    isOk = false;
+                }
+                try{
+                    if(isOk){
+                        //Run Excel Format and creates the Excel
+                        runExcel(xlManager);
+                        xlManager.createExcel(request, isStudent);
+                    }
+                    //Organizes files
+                    //FileManager.organizeFiles(request, info, isStudent);
+                } catch (BusinessException e) {
+                    //createLog(); Save a registry of the errors and results in a file.
+                    Tools.errorList.put("No se pudo crear el archivo de Excel " + request.getId_una() + ".xlsx: ", Protocol.Refused);
+                } catch (XLSerializableException | InvocationTargetException |
+                         IllegalAccessException | IOException e) {
+                    throw new BusinessException("Se utilizó un modelo de clase distinta al permitido.");
+                }
             }
         } catch (BusinessException e) {
             //createLog(); Save a registry of the errors and results in a file.
             Tools.errorList.clear();
             throw e;
         } catch (XLSerializableException | InvocationTargetException | IllegalAccessException e) {
-            throw new BusinessException("No se completó el proceso. Se utilizó un modelo de clase distinta al permitido.");
-        } catch (IOException e) {
-            throw new BusinessException("No se pudo copiar un archivo.");
+            throw new BusinessException("Se utilizó un modelo de clase distinta al permitido.");
         }
-        Tools.LoggerWriter.createLog();
+        new Tools.LoggerWriter();
         return true;
     }
 
@@ -64,7 +98,7 @@ public final class Business {
         switch (securityResponse)
         {
             case Refused:
-                Tools.LoggerWriter.createLog();
+                new Tools.LoggerWriter();
                 createException();
                 break;
             case Accepted:
@@ -75,50 +109,11 @@ public final class Business {
         }
     }
 
-    /***
-     * This method uses an ExcelManager service to create the requests list.
-     * @param info Window Info
-     * @param isStudent Boolean
-     * @throws BusinessException
-     * @throws XLSerializableException
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     */
-    public void readExcel(WindowInfo info, Boolean isStudent) throws BusinessException, XLSerializableException, InvocationTargetException, IllegalAccessException {
-        //Si es estudiante la idea sería recibir aqui la lista de estudiantes según los row
-        xlManager = new ExcelManager(info.getExcelFileUrl());
-        runExcel(xlManager);
-        //update progress bar
-        xlManager.getRequests(info.getInitialRow(), info.getFinalRow(), isStudent);
-    }
-
     /**
-     * This method uses ExcelManager to create the individual Excel file for each request.
-     * @param isStudent boolean
+     * Executes the operations to load Excel files.
+     * @param xlManager ExcelManager is the class responsible for handle any operation related to the Excel files.
+     * @throws BusinessException
      */
-    private void writeExcel(UniversityPerson request, Boolean isStudent) throws BusinessException, XLSerializableException, InvocationTargetException, IllegalAccessException, IOException {
-        //Creates the ExcelManager for each type of request
-        boolean isOk = true;
-        if(request instanceof Adult){
-            //String path = App.class.getResource("xlsx/formatAdult.xlsx").getPath();
-            String path = "C:\\Users\\N00148095\\Downloads\\formatAdult.xlsx";
-            xlManager = new ExcelManager(path);
-        }else if(request instanceof UnderAgeStudent){
-            //String path = App.class.getResource("xlsx/formatUnderAge.xlsx").getPath();
-            String path = "C:\\Users\\N00148095\\Downloads\\formatAdult.xlsx";
-            xlManager = new ExcelManager(path);
-        }else{
-            Tools.errorList.put(request.getId_una(), Protocol.Refused);
-            isOk = false;
-        }
-
-        if(isOk){
-            runExcel(xlManager);
-            xlManager.createExcel(request, isStudent);
-            //update progress bar
-        }
-    }
-
     private void runExcel(ExcelManager xlManager) throws BusinessException {
         Protocol xlBuilding = xlManager.openXL();
         switch (xlBuilding) {
@@ -127,7 +122,7 @@ public final class Business {
                 switch (xlSheetBuilding) {
                     case Refused:
                         Tools.errorList.put("Lectura de Hoja de Excel " + xlManager.getXlSheet().getName() + ": ", Protocol.Refused);
-                        Tools.LoggerWriter.createLog();
+                        new Tools.LoggerWriter();
                         createException();
                     default:
                         break;
@@ -135,7 +130,7 @@ public final class Business {
                 break;
             case Refused:
                 Tools.errorList.put("Lectura de Excel " + xlManager.getXlWorkbook().getXlName() + ": ", Protocol.Refused);
-                Tools.LoggerWriter.createLog();
+                new Tools.LoggerWriter();
                 createException();
             default:
                 break;

@@ -42,21 +42,67 @@ public final class XLFactory {
         DOMSource source = null;
         ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(w.getXlFile()));
         if (entry.getName().equals("xl/sharedStrings.xml")) {
-            source = new DOMSource(w.getXlSharedStrings());
+            //source = new DOMSource(w.getXlSharedStrings());
+            System.out.println("sharedstr");
         }else if (entry.getName().equals("xl/styles.xml")) {
-            source = new DOMSource(w.getXlStyles());
+            //source = new DOMSource(w.getXlStyles());
+            System.out.println("styles");
         }else if (entry.getName().equals("xl/workbook.xml")) {
-            source = new DOMSource(w.getXlWorkbook());
+            //source = new DOMSource(w.getXlWorkbook());
+            System.out.println("workbook");
+        }else{
+            for (int i = 1; i < w.xlSheets.size(); ++i) {
+                if (entry.getName().equals("xl/worksheets/sheet" + i + ".xml")){
+                    //source = new DOMSource(w.xlSheets.get((i-1)).getXlSheet());
+                    System.out.println("sheet" + i);
+                }
+            }
         }
         if(source != null){
-            transformer.transform(source, result);
+            //transformer.transform(source, result);
             /*
             EN DESARROLLO
              */
         }
 
+        /*
+        // Obtener la ruta de la carpeta temporal de Java
+    String tempDir = System.getProperty("java.io.tmpdir");
+    // Crear un nuevo archivo en la carpeta temporal con la extensión .xlsx
+    File newFile = new File(tempDir + "nombreArchivo.xlsx");
+
+    try (ZipFile zipFile = new ZipFile(originalFile);
+         ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(newFile))) {
+        // Iterar sobre las entradas del archivo ZIP original
+        Enumeration<? extends ZipEntry> entries = zipFile.entries();
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+            // Agregar la entrada al nuevo archivo ZIP
+            zos.putNextEntry(new ZipEntry(entry.getName()));
+            if (entry.getName().equals("ruta/del/archivo.xml")) {
+                // Si la entrada es el archivo XML que queremos modificar,
+                // escribimos el contenido del objeto Document en el stream
+                TransformerFactory.newInstance().newTransformer()
+                        .transform(new DOMSource(document), new StreamResult(zos));
+            } else {
+                // Si no, copiamos el contenido de la entrada original en el nuevo archivo ZIP
+                try (InputStream is = zipFile.getInputStream(entry)) {
+                    byte[] buffer = new byte[1024];
+                    int len;
+                    while ((len = is.read(buffer)) > 0) {
+                        zos.write(buffer, 0, len);
+                    }
+                }
+            }
+            zos.closeEntry();
+        }
+    } catch (IOException | TransformerException e) {
+        e.printStackTrace();
+    }
+         */
+
     };
-    /***
+    /**
      * Obtains Document object from excel file.
      * @param workbook XLWorkbook
      */
@@ -80,6 +126,9 @@ public final class XLFactory {
         //Obtaining xml basic files
         ZipFile zipFile = new ZipFile(workbook.getXlFile());
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
+        workbook.setXlWorkbook(null);
+        workbook.setXlSharedStrings(null);
+        workbook.setXlStyles(null);
         while(entries.hasMoreElements()){
             ZipEntry entry = entries.nextElement();
             consumer.apply(workbook, zipFile, entry);
@@ -90,8 +139,8 @@ public final class XLFactory {
         }
     }
 
-    /***
-     * Creates a Documento object from a ZipEntry
+    /**
+     * Creates a Document object from a ZipEntry
      * @param z ZipFile
      * @param entry ZipEntry
      * @return org.w3c.dom.Document
@@ -104,7 +153,7 @@ public final class XLFactory {
         return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
     }
 
-    /***
+    /**
      * Creates a Document of the sheet with the filename "sheet" plus the index passed by param plus ".xml" located in
      * the Workbook file passed by Param.
      * @param w XLWorkbook
@@ -128,7 +177,7 @@ public final class XLFactory {
         return null;
     }
 
-    /***
+    /**
      * Print in console any Node. Test purposes.
      * @param node xml Node to be printed.
      */
@@ -153,6 +202,6 @@ public final class XLFactory {
     }
 
     public static void saveWorkbook(XLWorkbook xlWorkbook) throws IOException, ParserConfigurationException, SAXException, TransformerException {
-        coreAction(xlWorkbook, SAVER);
+        //coreAction(xlWorkbook, SAVER);
     }
 }

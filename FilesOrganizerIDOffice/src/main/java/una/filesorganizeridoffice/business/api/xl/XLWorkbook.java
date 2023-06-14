@@ -54,13 +54,17 @@ public final class XLWorkbook {
     }
 
     public void setXlWorkbook(Document xlWorkbook) {
-        try {
-            this.xlWorkbook = dbf.newDocumentBuilder().newDocument();
-            this.xlWorkbook.appendChild(
-                    this.xlWorkbook.importNode(xlWorkbook.getDocumentElement(), true)
-            );
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace(System.out);
+        if(xlWorkbook != null){
+            try {
+                this.xlWorkbook = dbf.newDocumentBuilder().newDocument();
+                this.xlWorkbook.appendChild(
+                        this.xlWorkbook.importNode(xlWorkbook.getDocumentElement(), true)
+                );
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace(System.out);
+            }
+        }else{
+            this.xlWorkbook = null;
         }
     }
 
@@ -69,13 +73,17 @@ public final class XLWorkbook {
     }
 
     public void setXlSharedStrings(Document xlSharedStrings) {
-        try {
-            this.xlSharedStrings = dbf.newDocumentBuilder().newDocument();
-            this.xlSharedStrings.appendChild(
-                    this.xlSharedStrings.importNode(xlSharedStrings.getDocumentElement(), true)
-            );
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace(System.out);
+        if(xlSharedStrings != null){
+            try {
+                this.xlSharedStrings = dbf.newDocumentBuilder().newDocument();
+                this.xlSharedStrings.appendChild(
+                        this.xlSharedStrings.importNode(xlSharedStrings.getDocumentElement(), true)
+                );
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace(System.out);
+            }
+        }else{
+            this.xlSharedStrings = null;
         }
     }
 
@@ -84,14 +92,18 @@ public final class XLWorkbook {
     }
 
     public void setXlStyles(Document xlStyles) {
-        this.xlStyles = xlStyles;
-        try {
-            this.xlStyles = dbf.newDocumentBuilder().newDocument();
-            this.xlStyles.appendChild(
-                    this.xlStyles.importNode(xlStyles.getDocumentElement(), true)
-            );
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace(System.out);
+        if(xlStyles != null){
+            try {
+                this.xlStyles = dbf.newDocumentBuilder().newDocument();
+                this.xlStyles.appendChild(
+                        this.xlStyles.importNode(xlStyles.getDocumentElement(), true)
+                );
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace(System.out);
+            }
+        }
+        else{
+            this.xlStyles = null;
         }
     }
 

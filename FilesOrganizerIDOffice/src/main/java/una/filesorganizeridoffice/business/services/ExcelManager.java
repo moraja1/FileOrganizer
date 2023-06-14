@@ -159,6 +159,7 @@ public class ExcelManager {
         openXL();
         startWorking();
 
+
         //Transforms request into row
         XLRow row = xlSheet.getRow(2);
         if(row != null){
