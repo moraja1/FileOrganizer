@@ -35,11 +35,10 @@ public final class XLFactory {
 
     private static final XLFactoryConsumer<XLWorkbook, ZipFile, ZipEntry> SAVER = (w, zip, entry) ->
     {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
-        StreamResult result = new StreamResult(outputStream);
-        DOMSource source = null;
+        StreamResult result;
+        DOMSource source;
         ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(w.getXlFile()));
         if (entry.getName().equals("xl/sharedStrings.xml")) {
             //source = new DOMSource(w.getXlSharedStrings());
@@ -57,12 +56,6 @@ public final class XLFactory {
                     System.out.println("sheet" + i);
                 }
             }
-        }
-        if(source != null){
-            //transformer.transform(source, result);
-            /*
-            EN DESARROLLO
-             */
         }
 
         /*
@@ -107,7 +100,7 @@ public final class XLFactory {
      * @param workbook XLWorkbook
      */
     public static void buildWorkbook(XLWorkbook workbook) throws IOException, ParserConfigurationException, SAXException, TransformerException {
-        coreAction(workbook, BUILDER);
+        coreAction(workbook, BUILDER, true);
 
         //Set sheets in workbook
         Document xlWorkbook = workbook.getXlWorkbook();
@@ -121,20 +114,19 @@ public final class XLFactory {
         }
     }
 
-    private static void coreAction(XLWorkbook workbook, XLFactoryConsumer<XLWorkbook, ZipFile, ZipEntry> consumer) throws IOException,
+    private static void coreAction(XLWorkbook workbook, XLFactoryConsumer<XLWorkbook, ZipFile, ZipEntry> consumer, boolean building) throws IOException,
             ParserConfigurationException, SAXException, TransformerException {
         //Obtaining xml basic files
         ZipFile zipFile = new ZipFile(workbook.getXlFile());
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
-        workbook.setXlWorkbook(null);
-        workbook.setXlSharedStrings(null);
-        workbook.setXlStyles(null);
         while(entries.hasMoreElements()){
             ZipEntry entry = entries.nextElement();
             consumer.apply(workbook, zipFile, entry);
-            if (workbook.getXlWorkbook() != null && workbook.getXlStyles() != null &&
-                    workbook.getXlSharedStrings() != null) {
-                break;
+            if(building){
+                if (workbook.getXlWorkbook() != null && workbook.getXlStyles() != null &&
+                        workbook.getXlSharedStrings() != null) {
+                    break;
+                }
             }
         }
     }
@@ -202,6 +194,6 @@ public final class XLFactory {
     }
 
     public static void saveWorkbook(XLWorkbook xlWorkbook) throws IOException, ParserConfigurationException, SAXException, TransformerException {
-        //coreAction(xlWorkbook, SAVER);
+        coreAction(xlWorkbook, SAVER, false);
     }
 }
