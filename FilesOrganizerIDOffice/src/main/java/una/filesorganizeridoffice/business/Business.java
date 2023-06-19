@@ -20,9 +20,6 @@ import java.lang.reflect.InvocationTargetException;
  * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
  */
 public final class Business {
-    /***
-     * Excel manager instance, required to process API.xl
-     */
     private ExcelManager xlManager;
     /***
      * This method leads the organization process. Passing the information from one service to another to find any issue
@@ -67,7 +64,7 @@ public final class Business {
                         xlManager.createExcel(request, isStudent);
                     }
                     //Organizes files
-                    //FileManager.organizeFiles(request, info, isStudent);
+                    FileManager.organizeFiles(request, info, isStudent);
                 } catch (BusinessException e) {
                     //createLog(); Save a registry of the errors and results in a file.
                     Tools.errorList.put("No se pudo crear el archivo de Excel " + request.getId_una() + ".xlsx: ", Protocol.Refused);
@@ -86,13 +83,6 @@ public final class Business {
         new Tools.LoggerWriter();
         return true;
     }
-
-    /***
-     * This method executes the Security process and evaluates whether Security accepted it or not.
-     * @param info WindowInformation
-     * @param isStudent Boolean
-     * @throws BusinessException with the message created by createException method.
-     */
     private void securityProcess(WindowInfo info, Boolean isStudent) throws BusinessException {
         Protocol securityResponse = Security.verifyInformation(info, isStudent);
         switch (securityResponse)
@@ -108,12 +98,6 @@ public final class Business {
                 break;
         }
     }
-
-    /**
-     * Executes the operations to load Excel files.
-     * @param xlManager ExcelManager is the class responsible for handle any operation related to the Excel files.
-     * @throws BusinessException
-     */
     private void runExcel(ExcelManager xlManager) throws BusinessException {
         Protocol xlBuilding = xlManager.openXL();
         switch (xlBuilding) {
@@ -136,11 +120,6 @@ public final class Business {
                 break;
         }
     }
-
-    /***
-     * This method creates the Error Message that will be displayed on the screen.
-     * @throws BusinessException with the message to be displayed on screen.
-     */
     private void createException() throws BusinessException {
         String errorMessage = "Los siguientes errores impiden continuar: \n";
         for (String k : Tools.errorList.keySet()){

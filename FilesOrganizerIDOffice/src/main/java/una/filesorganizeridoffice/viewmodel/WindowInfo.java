@@ -10,39 +10,12 @@ import javafx.util.StringConverter;
  * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
  */
 public final class WindowInfo {
-    /***
-     * Observes the TextField where the user will write down the directory where the pdf files are located as well
-     * copies the TextField information in realtime whenever are bind.
-     */
     private final StringProperty pdfFileUrl = new SimpleStringProperty("");
-    /***
-     * Observes the TextField where the user will write down the directory where the photos files are located as well
-     * copies the TextField information in realtime whenever are bind.
-     */
     private final StringProperty photoFileUrl = new SimpleStringProperty("");
-    /***
-     * Observes the TextField where the user will write down the url of the Excel file that contains the requests, as well
-     * copies the TextField information in realtime whenever are bind.
-     */
     private final StringProperty excelFileUrl = new SimpleStringProperty("");
-    /***
-     * Observes the TextField where the user will write down the directory where the new files are going to be located as well
-     * copies the TextField information in realtime whenever are bind.
-     */
     private final StringProperty outputFileUrl = new SimpleStringProperty("");
-    /***
-     * Observes the TextField where the user will write down the initial row number of the Excel, as well
-     * copies the TextField information in realtime whenever are bind.
-     */
     private final IntegerProperty initialRow = new SimpleIntegerProperty(0);
-    /***
-     * Observes the TextField where the user will write down the final row number of the Excel, as well
-     * copies the TextField information in realtime whenever are bind.
-     */
     private final IntegerProperty finalRow = new SimpleIntegerProperty(0);
-    /***
-     * This is a utility that can be used to bind a StringProperty with any IntegerProperty.
-     */
     private final StringConverter<Number> converter;
 
     /***

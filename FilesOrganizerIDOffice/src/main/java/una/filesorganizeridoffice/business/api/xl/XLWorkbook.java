@@ -6,11 +6,7 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
+import java.nio.file.Path;
 import java.util.*;
 
 import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isNumber;
@@ -18,7 +14,7 @@ import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isNumbe
 public final class XLWorkbook {
     private final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     private final String xlName;
-    private final File xlFile;
+    private final Path xlFile;
     private Document xlWorkbook;
     private Document xlSharedStrings;
     private Document xlStyles;
@@ -26,14 +22,14 @@ public final class XLWorkbook {
     final List<XLSheet> xlSheets = new LinkedList<>();
 
     public XLWorkbook(String xlUrl) {
-        xlFile = new File(xlUrl);
-        xlName = xlFile.getName();
+        xlFile = Path.of(xlUrl);
+        xlName = xlFile.getFileName().toString();
     }
     public String getXlName() {
         return xlName;
     }
 
-    public File getXlFile() {
+    public Path getXlPath() {
         return xlFile;
     }
 

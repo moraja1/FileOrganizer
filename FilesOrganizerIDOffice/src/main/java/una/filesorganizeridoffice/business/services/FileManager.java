@@ -94,18 +94,19 @@ public final class FileManager {
                             ": " + "Se movió correctamente el archivo " + request.getId_una().concat(".pdf");
                     Tools.approvedProcesses.add(approvedMessage);
                 }
+                //Move xlsx files
+                String tempDir = System.getProperty("java.io.tmpdir");
+                tempDir = tempDir.concat("tempReq").concat("\\");
+                if(moveFile(request.getId_una(), dir, tempDir)){
+                    String approvedMessage = request.getName() + " " + request.getMiddleName() + " " + request.getLastName() +
+                            ": " + "Se movió correctamente el archivo " + request.getId_una().concat(".xlsx");
+                    Tools.approvedProcesses.add(approvedMessage);
+                }
             } catch (IOException e) {
                 Tools.errorList.put(dir.getName(), Protocol.MoveFileError);
             }
         }
     }
-
-    /***
-     * Creates a directory inside a specified parent with a specified name.
-     * @param name of the directory
-     * @param parent of the directory
-     * @return File whether it exists or not
-     */
     private static File createDirectory(String name, String parent){
         //Creates directory absolute path
         String dirAbsolutePath = parent.concat("\\").concat(name);
@@ -121,21 +122,13 @@ public final class FileManager {
         }
         return dir;
     }
-
-    /***
-     * Move a file to a new directory only if the new directory exists and the filename is in the fileToMoveDir.
-     * @param fileName information of the one who requests a licence.
-     * @param fileNewDirectory file of the new directory that will contain the organized files.
-     * @param fileToMoveDir the url of the directory where the file is located.
-     * @throws IOException
-     */
-    private static boolean moveFile(String fileName, File fileNewDirectory, String fileToMoveDir) throws IOException {
-        if(fileNewDirectory.exists()){
-            File fileDirectory = new File(fileToMoveDir);
+    private static boolean moveFile(String fileName, File newFileParent, String currentFileParent) throws IOException {
+        if(newFileParent.exists()){
+            File fileDirectory = new File(currentFileParent);
             File[] entries = fileDirectory.listFiles();
             for (File entry : entries){
                 if(entry.getName().startsWith(fileName)){
-                    String newPath = fileNewDirectory.getAbsolutePath();
+                    String newPath = newFileParent.getAbsolutePath();
                     newPath = newPath.concat("\\").concat(entry.getName());
                     Files.move(entry.toPath(), Paths.get(newPath));
                     return true;

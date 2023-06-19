@@ -136,12 +136,6 @@ public final class WindowController implements Initializable {
 
         bindInfoModelProperties();
     }
-
-    /***
-     * Creates a formatter to be placed in any TextField. This formatter allow the TextField to receive only numbers
-     * Keyboard.
-     * @return TexTFormatter
-     */
     private TextFormatter<?> getFormatter() {
         TextFormatter<String> formatter = new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
@@ -179,15 +173,6 @@ public final class WindowController implements Initializable {
             info.setPhotoFileUrl(verifyBtnInput(dc));
         }
     }
-
-    /***
-     * Makes sure the TextField related to that Button is empty or not. If not, calls processInput method to check
-     * if the information in the TextField is an existing File or not. If not, opens a DirectoryChooser or a FileChooser
-     * depending on what is supposed to be selected by the user.
-     * @param obj Object DirectoryChooser or FileChooser
-     * @return url corrected from any wild card or problem related, null if the object passed is no DirectoryChooser or
-     * FileChooser
-     */
     private String verifyBtnInput(Object obj){
         File fileChosen = null;
         String url;
@@ -213,32 +198,16 @@ public final class WindowController implements Initializable {
         url = fileChosen.getAbsolutePath();
         return correctURL(url);
     }
-
-    /***
-     * Verifies if the url passed by parameter corresponds to an existing file or not.
-     * @param urlInserted
-     * @return boolean
-     */
     private boolean verifyURLExistence(String urlInserted) {
         File f = new File(urlInserted);
         return f.exists();
     }
-
-    /***
-     * Verifies if the URL has wildcard at the beginning and delete it if it does.
-     * @param url
-     * @return String
-     */
     private String correctURL(String url) {
         if(url.startsWith("\\\\?\\")){
             url = url.substring(4);
         }
         return url;
     }
-
-    /***
-     * Clears all TextFields in the Window.
-     */
     private void clearWindow(){
         excelTextBox.clear();
         pdfTextBox.clear();
@@ -247,12 +216,6 @@ public final class WindowController implements Initializable {
         firstRowTextBox.clear();
         lastRowTextBox.clear();
     }
-
-    /***
-     * Enable or Disable controls to stop user of changing any information during the organization of the files. This
-     * is an additional security method.
-     * @param isEnable
-     */
     private void enableControls(boolean isEnable) {
         Platform.runLater(new Runnable() {
             @Override
@@ -271,13 +234,6 @@ public final class WindowController implements Initializable {
             }
         });
     }
-
-    /***
-     * Verifies that the initial row number is not a higher number than the final, and the files are existing files.
-     * This method does not check if the files contains the proper fileTypes, this operation will be performed by the
-     * Security layer.
-     * @return
-     */
     private boolean isInfoCorrect() {
         if(tabStudent.isSelected()){
             return (info.getInitialRow() <= info.getFinalRow()) && (verifyURLExistence(info.getPhotoFileUrl()) &&
@@ -288,10 +244,6 @@ public final class WindowController implements Initializable {
                     verifyURLExistence(info.getExcelFileUrl()) && verifyURLExistence(info.getPdfFileUrl()));
         }
     }
-
-    /***
-     * Bind the WindowInfo to the Window controls to be change in realtime.
-     */
     private void bindInfoModelProperties() {
         //Binding Properties
         Bindings.bindBidirectional(firstRowTextBox.textProperty(), info.initialRowProperty(), info.getConverter());
@@ -301,10 +253,6 @@ public final class WindowController implements Initializable {
         info.photoFileUrlProperty().bindBidirectional(photoTextBox.textProperty());
         info.excelFileUrlProperty().bindBidirectional(excelTextBox.textProperty());
     }
-
-    /***
-     * Unbind the WindowInfo object from the window to secure the information from changes.
-     */
     private void unbindInfoModelProperties() {
         //Binding Properties
         Bindings.unbindBidirectional(firstRowTextBox.textProperty(), info.initialRowProperty());
@@ -328,12 +276,6 @@ public final class WindowController implements Initializable {
             ((Stage) anchor.getScene().getWindow()).setIconified(true);
         }
     }
-
-    /***
-     * Shows an error message when necessary.
-     * @param title
-     * @param message
-     */
     private void showDialog(String title, String message, Alert.AlertType type) {
         Platform.runLater(new Runnable() {
             @Override
@@ -383,11 +325,6 @@ public final class WindowController implements Initializable {
         });
         startThread.start();
     }
-
-    /***
-     * Static inner class with window offset Information
-     * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
-     */
     private static class WindowOffsetInfo {
         public static Double xOffset;
         public static Double yOffset;

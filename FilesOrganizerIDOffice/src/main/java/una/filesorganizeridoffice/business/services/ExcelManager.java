@@ -169,7 +169,10 @@ public class ExcelManager {
             xlSheet.pasteRow(row);
 
             try {
-                XLFactory.saveWorkbook(xlWorkbook, request.getId_una());
+                String path = System.getProperty("java.io.tmpdir");
+                path = path.concat("tempReq").concat("\\");
+                path = path.concat(request.getId_una()).concat(".xlsx");
+                XLFactory.saveWorkbook(xlWorkbook, path);
             } catch (ParserConfigurationException | SAXException | TransformerException e) {
                 throw new RuntimeException(e);
             }
