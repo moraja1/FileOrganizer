@@ -11,6 +11,11 @@ import java.util.*;
 
 import static una.filesorganizeridoffice.business.api.xl.util.NumberUtil.isNumber;
 
+/**
+ * This class represents a xlsx workbook. This class contains main xlsx archives ass sheets, sharedString and styles and performs
+ * changes into sharedString.xml file, such ass adding sharedString and returning sharedString index. It should also perform
+ * other tasks such as managing styles.
+ */
 public final class XLWorkbook {
     private final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     private final String xlName;
@@ -21,47 +26,67 @@ public final class XLWorkbook {
     private final HashMap<String, String> sheetsIdName = new HashMap();
     final List<XLSheet> xlSheets = new LinkedList<>();
 
+    /**
+     * Creates a XLWorkbook and captures its name.
+     * @param xlUrl
+     */
     public XLWorkbook(String xlUrl) {
         xlFile = Path.of(xlUrl);
         xlName = xlFile.getFileName().toString();
     }
+
+    /**
+     * Returns the name of the XLWorkbook
+     * @return String with the xlsx name.
+     */
     public String getXlName() {
         return xlName;
     }
 
+    /**
+     * Return the Path object that represent the xlsx file.
+     * @return Path of the xlsx file
+     */
     public Path getXlPath() {
         return xlFile;
     }
 
+    /**
+     * Add a Sheet reference to the list that will allow Excel to map the existent sheets.
+     * @param sheet_rId
+     * @param sheetName
+     */
     public void addSheet(String sheet_rId, String sheetName) {
         sheetsIdName.put(sheetName, sheet_rId);
     }
 
-    public String getSheet(String key) {
-        return sheetsIdName.get(key);
+    /**
+     * Return the sheet's name with a specific rId value.
+     * @param rId ot the sheet
+     * @return String with the sheet name if exists, null if not.
+     */
+    public String getSheetName(String rId) {
+        return sheetsIdName.get(rId);
     }
 
+    /**
+     * Returns a HashMap that contains all the sheet names and rId information.
+     * @return HashMap
+     */
     public HashMap<String, String> getSheets() {
         return sheetsIdName;
     }
 
+    /**
+     * Return a Document that contains all the xl/workbook.xml information.
+     * @return
+     */
     public Document getXlWorkbook() {
         return xlWorkbook;
     }
 
     public void setXlWorkbook(Document xlWorkbook) {
-        if(xlWorkbook != null){
-            try {
-                this.xlWorkbook = dbf.newDocumentBuilder().newDocument();
-                this.xlWorkbook.appendChild(
-                        this.xlWorkbook.importNode(xlWorkbook.getDocumentElement(), true)
-                );
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace(System.out);
-            }
-        }else{
-            this.xlWorkbook = null;
-        }
+        this.xlWorkbook = xlWorkbook;
     }
 
     public Document getXlSharedStrings() {
@@ -69,18 +94,7 @@ public final class XLWorkbook {
     }
 
     public void setXlSharedStrings(Document xlSharedStrings) {
-        if(xlSharedStrings != null){
-            try {
-                this.xlSharedStrings = dbf.newDocumentBuilder().newDocument();
-                this.xlSharedStrings.appendChild(
-                        this.xlSharedStrings.importNode(xlSharedStrings.getDocumentElement(), true)
-                );
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace(System.out);
-            }
-        }else{
-            this.xlSharedStrings = null;
-        }
+        this.xlSharedStrings = xlSharedStrings;
     }
 
     public Document getXlStyles() {
@@ -88,19 +102,7 @@ public final class XLWorkbook {
     }
 
     public void setXlStyles(Document xlStyles) {
-        if(xlStyles != null){
-            try {
-                this.xlStyles = dbf.newDocumentBuilder().newDocument();
-                this.xlStyles.appendChild(
-                        this.xlStyles.importNode(xlStyles.getDocumentElement(), true)
-                );
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace(System.out);
-            }
-        }
-        else{
-            this.xlStyles = null;
-        }
+        this.xlStyles = xlStyles;
     }
 
     public DocumentBuilderFactory getDbf() {
@@ -126,12 +128,6 @@ public final class XLWorkbook {
         }
         return "";
     }
-
-    /**
-     * Returns the int value of the shared string in the sharedStrings.xml if exists or -1 if it does not exist yet.
-     * @param value string that will be search in sharedStrings.xml file.
-     * @return index of the value or -1 if it does not exist.
-     */
     private int isSharedStr(String value) {
         NodeList siNodes = xlSharedStrings.getElementsByTagName("si");
         int siNodesLength = siNodes.getLength();

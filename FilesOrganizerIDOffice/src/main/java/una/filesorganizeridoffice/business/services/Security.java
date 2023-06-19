@@ -15,17 +15,8 @@ import java.util.HashMap;
  * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
  */
 public class Security {
-    /**
-     * An array of keywords that has to do exist in the Excel filename in order to be taken as correct.
-     */
     private static final String[] EXCEL_NAMES = {"Estudiante", "Funcionarios"};
-    /**
-     * An array of extensions allowed for ID documents.
-     */
     private static final String[] ID_EXTENSIONS = {"pdf"};
-    /**
-     * An array for extensions allowed for photo documents.
-     */
     private static final String[] PHOTO_EXTENSIONS = {"jpg", "png", "jpeg"};
 
     /**
@@ -83,14 +74,6 @@ public class Security {
 
         return Protocol.Accepted;
     }
-
-    /**
-     * This method verifies if a directory contains only the allowed file extensions, if there is at least one
-     * file with a different extension an error will be placed on list.
-     * @param fileUrl directory to verify
-     * @param dirFileType the type of the files that should be in the directory. Example: Pdf, images, txt, etc.
-     * @param fileExtensions the only extensions authorized to be in the directory.
-     */
     private static void verifyDirectoryFiles(String fileUrl, String dirFileType , String[] fileExtensions){
         //Obtains files' name list
         File directory = new File(fileUrl);

@@ -20,23 +20,15 @@ import una.filesorganizeridoffice.model.base.UniversityPerson;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
 
 /**
  * A service class who modularize every method related to Excel management.
  * @author Jaison Mora Víquez <a href="https://github.com/moraja1">Github</a>
  */
 public class ExcelManager {
-    /**
-     * The Excel used by the manager to operate.
-     */
     private XLWorkbook xlWorkbook;
-    /**
-     * The sheet that it's been used by the manager.
-     */
     private XLSheet xlSheet;
 
     /**
@@ -135,7 +127,7 @@ public class ExcelManager {
     }
 
     /**
-     *
+     * This method creates the individual format for each request received. And places the new xlsx into the temp directory.
      * @param request
      * @param isStudent
      */
@@ -178,12 +170,6 @@ public class ExcelManager {
             }
         }
     }
-
-    /**
-     * Verifies if a row contains at least one cell stating the request to be from an adult.
-     * @param row XLRow
-     * @return Boolean
-     */
     private boolean isAdult(XLRow row) {
         for (int i = 0; i < row.getCellCount(); i++) {
             if(row.getCell(i).getValue().equals("Mayor de edad")){

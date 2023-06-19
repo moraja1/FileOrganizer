@@ -31,14 +31,6 @@ public final class FileManager {
             correctFileNames(info.getPhotoFileUrl(), "jpg");
         }
     }
-
-    /***
-     * Remove any space on the name of the files in the directory indicated, as well as changes their extension to the
-     * one indicated by parameter.
-     * Note: This method changes the extension of the files of a directory. This could damage an important file.
-     * @param dirUrl the directory url that contains the files to be corrected
-     * @param extension the new extension of the files
-     */
     private static void correctFileNames(String dirUrl, String extension) {
         File file = new File(dirUrl);
 
