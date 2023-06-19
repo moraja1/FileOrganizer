@@ -135,7 +135,7 @@ public final class XLFactory {
 
                 //Change the xml content
                 if (entry.getName().equals(SHARED_STRINGS)) {
-                    toStringNode(xlWorkbook.getXlSharedStrings().getDocumentElement());
+                    //toStringNode(xlWorkbook.getXlSharedStrings().getDocumentElement());
                     transformXML(xlWorkbook.getXlSharedStrings(), entryFile);
                 }else if (entry.getName().equals(STYLES)) {
 

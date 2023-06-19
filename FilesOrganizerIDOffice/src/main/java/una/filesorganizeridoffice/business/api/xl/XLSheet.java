@@ -141,17 +141,22 @@ public final class XLSheet {
 
                 //Si no es numero lo creo en sharedString.xml y obtengo su indice
                 int sharedStrIdx = -1;
-                if(!isNumber(textContext) && !textContext.isEmpty()){
+                if(!isNumber(textContext)){
                     sharedStrIdx = xlWorkbook.createSharedStr(textContext);
                     textContext = String.valueOf(sharedStrIdx);
                 }
-                //Busco o creo el tag v y almaceno el textContext
-                Element vTag = (Element) cellTag.getFirstChild();
-                if(vTag == null){
-                    vTag = xlSheet.createElement("v");
+                if(sharedStrIdx != -1){
+                    cellTag.setAttribute("t", "s");
                 }
-                vTag.setTextContent(textContext);
-                cellTag.appendChild(vTag);
+                if(!textContext.equals("-1")){
+                    //Busco o creo el tag v y almaceno el textContext
+                    Element vTag = (Element) cellTag.getFirstChild();
+                    if(vTag == null){
+                        vTag = xlSheet.createElement("v");
+                    }
+                    vTag.setTextContent(textContext);
+                    cellTag.appendChild(vTag);
+                }
             }
         }
     }

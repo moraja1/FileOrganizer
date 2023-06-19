@@ -171,6 +171,12 @@ public final class XLWorkbook {
             tTag.setTextContent(textContext);
             siTag.appendChild(tTag);
             sstTag.appendChild(siTag);
+
+            String count = sstTag.getAttribute("count");
+            count = String.valueOf(Integer.parseInt(count) + 1);
+
+            sstTag.setAttribute("count", count);
+            sstTag.setAttribute("uniqueCount", count);
         }
         return isSharedStr(textContext);
     }
